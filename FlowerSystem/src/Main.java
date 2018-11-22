@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import customized.CustFloArrange;
+
 /**
  * 
  */
@@ -41,7 +43,7 @@ public class Main {
                 	
                     break;
                 case 5:
-                	
+                	CustFloArrange.custFloArrange();
                     break;
             }
         } while (choice != 6);
