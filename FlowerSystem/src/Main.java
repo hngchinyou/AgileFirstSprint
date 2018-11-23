@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 import customized.CustFloArrange;
-
+import Catalog_Order.CatOrder;
 /**
  * 
  */
@@ -36,8 +36,8 @@ public class Main {
                 case 2:
                 	
                     break;
-                case 3:
-                	
+                case 3:               
+                    CatOrder.COmain();
                     break;
                 case 4:
                 	
