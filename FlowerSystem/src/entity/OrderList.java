@@ -22,23 +22,27 @@ public class OrderList {
     private int count = 0;
     private double totalPrice = 0;
     private String custId;
+    private static double allTotal=0;
+    private String status;
    
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    public OrderList(List<Order> orderList, Date pickUpDate, String collectMethod, String DAddress,String custId) {
+    public OrderList(List<Order> orderList, Date pickUpDate, String collectMethod, String DAddress,String custId,String status) {
         this.orderList = orderList;
         this.pickUpDate = pickUpDate;
         this.collectMethod = collectMethod;
         this.DAddress = DAddress;    
         this.custId = custId;
-        count++;
+        this.status = status;
+  
     }
 
+    public String getStatus() {
+        return status;
+    }
+    
     public String getCustId() {
         return custId;
     }
-
-
-    
 
     public List<Order> getOrderList() {
         return orderList;
@@ -56,6 +60,10 @@ public class OrderList {
         return DAddress;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
     }
@@ -63,10 +71,6 @@ public class OrderList {
     public void setCustId(String custId) {
         this.custId = custId;
     }
-
- 
-
-  
 
     public void setPickUpDate(Date pickUpDate) {
         this.pickUpDate = pickUpDate;
@@ -90,36 +94,64 @@ public class OrderList {
         return s;
     }
    
-    public double calcTotalPrice(){
+    public double calcTotalPrice(List<Order> orderArr){
         totalPrice=0;
-        for(Order o : orderList){
-            
+        for(Order o : orderArr){
             totalPrice += o.calculatePrice();
-        }        
+        }      
+        
         return totalPrice;
     }
     
-    public double calcAllOrder(List<OrderList> orderList)
+    public double calcAllOrder(List<OrderList> orderList, List<Order> orderArr)
     {
-        double allTotal=0;
+        allTotal=0;
         for(OrderList ol: orderList)
         {
-            allTotal += ol.calcTotalPrice();
+            allTotal += ol.calcTotalPrice(orderArr);
         }
         return allTotal;
     }
     
-    @Override
-    public String toString() {
-//        for(Order creditLimit : orderList){
-//            if(creditLimit.calculatePrice() > 3000){
-//                return "You already over your monthly credit limit!!";
-//                
-//            }
-//        }
-        return  "\nOrder"+ count + arString() + "\nPick Up Date=" + formatter.format(pickUpDate) + 
-                        "\nCollect Method=" +collectMethod + "\nReceiver=" + DAddress +
-                        "\nTotal Price = RM ";
+    public double calcAllOrder(List<OrderList> orderList, String customerId)
+    {
+        allTotal=0;
+        for(OrderList ol: orderList)
+        {
+            if(customerId.equals(ol.getCustId())){
+            allTotal += ol.calcTotalPrice(ol.getOrderList());
+            
+            }
+        }
+        
+        return allTotal;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public double getAllTotal() {
+        return allTotal;
+    }
+
+    public void setAllTotal(double allTotal) {
+        this.allTotal = allTotal;
+    }
+    
+    
+    
+
+    public String toString(int count ) {
+
+        return "====================\n" + "Order "+ count +"\nCustomer Id: " + custId + arString() + 
+                "\nPick Up Date: " + formatter.format(pickUpDate) + 
+                "\nCollect Method: " + collectMethod + "\nAddress: " + DAddress +
+                "\n====================\n";
     }
     
     
