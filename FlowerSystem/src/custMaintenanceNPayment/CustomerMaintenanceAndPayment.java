@@ -265,7 +265,7 @@ public class CustomerMaintenanceAndPayment{
         {
             if(c.getcType().equals("Consumer"))
             System.out.println(c);
-        }
+        } 
     }
     
     public static void viewConCust(List<Customer> custList)

@@ -57,9 +57,10 @@ public class Customer{
         this.cType = cType;
     }
 
-    @Override
+    
     public String toString() {
-        return "Customer ID = " + id + "\nName = " + name + "\nAddress = " + address + "\nCustomer Type = " + cType;
+        return "\n================================\n" +
+                "Customer ID = " + id + "\nName = " + name + "\nAddress = " + address + "\nCustomer Type = " + cType;
     }
 
     

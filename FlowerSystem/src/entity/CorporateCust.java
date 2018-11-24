@@ -11,11 +11,37 @@ package entity;
  */
 public class CorporateCust extends Customer{
     private double credit;
+    private String companyName;
+    private String contactNo;
     private Customer cust;
 
     public CorporateCust(Customer cust, double credit) {
         super(cust.getId(), cust.getName(), cust.getAddress(), cust.getcType());
         this.credit = credit;
+    }
+
+    public CorporateCust(String id, String name, String address, String cType, 
+            double credit, String companyName, String contactNo) {
+        super(id, name, address, cType);
+        this.credit = credit;
+        this.companyName = companyName;
+        this.contactNo = contactNo;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
     }
 
     public CorporateCust(String id, String name, String address, String cType) {
@@ -46,11 +72,11 @@ public class CorporateCust extends Customer{
         this.credit = credit;
     }
 
-    @Override
+    
     public String toString() {
-        return "\n================================\n" + 
-                super.toString() + "\nCredit = " + String.format("RM %.2f", credit)
-                + "\n================================\n";
+        return  super.toString() + "\nCredit = " + String.format("RM %.2f", credit)
+                + "\nCompany Name: " + companyName + "\nContact No: "
+                + contactNo + "\n================================\n";
     }
     
     
