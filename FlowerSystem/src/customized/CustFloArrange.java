@@ -1,6 +1,8 @@
 package customized;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import entity.CustomizedFlower;
@@ -29,6 +31,7 @@ public class CustFloArrange {
 				System.err.println("Invalid input. Please input again (only accept[1-3])");
 			}
 	        choice=scanner.nextInt();
+	        System.out.println("");
 	        switch (choice) {
 			case 1:
 				customizedFlo();
@@ -44,16 +47,30 @@ public class CustFloArrange {
 	}
 	
 	public static void sortCustomizedFlo() {
-		
+		if(!flowerList.isEmpty()) {
+			Collections.sort(flowerList, new Comparator<CustomizedFlower>() {
+
+				@Override
+				public int compare(CustomizedFlower o1, CustomizedFlower o2) {
+					// TODO Auto-generated method stub
+					return o1.getPriorLevel() - o2.getPriorLevel();
+				}
+			});
+			for(int i=0;i<flowerList.size();i++) {
+				System.out.println("Customized Flower "+(i+1)+"\n"+flowerList.get(i)+"\n");
+			}
+		}
+		else {
+			System.err.println("There not have any record in the customized flower order.\n");
+		}
 	}
 	
 	public static void customizedFlo() {
 		//declaration
 		ArrayList<CustomizedFlower> currentFlowerList = new ArrayList<>();
 		CustomizedFlower flower=new CustomizedFlower();
-		ArrayList<Integer> buffer;
 		String respond="";
-		int maxFloType=0,maxAccessory=0,selected;
+		int maxFloType=0,maxAccessory=0;
 		
 		do {
 			selectFloArrange(flower);
@@ -72,103 +89,14 @@ public class CustFloArrange {
 				maxAccessory=2;
 			}
 			
-			//third step
-			selected=0;
-			buffer=new ArrayList<>();
-			do {
-				selected++;
-				if(selected<=maxFloType) {
-					System.out.println("Third, select the flower type. You can select more "+ (maxFloType-selected+1) +" flower type. "+" [only accept 1-"+floType.length+"]");
-					for(int i=1;i<=floType.length;i++) {
-						System.out.println(i+". "+floType[i-1]);
-					}
-					while(!scanner.hasNextInt()||!scanner.hasNext("[1-"+floType.length+"]")) {
-						scanner.next();
-						System.err.println("Invalid input. Please input again (only accept[1-"+floType.length+"])");
-					}
-					buffer.add(scanner.nextInt());
-					
-					if(selected!=maxFloType) {
-						System.out.println("Do you want to continue to add more flower type?[Y/N]");
-						while(!scanner.hasNext("(Y|N)|(y|n)")) {
-							scanner.next();
-							System.err.println("Invalid input. Please input again (only accept[Y/N])");
-						}
-						respond=scanner.next();
-					}
-					else {
-						respond="N";
-					}
-					
-					
-				}
-				else {
-					respond="N";
-				}
-			}while(respond.equalsIgnoreCase("Y"));
-			flower.setFloType(buffer);
-			respond="";
+			selectFlower(flower,maxFloType);
+		
+			selectAccessory(flower, maxAccessory);
 			
-			//forth step
-			selected=0;
-			buffer=new ArrayList<>();
-			do {
-				selected++;
-				if(selected<=maxAccessory) {
-					System.out.println("Forth, select the accessory. You can select more "+(maxAccessory-selected+1)+" [only accept 1-"+accessory.length+"]");
-					for(int i=1;i<=accessory.length;i++) {
-						System.out.println(i+". "+accessory[i-1]);
-					}
-					while(!scanner.hasNextInt()||!scanner.hasNext("[1-"+accessory.length+"]")) {
-						scanner.next();
-						System.err.println("Invalid input. Please input again (only accept[1-"+accessory.length+"])");
-					}
-					buffer.add(scanner.nextInt());
-					
-					if(selected!=maxAccessory) {
-						System.out.println("Do you want to continue to add more accessory?[Y/N]");
-						while(!scanner.hasNext("(Y|N)|(y|n)")) {
-							scanner.next();
-							System.err.println("Invalid input. Please input again (only accept[Y/N])");
-						}
-						respond=scanner.next();
-					}
-					else {
-						respond="N";
-					}
-				}
-				else {
-					respond="N";
-				}
-			}while(respond.equalsIgnoreCase("Y"));
-			flower.setAccessory(buffer);
-			respond="";
-			
-			//set prior level
-			System.out.println("Fifth, select the priority level. [only accept 1-3]");
-			for(int i=1;i<=priorLevel.length;i++) {
-				System.out.println(i+". "+priorLevel[i-1]);
-			}
-			while(!scanner.hasNextInt()||!scanner.hasNext("[1-"+priorLevel.length+"]")) {
-				scanner.next();
-				System.err.println("Invalid input. Please input again (only accept[1-"+priorLevel.length+"])");
-			}
-			switch (scanner.nextInt()) {
-			case 1:
-				flower.setPriorLevel(priorLevel[0]);
-				break;
-			case 2:
-				flower.setPriorLevel(priorLevel[1]);
-				break;
-			case 3:
-				flower.setPriorLevel(priorLevel[2]);
-				break;
-			default:
-				break;
-			}
+			selectPrior(flower);
 			
 			//duplicate flower
-			flowerList.add(flower);
+			currentFlowerList.add(flower);
 			do {
 				System.out.println("Do you want to duplicate same customized flower?[Y/N]");
 				while(!scanner.hasNext("(Y|N)|(y|n)")) {
@@ -177,7 +105,7 @@ public class CustFloArrange {
 				}
 				respond=scanner.next();
 				if(respond.equalsIgnoreCase("Y")) {
-					flowerList.add(flower);
+					currentFlowerList.add(flower);
 				}
 			}while(respond.equalsIgnoreCase("Y"));
 			respond="";
@@ -192,9 +120,12 @@ public class CustFloArrange {
 			flower=new CustomizedFlower();
 		}while(respond.equalsIgnoreCase("Y"));
 		
-		for(int i=0;i<flowerList.size();i++) {
-			System.out.println("Customized Flower "+(i+1)+"\n"+flowerList.get(i)+"\n");
+		System.out.println("");
+		for(int i=0;i<currentFlowerList.size();i++) {
+			System.out.println("Customized Flower "+(i+1)+"\n"+currentFlowerList.get(i)+"\n");
 		}
+		flowerList.addAll(currentFlowerList);
+		currentFlowerList.clear();
 	}
 	
 	//first step of customized flower
@@ -262,4 +193,105 @@ public class CustFloArrange {
 			break;
 		}
 	}
+
+	//third step of customized flower
+	public static void selectFlower(CustomizedFlower flower, int maxFloType) {
+		int selected=0;
+		String respond="";
+		ArrayList<String> buffer = new ArrayList<>();
+		do {
+			selected++;
+			if(selected<=maxFloType) {
+				System.out.println("Third, select the flower type. You can select more "+ (maxFloType-selected+1) +" flower type. "+" [only accept 1-"+floType.length+"]");
+				for(int i=1;i<=floType.length;i++) {
+					System.out.println(i+". "+floType[i-1]);
+				}
+				while(!scanner.hasNextInt()||!scanner.hasNext("[1-"+floType.length+"]")) {
+					scanner.next();
+					System.err.println("Invalid input. Please input again (only accept[1-"+floType.length+"])");
+				}
+				int choose=scanner.nextInt();
+				for(int i=0;i<floType.length;i++) {
+					if((choose-1)==i) {
+						buffer.add(floType[i]);
+					}
+				}
+				
+				if(selected!=maxFloType) {
+					System.out.println("Do you want to continue to add more flower type?[Y/N]");
+					while(!scanner.hasNext("(Y|N)|(y|n)")) {
+						scanner.next();
+						System.err.println("Invalid input. Please input again (only accept[Y/N])");
+					}
+					respond=scanner.next();
+				}
+				else {
+					respond="N";
+				}
+				
+				
+			}
+			else {
+				respond="N";
+			}
+		}while(respond.equalsIgnoreCase("Y"));
+		flower.setFloType(buffer);
+	}
+
+	//forth step of customized flower
+	public static void selectAccessory(CustomizedFlower flower, int maxAccessory) {
+		int selected=0;
+		String respond="";
+		ArrayList<String> buffer = new ArrayList<>();
+		
+		do {
+			selected++;
+			if(selected<=maxAccessory) {
+				System.out.println("Forth, select the accessory. You can select more "+(maxAccessory-selected+1)+" [only accept 1-"+accessory.length+"]");
+				for(int i=1;i<=accessory.length;i++) {
+					System.out.println(i+". "+accessory[i-1]);
+				}
+				while(!scanner.hasNextInt()||!scanner.hasNext("[1-"+accessory.length+"]")) {
+					scanner.next();
+					System.err.println("Invalid input. Please input again (only accept[1-"+accessory.length+"])");
+				}
+				int choose=scanner.nextInt();
+				for(int i=0;i<accessory.length;i++) {
+					if((choose-1)==i) {
+						buffer.add(accessory[i]);
+					}
+				}
+				
+				if(selected!=maxAccessory) {
+					System.out.println("Do you want to continue to add more accessory?[Y/N]");
+					while(!scanner.hasNext("(Y|N)|(y|n)")) {
+						scanner.next();
+						System.err.println("Invalid input. Please input again (only accept[Y/N])");
+					}
+					respond=scanner.next();
+				}
+				else {
+					respond="N";
+				}
+			}
+			else {
+				respond="N";
+			}
+		}while(respond.equalsIgnoreCase("Y"));
+		flower.setAccessory(buffer);
+	}
+
+	//select prior level
+	public static void selectPrior(CustomizedFlower flower) {
+		System.out.println("Fifth, select the priority level. [only accept 1-3]");
+		for(int i=1;i<=priorLevel.length;i++) {
+			System.out.println(i+". "+priorLevel[i-1]);
+		}
+		while(!scanner.hasNextInt()||!scanner.hasNext("[1-"+priorLevel.length+"]")) {
+			scanner.next();
+			System.err.println("Invalid input. Please input again (only accept[1-"+priorLevel.length+"])");
+		}
+		flower.setPriorLevel(scanner.nextInt());
+	}
+
 }

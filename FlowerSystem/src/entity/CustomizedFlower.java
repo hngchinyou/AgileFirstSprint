@@ -3,48 +3,70 @@ import java.util.ArrayList;
 
 public class CustomizedFlower {
 	String floArrangeType,size;
-	ArrayList<Integer> floType,accessory;
-	String priorLevel;
+	ArrayList<String> floType,accessory;
+	int priorLevel;
 	
 	@Override
 	public String toString() {
 		String result="Flower Arrangement Type: " + floArrangeType;
 		result+="\nSize: "+ size;
-		result+="\nFlower Type: ";
-		for(int i=0;i<floType.size();i++) {
-			switch (floType.get(i)) {
-			case 1:
-				result+="Rose";
-				break;
-			case 2:
-				result+="Sunflower";
-				break;
-			case 3:
-				result+="Chocolate";
- 			default:
-				break;
-			}
-			if((i+1)<floType.size()) {
-				result+=", ";
-			}
+		
+		//
+		int f1=0,f2=0;
+		String resultflo="";
+		int a1=0,a2=0,a3=0;
+		String resultacc="";
+		//
+		//
+		for(String f: floType)
+		{
+			if(f.equals("Rose"))
+				f1++;
+			else
+				f2++;
 		}
-		result+="\nAccessory: ";
-		for(int i=0;i<accessory.size();i++) {
-			switch (accessory.get(i)) {
-			case 1:
-				result+="Bear";
-				break;
-			case 2:
-				result+="Card";
-				break;
- 			default:
-				break;
-			}
-			if((i+1)<accessory.size()) {
-				result+=", ";
-			}
+		if(f1!=0)
+		{
+			resultflo+="Rose x" + f1 + ", ";
 		}
-		result+="\nPriority Level: "+priorLevel;
+		if(f2!=0)
+		{
+			resultflo+="Sunflower x" + f2 + ", ";
+		}
+		result+="\nFlower Type: " + resultflo;
+		//
+		//
+		for(String a: accessory)
+		{
+			if(a.equals("Bear"))
+				a1++;
+			else if(a.equals("Card"))
+				a2++;
+			else
+				a3++;
+		}
+		if(a1!=0)
+			resultacc+="Bear x" + a1 + ", ";
+		if(a2!=0)
+			resultacc+="Card x" + a2 + ", ";
+		if(a3!=0)
+			resultacc+="Chocolate x" + a3 + ", ";
+		result+="\nAccessory: " + resultacc;
+		//
+		
+		result+="\nPriority Level: ";
+		switch (priorLevel) {
+		case 1:
+			result+="Express";
+			break;
+		case 2:
+			result+="Normal";
+			break;
+		case 3:
+			result+="Flexi";
+		default:
+			break;
+		}
 		return result;
 	}
 
@@ -52,8 +74,8 @@ public class CustomizedFlower {
 		super();
 	}
 
-	public CustomizedFlower(String floArrangeType, String size, ArrayList<Integer> floType,
-			ArrayList<Integer> accessory, String priorLevel) {
+	public CustomizedFlower(String floArrangeType, String size, ArrayList<String> floType, ArrayList<String> accessory,
+			int priorLevel) {
 		super();
 		this.floArrangeType = floArrangeType;
 		this.size = size;
@@ -78,29 +100,28 @@ public class CustomizedFlower {
 		this.size = size;
 	}
 
-	public ArrayList<Integer> getFloType() {
+	public ArrayList<String> getFloType() {
 		return floType;
 	}
 
-	public void setFloType(ArrayList<Integer> floType) {
+	public void setFloType(ArrayList<String> floType) {
 		this.floType = floType;
 	}
 
-	public ArrayList<Integer> getAccessory() {
+	public ArrayList<String> getAccessory() {
 		return accessory;
 	}
 
-	public void setAccessory(ArrayList<Integer> accessory) {
+	public void setAccessory(ArrayList<String> accessory) {
 		this.accessory = accessory;
 	}
 
-	public String getPriorLevel() {
+	public int getPriorLevel() {
 		return priorLevel;
 	}
 
-	public void setPriorLevel(String priorLevel) {
+	public void setPriorLevel(int priorLevel) {
 		this.priorLevel = priorLevel;
 	}
-	
 	
 }
