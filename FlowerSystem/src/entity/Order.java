@@ -78,8 +78,8 @@ public class Order {
     }
     @Override
     public String toString() {
-        return "\n\nOrder Num = " + orderNum + "\nQuantity=" + quantity + "\n" + "Order Date= "
-                + formatter.format(date) + "\nSub Price=" + calculatePrice();
+        return "\n\nOrder Num: " + orderNum + "\nQuantity: " + quantity + "\n" + "Order Date: "
+                + formatter.format(date) + "\nSub Price: " + calculatePrice();
     }
 
   
