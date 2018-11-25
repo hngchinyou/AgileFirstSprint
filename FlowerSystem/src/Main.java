@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 import customized.CustFloArrange;
 import Catalog_Order.CatOrder;
+import custMaintenanceNPayment.CustomerMaintenanceAndPayment;
 /**
  * 
  */
@@ -34,7 +35,7 @@ public class Main {
                 	
                     break;
                 case 2:
-                	
+                   CustomerMaintenanceAndPayment.CPmain();
                     break;
                 case 3:               
                     CatOrder.COmain();
