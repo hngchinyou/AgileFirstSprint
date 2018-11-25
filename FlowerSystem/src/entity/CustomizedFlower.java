@@ -2,85 +2,70 @@ package entity;
 import java.util.ArrayList;
 
 public class CustomizedFlower {
-	int floArrangeType,size;
-	ArrayList<Integer> floType,accessory;
+	String floArrangeType,size;
+	ArrayList<String> floType,accessory;
+	int priorLevel;
 	
 	@Override
 	public String toString() {
-		String result="Flower Arrangement Type: ";
-		switch (floArrangeType) {
+		String result="Flower Arrangement Type: " + floArrangeType;
+		result+="\nSize: "+ size;
+		
+		//
+		int f1=0,f2=0;
+		String resultflo="";
+		int a1=0,a2=0,a3=0;
+		String resultacc="";
+		//
+		//
+		for(String f: floType)
+		{
+			if(f.equals("Rose"))
+				f1++;
+			else
+				f2++;
+		}
+		if(f1!=0)
+		{
+			resultflo+="Rose x" + f1 + ", ";
+		}
+		if(f2!=0)
+		{
+			resultflo+="Sunflower x" + f2 + ", ";
+		}
+		result+="\nFlower Type: " + resultflo;
+		//
+		//
+		for(String a: accessory)
+		{
+			if(a.equals("Bear"))
+				a1++;
+			else if(a.equals("Card"))
+				a2++;
+			else
+				a3++;
+		}
+		if(a1!=0)
+			resultacc+="Bear x" + a1 + ", ";
+		if(a2!=0)
+			resultacc+="Card x" + a2 + ", ";
+		if(a3!=0)
+			resultacc+="Chocolate x" + a3 + ", ";
+		result+="\nAccessory: " + resultacc;
+		//
+		
+		result+="\nPriority Level: ";
+		switch (priorLevel) {
 		case 1:
-			result+="Elliptical";
+			result+="Express";
 			break;
 		case 2:
-			result+="Vertical";
+			result+="Normal";
 			break;
 		case 3:
-			result+="Horizontal";
+			result+="Flexi";
+		default:
 			break;
-		case 4:
-			result+="Triangular";
-			break;
-		case 5:
-			result+="crescent";
-			break;
-		case 6:
-			result+="S' shaped";
-			break;
-		case 7:
-			result+="oval shaped";
-			break;
-		case 8:
-			result+="cascade";
-			break;
- 		default:
-			break;
-		}
-		result+="\nSize: ";
-		switch (size) {
-		case 1:
-			result+="big";
-			break;
-		case 2:
-			result+="medium";
-			break;
-		case 3:
-			result+="small";
-			break;
- 		default:
-			break;
-		}
-		result+="\nFlower Type: ";
-		for(int i=0;i<floType.size();i++) {
-			switch (floType.get(i)) {
-			case 1:
-				result+="Rose";
-				break;
-			case 2:
-				result+="Sunflower";
-				break;
- 			default:
-				break;
-			}
-			if((i+1)<floType.size()) {
-				result+=", ";
-			}
-		}
-		result+="\nAccessory: ";
-		for(int i=0;i<accessory.size();i++) {
-			switch (accessory.get(i)) {
-			case 1:
-				result+="Bear";
-				break;
-			case 2:
-				result+="Card";
-				break;
- 			default:
-				break;
-			}
-			if((i+1)<accessory.size()) {
-				result+=", ";
-			}
 		}
 		return result;
 	}
@@ -89,44 +74,54 @@ public class CustomizedFlower {
 		super();
 	}
 
-	public CustomizedFlower(int floArrangeType, int size, ArrayList<Integer> floType, ArrayList<Integer> accessory) {
+	public CustomizedFlower(String floArrangeType, String size, ArrayList<String> floType, ArrayList<String> accessory,
+			int priorLevel) {
 		super();
 		this.floArrangeType = floArrangeType;
 		this.size = size;
 		this.floType = floType;
 		this.accessory = accessory;
+		this.priorLevel = priorLevel;
 	}
 
-	public int getFloArrangeType() {
+	public String getFloArrangeType() {
 		return floArrangeType;
 	}
 
-	public void setFloArrangeType(int floArrangeType) {
+	public void setFloArrangeType(String floArrangeType) {
 		this.floArrangeType = floArrangeType;
 	}
 
-	public int getSize() {
+	public String getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(String size) {
 		this.size = size;
 	}
 
-	public ArrayList<Integer> getFloType() {
+	public ArrayList<String> getFloType() {
 		return floType;
 	}
 
-	public void setFloType(ArrayList<Integer> floType) {
+	public void setFloType(ArrayList<String> floType) {
 		this.floType = floType;
 	}
 
-	public ArrayList<Integer> getAccessory() {
+	public ArrayList<String> getAccessory() {
 		return accessory;
 	}
 
-	public void setAccessory(ArrayList<Integer> accessory) {
+	public void setAccessory(ArrayList<String> accessory) {
 		this.accessory = accessory;
+	}
+
+	public int getPriorLevel() {
+		return priorLevel;
+	}
+
+	public void setPriorLevel(int priorLevel) {
+		this.priorLevel = priorLevel;
 	}
 	
 }
