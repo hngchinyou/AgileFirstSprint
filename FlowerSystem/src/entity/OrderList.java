@@ -150,7 +150,7 @@ public class OrderList {
 
         return  "\nOrder "+ count + "\nCustomer Id: " + custId + arString() + 
                 "\nPick Up Date: " + formatter.format(pickUpDate) + 
-                "\nCollect Method: " + collectMethod + "\nAddress: " + DAddress +
+                "\nCollect Method: " + collectMethod + "\nAddress: " + DAddress +"\nStatus= " + status +
                 "\n";
     }
     

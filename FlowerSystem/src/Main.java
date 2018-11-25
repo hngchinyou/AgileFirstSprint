@@ -3,6 +3,7 @@ import java.util.Scanner;
 import customized.CustFloArrange;
 import Catalog_Order.CatOrder;
 import custMaintenanceNPayment.CustomerMaintenanceAndPayment;
+import delivery.ViewOrderListV3;
 /**
  * 
  */
@@ -41,7 +42,7 @@ public class Main {
                     CatOrder.COmain();
                     break;
                 case 4:
-                	
+                	ViewOrderListV3.Deliverymain();
                     break;
                 case 5:
                 	CustFloArrange.custFloArrange();
