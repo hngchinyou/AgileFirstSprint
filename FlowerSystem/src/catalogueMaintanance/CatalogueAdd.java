@@ -18,14 +18,9 @@ import java.util.Scanner;
  * @author user
  */
 public class CatalogueAdd {
-    public static void CMmenu(){
+    public static void CMmenu(List<Flower2> flower){
         Scanner scanner = new Scanner(System.in);
-        List<Flower2> flower = new ArrayList<>();       
-        flower.add(new Flower2("B1111","Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
-        flower.add(new Flower2("B1112","Lover Bouquets", "asdasdasdasd", "Bouquet", 12.20, 2));
-        flower.add(new Flower2("F1111","Buttercup", "asdasdasdasd", "Flower", 12.20, 2));
-        flower.add(new Flower2("F1112","Cherry Blosom", "sdaqwefgwre", "Flower", 12.20, 2));
-        flower.add(new Flower2("F1113","Clover", "asdiuqwheasd", "Flower", 12.20, 5));
+        
         int choice;
         do{
         System.out.println("Catalogue Maintenance");

@@ -1,38 +1,54 @@
 package entity;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomizedFlower {
 	String floArrangeType,size;
 	ArrayList<String> floType,accessory;
 	int priorLevel;
 	
-	@Override
-	public String toString() {
+	public String toString(List<Flower2> floType) {
 		String result="Flower Arrangement Type: " + floArrangeType;
 		result+="\nSize: "+ size;
 		
 		//
-		int f1=0,f2=0;
+                int sizeFloType[] = new int[floType.size()];
+		int i=0;
 		String resultflo="";
 		int a1=0,a2=0,a3=0;
 		String resultacc="";
 		//
 		//
-		for(String f: floType)
-		{
-			if(f.equals("Rose"))
-				f1++;
-			else
-				f2++;
-		}
-		if(f1!=0)
-		{
-			resultflo+="Rose x" + f1 + ", ";
-		}
-		if(f2!=0)
-		{
-			resultflo+="Sunflower x" + f2 + ", ";
-		}
+                for(Flower2 f:floType){
+                    for(String ftName:this.floType){
+                        if(ftName.equalsIgnoreCase(f.getFlowername())){
+                            sizeFloType[i]++;
+                        }
+                    }
+                    i++;
+                }
+                i=0;
+                for(int sft:sizeFloType){
+                    if(sft!=0){
+                        resultflo+= floType.get(i).getFlowername() + " x" + sft + ",";
+                    }
+                    i++;
+                }
+//		for(String f: floType)
+//		{
+//			if(f.equals("Rose"))
+//				f1++;
+//			else
+//				f2++;
+//		}
+//		if(f1!=0)
+//		{
+//			resultflo+="Rose x" + f1 + ", ";
+//		}
+//		if(f2!=0)
+//		{
+//			resultflo+="Sunflower x" + f2 + ", ";
+//		}
 		result+="\nFlower Type: " + resultflo;
 		//
 		//
