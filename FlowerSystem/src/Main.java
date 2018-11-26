@@ -4,6 +4,7 @@ import customized.CustFloArrange;
 import Catalog_Order.CatOrder;
 import custMaintenanceNPayment.CustomerMaintenanceAndPayment;
 import delivery.ViewOrderListV3;
+import catalogueMaintanance.CatalogueAdd;
 /**
  * 
  */
@@ -33,7 +34,7 @@ public class Main {
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                	
+                	CatalogueAdd.CMmenu();
                     break;
                 case 2:
                    CustomerMaintenanceAndPayment.CPmain();
