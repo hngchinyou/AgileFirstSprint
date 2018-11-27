@@ -155,7 +155,7 @@ public class CatOrder {
                                     //remakeRes = scanner.next();
                                     //arrOrder.remove(arrOrder.size() - 1);
                                 } else {
-
+                                         
                                     arrOrder.add(new Order(orderNo, quantity, date, flower.get(Integer.parseInt(orderNo)).getPrice()));
 
                                     for (Order ol : arrOrder) {
