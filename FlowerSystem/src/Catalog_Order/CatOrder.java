@@ -19,7 +19,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Han Xin
  */
 public class CatOrder {
-    //Testing123456
+    //Testing
 
     /**
      * @param args the command line arguments
