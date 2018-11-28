@@ -1,3 +1,2 @@
 language:java
 oraclejdk:jdk8
-sudo:required
