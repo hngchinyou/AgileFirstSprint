@@ -55,7 +55,6 @@ public class Main {
             switch (choice) {
                 case 1:
                     CatalogueAdd.CMmenu(flower);
-                    //Noob
                     break;
                 case 2:
                     CustomerMaintenanceAndPayment.CPmain(custList);
