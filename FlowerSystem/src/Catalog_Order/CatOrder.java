@@ -5,17 +5,21 @@
  */
 package Catalog_Order;
 
+import entity.CorporateCust;
+import entity.Customer;
+import entity.Flower2;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import entity.Order;
 import entity.OrderList;
 import java.util.concurrent.ArrayBlockingQueue;
-
+//Bodoh Han Xin
 /**
  *
  * @author Han Xin
  */
 public class CatOrder {
+    //12
 
     /**
      * @param args the command line arguments
@@ -23,6 +27,7 @@ public class CatOrder {
     public static void COmain(List<Customer> custList, List<Flower2> flower, double allOrderPrice) {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         int choice;
+        int count = 0;
         choice = catalogueMenu();
         if (choice == 1) {
             System.out.print("Enter Customer Id: ");
@@ -56,7 +61,10 @@ public class CatOrder {
             }
 
         }
-        
+        if (count == 0) {
+            System.err.println("This person does not exist!");
+        }
+
     }
 
     public static void catalogueOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice) {
@@ -86,17 +94,17 @@ public class CatOrder {
        // double allOrderPrice = 0;
         Date date1 = new Date();
         boolean valid = true;
-        arrOrder.add(new Order("1", 3, date1, 100.00));
-        orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
+        // arrOrder.add(new Order("1", 3, date1, 100.00));
+        //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        
+
         do {
-        if(!orderList.isEmpty())
-        {
-            for (OrderList ol : orderList) 
-            {
-                allOrderPrice = ol.calcAllOrder(orderList, "Cr0001");
+            if (!orderList.isEmpty()) {
+                for (OrderList ol : orderList) {
+
+                    allOrderPrice = ol.calcAllOrder(orderList, id);
+                }
             }
             for (Customer cust : custList) {
 
@@ -273,24 +281,57 @@ public class CatOrder {
             }
             //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
         }
-        
-                    
-        
-        if(allOrderPrice>1000){
-            valid=false;
-        break;
-        }else
-        {
-        
+        System.out.print("\nTotal Price: RM ");
+        System.out.println(String.format("%.2f", totalPrice));
+        }
+    }
+
+    public static void consOrder(List<Customer> custList, List<Flower2> flower, String id) {
+
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        // respond
+        String res = "";
+        String res1 = "";
+        String remakeRes = "";
+        String remakeRes1 = "";
+        //Array Declaration    
+        List<Order> arrOrder = new ArrayList<>();
+        List<OrderList> orderList = new ArrayList<>();
+
+        //Variable Declaration
+        int quantity = 0;
+        Date date = new Date();
+        int count = 0;
+        String pickUpD;
+        String orderNo;
+        Date pDate = new Date();
+        String collectMethod = "";
+        String address = "";
+        double creditLimit = 1000.0;
+        double totalSub = 0;
+        double totalPrice = 0;
+        double allOrderPrice = 0;
+        Date date1 = new Date();
+        boolean valid = true;
+        // arrOrder.add(new Order("1", 3, date1, 100.00));
+        //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
+        //Date Formatter
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        do {
+            if (!orderList.isEmpty()) {
+                for (OrderList ol : orderList) {
+
+                    allOrderPrice = ol.calcAllOrder(orderList, id);
+                }
+            }
+
             arrOrder = new ArrayList<>();
             //arrOrder.clear();
             do {
-                
+
                 do {
-                    if(remakeRes.equalsIgnoreCase("y")&& totalPrice > 1000 ){
-                        totalPrice-=totalSub;
-                    }
-                    totalSub = 0;
+
                     System.out.print("Enter the Catalogue Number: ");
 
 //                while(!scanner.hasNext("[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]\\w$")){
@@ -312,72 +353,44 @@ public class CatOrder {
                     // order list verify
                     // for loop for orderlist in order to get the total price
                     // of past order of same customer in this month
-                    
                     //for (OrderList ol : orderList) 
                     //{
                     //    allOrderPrice += ol.calcAllOrder(orderList, "Cr0001");
                     //}
-                    
-                    if(allOrderPrice > 1000)
-                    {
-                        //System.err.println("You Have Over your monthly limit !");
-                        //System.err.print("Do you want to Remake Order ?[Y/N]");
-                        //remakeRes = scanner.next();
-                        //arrOrder.remove(arrOrder.size() - 1);
+                    //System.err.println("You Have Over your monthly limit !");
+                    //System.err.print("Do you want to Remake Order ?[Y/N]");
+                    //remakeRes = scanner.next();
+                    //arrOrder.remove(arrOrder.size() - 1);
+                    arrOrder.add(new Order(orderNo, quantity, date, flower.get(Integer.parseInt(orderNo)).getPrice()));
+
+                    for (Order ol : arrOrder) {
+                        totalSub += ol.calculatePrice();
                     }
-                    else
-                    {
-                        
-                        arrOrder.add(new Order(orderNo, quantity, date, 50.0));
+                    //check credit limit
+                    totalPrice = totalSub + allOrderPrice;
+                    //System.out.println(allOrderPrice);
 
-                        for (Order ol : arrOrder) {
-                            totalSub += ol.calculatePrice();
-                        }
-                        //check credit limit
-                        totalPrice = totalSub + allOrderPrice;
-                        //System.out.println(allOrderPrice);
+                } while (remakeRes.equalsIgnoreCase("Y"));
 
-                        if (totalSub > 1000 || totalPrice> 1000) {
-                            System.err.println("You Have Over your monthly limit !");
-                            System.err.print("Do you want to Remake Order ?[Y/N]");
-                            remakeRes = scanner.next();
-                            arrOrder.remove(arrOrder.size() - 1);
-                            
-                            if(remakeRes.equalsIgnoreCase("n"))
-                            valid=false;
-                        }
-                    }
-                    
-                } while (remakeRes.equalsIgnoreCase("Y") && 
-                        (totalSub > 1000 || allOrderPrice > 1000 || (totalPrice> 1000)));
+                //Ask to add more item
+                System.out.print("Do you want to add more item ? [Y/N] ");
+                //Check only Y or N allowed to enter 
+                while (!scanner.hasNext("(Y|N)|(y|n){1}$")) {
 
-                if(valid==false)
-                {
-                   
-                   break;
-                }
-                else
-                {
-                    //Ask to add more item
+                    System.err.println("You only can choose Y or N !!!!");
                     System.out.print("Do you want to add more item ? [Y/N] ");
-                    //Check only Y or N allowed to enter 
-                    while (!scanner.hasNext("(Y|N)|(y|n){1}$")) {
+                    scanner.next();
 
-                        System.err.println("You only can choose Y or N !!!!");
-                        System.out.print("Do you want to add more item ? [Y/N] ");
-                        scanner.next();
-
-                    }
-                    res = scanner.next();
-
-                    count++;
                 }
-                
-            } while (res.equalsIgnoreCase("Y") && valid);
+                res = scanner.next();
 
-            if (res.equalsIgnoreCase("N")&& valid) {
+                count++;
+
+            } while (res.equalsIgnoreCase("Y"));
+
+            if (res.equalsIgnoreCase("N")) {
                 System.out.print("Enter the pick-up date (dd/MM/yyyy): ");
-                
+
                 while (!scanner.hasNext("(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$")) {
 
                     System.err.print("Sorry, please enter a proper date with the format(dd/MM/yyyy) : ");
@@ -412,7 +425,7 @@ public class CatOrder {
 //                    System.err.println("Please Try Again~!");
 //                }
 //            }
-            orderList.add(new OrderList(arrOrder, pDate, collectMethod, address, "Cr0001","Processing"));
+            orderList.add(new OrderList(arrOrder, pDate, collectMethod, address, id, "Processing"));
 
             // arrOrder.clear();
             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -423,18 +436,20 @@ public class CatOrder {
                 scanner.next();
             }
             res1 = scanner.next();
-        
-        }
+
         } while (res1.equalsIgnoreCase("Y"));
-        
-        
-        double alltotal=0;
+
+        double alltotal = 0;
         int a = 0;
         for (OrderList aa : orderList) {
-            //alltotal+=aa.getAllTotal();
-            ++a;
-            System.out.print(aa.toString(a));
-           //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
+            for (Customer c : custList) {
+                if (id.equals(c.getId())) {
+                    //alltotal+=aa.getAllTotal();
+                    ++a;
+                    System.out.print(aa.toString(a));
+                }
+            }
+            //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
         }
         System.out.print("\nTotal Price: RM ");
         System.out.println(totalPrice);
@@ -465,7 +480,7 @@ public class CatOrder {
         System.out.print("Enter your choice:");
         choice = scanner.nextInt();
         return choice;
-        
+
     }
 
 }

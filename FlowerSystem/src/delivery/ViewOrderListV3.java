@@ -33,21 +33,23 @@ public class ViewOrderListV3 {
         // TODO code application logic here
         char result;
         Scanner sc = new Scanner(System.in);
-        
+
         List<Order> orderItem = new ArrayList<>();
-        List<OrderList> orderList = viewOrderList(true, orderItem);
-        do{
-        System.out.println("Please select your option\n1) View Order of today\n2) Indicate specific order\n3) Exit");
-        result = sc.next().charAt(0);
-        if (result == '1') {
-            viewOrderList(false, orderItem);
-        } else if (result == '2') {
-            indicateOrder(orderList, orderItem);
-        }}while(result!=3);
-        
+        List<Order> orderItem2 = new ArrayList<>();
+        List<OrderList> orderList = viewOrderList(true, orderItem, orderItem2);
+        do {
+            System.out.println("Please select your option\n1) View Order of today\n2) Indicate specific order\n3) Exit");
+            result = sc.next().charAt(0);
+            if (result == '1') {
+                viewOrderList(false, orderItem, orderItem2);
+            } else if (result == '2') {
+                indicateOrder(orderList, orderItem);
+            }
+        } while (result != 3);
+
     }
 
-    public static List<OrderList> viewOrderList(boolean valid, List<Order> orderItem) {
+    public static List<OrderList> viewOrderList(boolean valid, List<Order> orderItem, List<Order> orderItem2) {
 
         List<OrderList> orderList = new ArrayList<>();
         try {
@@ -63,29 +65,26 @@ public class ViewOrderListV3 {
             orderItem.add(new Order("1", 3, todayDate, 12.34));
             orderItem.add(new Order("2", 1, todayDate, 54.32));
             orderItem.add(new Order("3", 6, todayDate, 22.34));
+            orderItem2.add(new Order("4", 6, todayDate, 22.34));
+            orderItem2.add(new Order("5", 6, todayDate, 22.34));
+            orderItem2.add(new Order("6", 6, todayDate, 22.34));
 
-            orderList.add(new OrderList(orderItem, pickUpDate, "Delivery", "PV13", "Cn0001", "Processing"));//hardcoding order list 1
+            orderList.add(new OrderList(orderItem2, pickUpDate, "Delivery", "PV13", "Cn0001", "Processing"));//hardcoding order list 1
             orderList.add(new OrderList(orderItem, pickUpDate, "Self Pickup", "PV14", "Cn0001", "Processing"));//hardcoding order list 1
-//            orderList.add(new OrderList(orderItem, pickUpDate, "Delivery", "PV15", "Cn0001", "Processing"));//hardcoding order list 2
-//            orderList.add(new OrderList(orderItem, pickUpDate, "Self Pickup", "PV11", "Cn0001", "Processing"));//hardcoding order list 2
-//            orderList.add(new OrderList(orderItem, pickUpDate, "Delivery", "PV16", "Cn0001", "Processing"));//hardcoding order list 2
-//            orderList.add(new OrderList(orderItem, pickUpDate, "Self Pickup", "PV12", "Cn0001", "Processing"));//hardcoding order list 2
-//            orderList.add(new OrderList(orderItem, pickUpDate, "Delivery", "PV23", "Cn0001", "Processing"));//hardcoding order list 2
-//            orderList.add(new OrderList(orderItem, pickUpDate, "Self Pickup", "PV11", "Cn0001", "Processing"));//hardcoding order list 2
 
             if (!valid) {
                 System.out.println("Displaying order list of the day");
-            
-            int a = 0;
 
-            for (OrderList ol: orderList)//displaying order list of today
-            {
-                if (ol.getPickUpDate().compareTo(todayDate) == 0 && ol.getCollectMethod().equals("Delivery")) {
-                    System.out.println(ol.toString(++a));
-                } else {
-                    count++;
+                int a = 0;
+
+                for (OrderList ol : orderList)//displaying order list of today
+                {
+                    if (ol.getPickUpDate().compareTo(todayDate) == 0 && ol.getCollectMethod().equals("Delivery")) {
+                        System.out.println(ol.toString(++a));
+                    } else {
+                        count++;
+                    }
                 }
-            }
             }
             if (count == orderList.size() && !valid)//displaying message if no order list today
             {
@@ -107,54 +106,53 @@ public class ViewOrderListV3 {
         double pay;
         String exit = "";
         double change;
+        String cusId;
 
         Timestamp ts = new Timestamp(time);
         int a = 0;
-        for (OrderList aa : orderList) {
-            if (aa.getStatus().equals("Processing")) {
+        do {
+            System.out.println("Which customer's order do you want to indicate? Please enter ID: ");
+            cusId = sc.next();
+            count = customerOrder(orderList, orderItem, cusId, count, a);
+            if(count==0)
+                System.out.println("Invalid Id");
+            
+        } while (count == 0);
 
-                //alltotal+=aa.getAllTotal();
-                ++a;
-                System.out.print(aa.toString(a));
-                count++;
-                //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
-            }
-        }
-        
-        do{
-       // System.out.println(count);//ask user to choose order to indicate
-        System.out.println("Which order do you want to indicate?");//ask user to choose order to indicate
+        do {
+            // System.out.println(count);//ask user to choose order to indicate
+            System.out.println("Which order do you want to indicate?");//ask user to choose order to indicate
 
-        while (!sc.hasNextInt()) {
-            sc.next();
-            System.out.println("Please enter number only: ");
-        }
-        reply = sc.nextInt()-1;
-
-        
-        if(!(reply >= orderList.size()) && !(reply < 0))
-        {
-            if (!orderList.get(reply).getStatus().equals("Processing") || (reply+1) > count) {                
-                System.out.println("Please enter order number listed above");
+            while (!sc.hasNextInt()) {
                 sc.next();
+                System.out.println("Please enter number only: ");
             }
-        }  
-        else
-            System.out.println("The order is not exist"); 
-        }while(reply >= orderList.size());
-        
-        for (int i = 0; i < orderList.size(); i++)//find order requested by user
-        {
-            if (orderList.get(i).getOrderList().get(i).getOrderNum().equals("" + reply)) {
-                System.out.println("\n" + orderList.get(i).getOrderList());
-                System.out.println("\nThe price is RM " + orderList.get(i).calcTotalPrice(orderItem) + ".\n");
+            reply = sc.nextInt() - 1;
+
+            if (!(reply >= orderList.size()) && !(reply < 0)) {
+                if (!(orderList.get(reply).getStatus().equals("Processing")) || (reply + 1) > count) {
+                    System.out.println("Please enter order number listed above");
+                    sc.next();
+                }
+            } else {
+                System.out.println("The order is not exist");
+            }
+        } while ((reply + 1) > count);
+      //  for (int i = 0; i < orderList.size(); i++)//find order requested by user
+      // {
+            //if (orderList.get(reply).getOrderList().get(reply)) {
+                System.out.println("\n" + orderList.get(reply).getOrderList());
+                System.out.println("\nThe price is RM " + orderList.get(reply).calcTotalPrice(orderItem) + ".\n");
+                System.out.print("Please enter your payment amount: RM "
+                        + ""
+                        + "");
                 while (!sc.hasNextInt() && !sc.hasNextDouble()) {
                     sc.next();
                     System.out.println("Please enter number only: ");
                 }
                 pay = sc.nextDouble();
 
-                while (pay < orderList.get(i).calcTotalPrice(orderItem)) {
+                while (pay < orderList.get(reply).calcTotalPrice(orderItem)) {
                     System.out.println("Insufficient money, please reenter!");
                     while (!sc.hasNextInt() && !sc.hasNextDouble()) {
                         sc.next();
@@ -163,16 +161,31 @@ public class ViewOrderListV3 {
                     pay = sc.nextDouble();
                 }
 
-                change = pay - orderList.get(i).calcTotalPrice(orderItem);
+                change = pay - orderList.get(reply).calcTotalPrice(orderItem);
 
-                orderList.get(i).setStatus("Completed");
-                orderList.get(i).setPickUpDate(ts);
+                orderList.get(reply).setStatus("Completed");
+                orderList.get(reply).setPickUpDate(ts);
                 System.out.println("\nYour change is RM " + change + ". Thank you for coming!\n==============================================");
                 int b = 0;
-                System.out.println(orderList.get(i).getOrderList());
-                System.out.println(orderList.get(i).getStatus());
-            }
-        }
+                System.out.println(orderList.get(reply).getOrderList());
+                System.out.println(orderList.get(reply).getStatus());
+          //  }
+      //  }
 //        indicateOrder(orderList, orderItem);
     }//end of indicating
+
+    public static int customerOrder(List<OrderList> orderList, List<Order> orderItem, String cusId, int count, int a) {
+       
+        for (OrderList aa : orderList) {
+            if (aa.getCustId().equals(cusId) && aa.getStatus().equals("Processing")) {
+
+                //alltotal+=aa.getAllTotal();
+                ++a;
+                System.out.print(aa.toString(a));
+                count++;
+                //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
+            } 
+        }
+        return count;
+    }
 }
