@@ -1,4 +1,5 @@
 
+
 import java.util.Scanner;
 
 import customized.CustFloArrange;
@@ -23,6 +24,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO Auto-generated method stub
+        // catalog order initial array 
+        double allOrderPrice = 0;
         // customer maintenance initial array
         List<Customer> custList = new ArrayList<>();
         custList.add(new Customer("Cn0001", "yohku", "Wangsa Maju", "Consumer"));
@@ -57,7 +60,7 @@ public class Main {
                     CustomerMaintenanceAndPayment.CPmain(custList);
                     break;
                 case 3:
-                    CatOrder.COmain(custList, flower);
+                    CatOrder.COmain(custList, flower,allOrderPrice);
                     break;
                 case 4:
                     ViewOrderListV3.Deliverymain();
