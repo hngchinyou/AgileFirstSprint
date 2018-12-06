@@ -294,7 +294,7 @@ public class CustomerMaintenanceAndPayment{
             {
                 if(c.getcType().equals("Corporate"))
                 {
-                // name, address, credit limit, companyname, contact num1
+                // name, address, credit limit, companyname, contact num12
                 choice = CorEMenu();
                 switch(choice)
                 {
