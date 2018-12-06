@@ -144,7 +144,7 @@ public class ViewOrderListV3 {
                 }
             } else {
                 System.out.println("The order is not exist");
-//                sc.next();
+//                sc.next();0
             }
         } while ((reply + 1) > orderProcessingList.size());
         //  for (int i = 0; i < orderList.size(); i++)//find order requested by user
