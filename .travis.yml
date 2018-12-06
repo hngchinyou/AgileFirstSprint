@@ -1,4 +1,4 @@
 language: java
 jdk: oraclejdk8
 sudo: required
-TRAVIS_BUILD_DIR: /FlowerSystem/build.xml
+before_script: cd FlowerSystem
