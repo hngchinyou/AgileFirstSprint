@@ -1,0 +1,4 @@
+language: java
+jdk: oraclejdk8
+sudo: required
+before_script: cd FlowerSystem
