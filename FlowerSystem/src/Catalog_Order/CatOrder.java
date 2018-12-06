@@ -14,6 +14,7 @@ import entity.Order;
 import entity.OrderList;
 import java.util.concurrent.ArrayBlockingQueue;
 //Bodoh Han Xin
+
 /**
  *
  * @author Han Xin
@@ -44,7 +45,7 @@ public class CatOrder {
                             System.out.println("================");
                         }
                         count = 1;
-                        catalogueOrder(custList, flower, id,allOrderPrice);
+                        catalogueOrder(custList, flower, id, allOrderPrice);
                     } else if (c.getcType().equals("Consumer")) {
                         int j = 0;
                         for (Flower2 f : flower) {
@@ -91,9 +92,10 @@ public class CatOrder {
         double creditLimit = 1000.0;
         double totalSub = 0;
         double totalPrice = 0;
-       // double allOrderPrice = 0;
+        // double allOrderPrice = 0;
         Date date1 = new Date();
         boolean valid = true;
+         String oid = generateOID(orderList);
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
@@ -109,9 +111,9 @@ public class CatOrder {
             for (Customer cust : custList) {
 
                 if (id.equals(cust.getId())) {
-                    System.out.println(cust.getName()+ ",monthly limit is : "+(((CorporateCust) cust).getCredit() - allOrderPrice));
-                    
-                 //   System.out.print(allOrderPrice);
+                    System.out.println(cust.getName() + ",monthly limit is : " + (((CorporateCust) cust).getCredit() - allOrderPrice));
+
+                    //   System.out.print(allOrderPrice);
                     if (allOrderPrice > ((CorporateCust) cust).getCredit()) {
                         valid = false;
                         break;
@@ -157,7 +159,7 @@ public class CatOrder {
                                     //remakeRes = scanner.next();
                                     //arrOrder.remove(arrOrder.size() - 1);
                                 } else {
-                                         
+
                                     arrOrder.add(new Order(orderNo, quantity, date, flower.get(Integer.parseInt(orderNo)).getPrice()));
 
                                     for (Order ol : arrOrder) {
@@ -250,7 +252,7 @@ public class CatOrder {
 //                }
 //            }        
                         if (valid) {
-                            orderList.add(new OrderList(arrOrder, pDate, collectMethod, address, id, "Processing"));
+                            orderList.add(new OrderList(arrOrder,oid, pDate, collectMethod, address, id, "Processing"));
 
                             // arrOrder.clear();
                             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -268,21 +270,21 @@ public class CatOrder {
             }
 
         } while (res1.equalsIgnoreCase("Y"));
-        if(valid){
-        double alltotal = 0;
-        int a = 0;
-        for (OrderList aa : orderList) {
-            for (Customer c : custList) {
-                if (id.equals(c.getId())) {
-                    //alltotal+=aa.getAllTotal();
-                    ++a;
-                    System.out.print(aa.toString(a));
+        if (valid) {
+            double alltotal = 0;
+            int a = 0;
+            for (OrderList aa : orderList) {
+                for (Customer c : custList) {
+                    if (id.equals(c.getId())) {
+                        //alltotal+=aa.getAllTotal();
+                        ++a;
+                        System.out.print(aa.toString(a));
+                    }
                 }
+                //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
             }
-            //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
-        }
-        System.out.print("\nTotal Price: RM ");
-        System.out.println(String.format("%.2f", totalPrice));
+            System.out.print("\nTotal Price: RM ");
+            System.out.println(String.format("%.2f", totalPrice));
         }
     }
 
@@ -313,6 +315,7 @@ public class CatOrder {
         double allOrderPrice = 0;
         Date date1 = new Date();
         boolean valid = true;
+        String oid = generateOID(orderList);
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
@@ -425,7 +428,7 @@ public class CatOrder {
 //                    System.err.println("Please Try Again~!");
 //                }
 //            }
-            orderList.add(new OrderList(arrOrder, pDate, collectMethod, address, id, "Processing"));
+            orderList.add(new OrderList(arrOrder,oid, pDate, collectMethod, address, id, "Processing"));
 
             // arrOrder.clear();
             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -453,6 +456,15 @@ public class CatOrder {
         }
         System.out.print("\nTotal Price: RM ");
         System.out.println(totalPrice);
+    }
+
+    public static String generateOID(List<OrderList> orderLists) {
+        int count = 0;
+        for (OrderList id : orderLists) {
+            count++;
+        }
+            return String.format("Or%04d", ++count);
+        
     }
 
     public static int catalogueMenu() {
