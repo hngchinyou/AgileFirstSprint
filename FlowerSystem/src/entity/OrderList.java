@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class OrderList {
     private List<Order> orderList = new ArrayList<>();
+    private String id;
     private Date pickUpDate;
     private String collectMethod;
     private String DAddress;
@@ -26,8 +27,9 @@ public class OrderList {
     private String status;
    
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    public OrderList(List<Order> orderList, Date pickUpDate, String collectMethod, String DAddress,String custId,String status) {
+    public OrderList(List<Order> orderList,String id, Date pickUpDate, String collectMethod, String DAddress,String custId,String status) {
         this.orderList = orderList;
+        this.id = id;
         this.pickUpDate = pickUpDate;
         this.collectMethod = collectMethod;
         this.DAddress = DAddress;    
@@ -36,6 +38,16 @@ public class OrderList {
   
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    
+    
     public String getStatus() {
         return status;
     }
@@ -146,13 +158,15 @@ public class OrderList {
     
     
 
+    
     public String toString(int count ) {
 
-        return  "\nOrder "+ count + "\nCustomer Id: " + custId + arString() + 
-                "\nPick Up Date: " + formatter.format(pickUpDate) + 
+        return  "\n*************************\nOrder "+ count + "\nCustomer Id: " + custId + arString() + "\nOrder Id: " + id + 
+                "\n\nPick Up Date: " + formatter.format(pickUpDate) + 
                 "\nCollect Method: " + collectMethod + "\nAddress: " + DAddress +"\nStatus= " + status +
-                "\n";
+                "\n*************************\n";
     }
+    
     
     
     

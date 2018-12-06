@@ -11,26 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-
-
-
 /**
  *
  * @author Kuma
  */
 public class CustomerMaintenanceAndPayment{
 
-    
-
     /**
      * @param args the command line arguments
      */
-    public static void CPmain() {
+    public static void CPmain(List<Customer> custList) {
         int choice = 0, choice2 = 0;
-           List<Customer> custList = new ArrayList<>();
-        custList.add(new Customer("Cn0001", "yohku", "Wangsa Maju", "Consumer"));
-        custList.add(new CorporateCust("Cr0002", "kuma", "Wangsa Maju 2", "Corporate", 2000, "Kumasou", "60-5936555"));
+           
         
         do{
             choice = shCMenu();
@@ -46,7 +38,7 @@ public class CustomerMaintenanceAndPayment{
                 else if(choice2==3)
                     viewCust(custList);
             }  
-            else if(choice==3);
+            else if(choice==3)
                editCust(custList);
             
         }while(choice!=4);
@@ -55,12 +47,12 @@ public class CustomerMaintenanceAndPayment{
  
     public static void classify(List<Customer> custList)  
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String name;
         
         
         System.out.print("Enter customer name: ");
-        name = scanner.nextLine();
+        name = scanner.next();
         
         if(verifyCT(name, custList)==1)
             System.out.println(name + " is a corporate customer!");
@@ -85,13 +77,13 @@ public class CustomerMaintenanceAndPayment{
     
     public static void setLimit(List<Customer> custList)
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String name;
         double credit;
         boolean valid = false;
         
         System.out.print("Please enter the corporate customer name: ");
-        name = scanner.nextLine();
+        name = scanner.next();
         
         for(Customer c: custList)
         {
@@ -123,7 +115,7 @@ public class CustomerMaintenanceAndPayment{
     public static int shCMenu()
     {
         int choice=0;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("\nCustomer Maintenance");
         System.out.println("1. Customer Registration");
         System.out.println("2. View Customer");
@@ -145,7 +137,7 @@ public class CustomerMaintenanceAndPayment{
     public static int CViewMenu()
     {
         int choice=0;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("\nCustomer View");
         System.out.println("1. View Consumer Customer");
         System.out.println("2. View Corporate Customer");
@@ -166,7 +158,7 @@ public class CustomerMaintenanceAndPayment{
     public static void addCust(List<Customer> custList)
     {
         int choice = 0;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("\nEnter new customer information:");
         System.out.println("Customer type:\n"
                 + "1.Corporate Customer\n"
@@ -189,15 +181,15 @@ public class CustomerMaintenanceAndPayment{
     
     public static void addCon(List<Customer> custList)
     {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String s = generateCID(custList, 2);
         String name;
         String add;
         System.out.println("\nCustomer ID: " + s);
         System.out.print("Name : ");
-        name = scanner.nextLine();
+        name = scanner.next();
         System.out.print("Address : ");
-        add = scanner.nextLine();
+        add = scanner.next();
         
         custList.add(new Customer(s, name, add, "Consumer"));
         System.out.println("The customer register successfully!\n");
@@ -215,9 +207,9 @@ public class CustomerMaintenanceAndPayment{
         
         System.out.println("\nCustomer ID: " + s);
         System.out.print("Name : ");
-        name = scanner.nextLine();
+        name = scanner.next();
         System.out.print("Address : ");
-        add = scanner.nextLine();
+        add = scanner.next();
         System.out.print("Credit : RM ");
         //credit = scanner.nextDouble();
         
@@ -230,9 +222,9 @@ public class CustomerMaintenanceAndPayment{
         credit = scanner.nextDouble();
         
         System.out.print("Company Name: ");
-        companyName = scanner.nextLine();
+        companyName = scanner.next();
         System.out.print("Contact No: ");
-        contactNo = scanner.nextLine();
+        contactNo = scanner.next();
         
         custList.add(new CorporateCust(s, name, add, "Corporate", credit, companyName, contactNo));
         System.out.println("The customer register successfully!\n");
@@ -258,12 +250,12 @@ public class CustomerMaintenanceAndPayment{
     {
         for(Customer c: custList)
         {
-            if(c.getcType().equals("Corporate"))
+            if(c.getcType().equals("Consumer"))
             System.out.println(c);
         }
         for(Customer c: custList)
         {
-            if(c.getcType().equals("Consumer"))
+            if(c.getcType().equals("Corporate"))
             System.out.println(c);
         } 
     }
@@ -302,7 +294,7 @@ public class CustomerMaintenanceAndPayment{
             {
                 if(c.getcType().equals("Corporate"))
                 {
-                // name, address, credit limit, companyname, contact num
+                // name, address, credit limit, companyname, contact num1
                 choice = CorEMenu();
                 switch(choice)
                 {
@@ -388,7 +380,7 @@ public class CustomerMaintenanceAndPayment{
     public static int CorEMenu()
     {
         int choice=0;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("\nCustomer Modification");
         System.out.println("1. Modify name");
         System.out.println("2. Modify address");
@@ -413,7 +405,7 @@ public class CustomerMaintenanceAndPayment{
     public static int ConEMenu()
     {
         int choice=0;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("\nCustomer Modification");
         System.out.println("1. Modify name");
         System.out.println("2. Modify address");

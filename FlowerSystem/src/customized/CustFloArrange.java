@@ -6,17 +6,19 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 import entity.CustomizedFlower;
+import entity.Flower2;
+import java.util.List;
 
 public class CustFloArrange {
 	private static Scanner scanner = new Scanner(System.in);
 	private static String[] floArangeType = {"Elliptical","Vertical","Horizontal","Triangular","crescent","S' shaped","oval shaped","cascade"},
 			size= {"Big","Medium","Small"},
-			floType= {"Rose","Sunflower"},
+			//floType= {"Rose","Sunflower"},
 			accessory= {"Bear","Card","Chocolate"},
 			priorLevel= {"Express","Normal","Flexi"};
 	private static ArrayList<CustomizedFlower> flowerList = new ArrayList<>();
 	
-	public static void custFloArrange() {
+	public static void custFloArrange(List<Flower2> floType) {
 		int choice;
 		do {
 			System.out.println("Customized Flower Arrangement Menu");
@@ -34,7 +36,7 @@ public class CustFloArrange {
 	        System.out.println("");
 	        switch (choice) {
 			case 1:
-				customizedFlo();
+				customizedFlo(floType);
 				break;
 			case 2:
 				sortCustomizedFlo();
@@ -42,7 +44,7 @@ public class CustFloArrange {
 			default:
 				break;
 			}
-		}while(choice!=6);
+		}while(choice!=3);
 		
 	}
 	
@@ -65,7 +67,7 @@ public class CustFloArrange {
 		}
 	}
 	
-	public static void customizedFlo() {
+	public static void customizedFlo(List<Flower2> floType) {
 		//declaration
 		ArrayList<CustomizedFlower> currentFlowerList = new ArrayList<>();
 		CustomizedFlower flower=new CustomizedFlower();
@@ -89,7 +91,7 @@ public class CustFloArrange {
 				maxAccessory=2;
 			}
 			
-			selectFlower(flower,maxFloType);
+			selectFlower(flower,maxFloType,floType);
 		
 			selectAccessory(flower, maxAccessory);
 			
@@ -122,7 +124,7 @@ public class CustFloArrange {
 		
 		System.out.println("");
 		for(int i=0;i<currentFlowerList.size();i++) {
-			System.out.println("Customized Flower "+(i+1)+"\n"+currentFlowerList.get(i)+"\n");
+			System.out.println("Customized Flower "+(i+1)+"\n"+currentFlowerList.get(i).toString(floType)+"\n");
 		}
 		flowerList.addAll(currentFlowerList);
 		currentFlowerList.clear();
@@ -195,25 +197,25 @@ public class CustFloArrange {
 	}
 
 	//third step of customized flower
-	public static void selectFlower(CustomizedFlower flower, int maxFloType) {
+	public static void selectFlower(CustomizedFlower flower, int maxFloType, List<Flower2> floType) {
 		int selected=0;
 		String respond="";
 		ArrayList<String> buffer = new ArrayList<>();
 		do {
 			selected++;
 			if(selected<=maxFloType) {
-				System.out.println("Third, select the flower type. You can select more "+ (maxFloType-selected+1) +" flower type. "+" [only accept 1-"+floType.length+"]");
-				for(int i=1;i<=floType.length;i++) {
-					System.out.println(i+". "+floType[i-1]);
+				System.out.println("Third, select the flower type. You can select more "+ (maxFloType-selected+1) +" flower type. "+" [only accept number]");
+				for(int i=1;i<=floType.size();i++) {
+					System.out.println(i+". "+floType.get(i-1).getFlowername());
 				}
-				while(!scanner.hasNextInt()||!scanner.hasNext("[1-"+floType.length+"]")) {
+				while(!scanner.hasNextInt()||!scanner.hasNext("[1-9]")) {
 					scanner.next();
-					System.err.println("Invalid input. Please input again (only accept[1-"+floType.length+"])");
+					System.err.println("Invalid input. Please input again (only accept number)");
 				}
 				int choose=scanner.nextInt();
-				for(int i=0;i<floType.length;i++) {
+				for(int i=0;i<floType.size();i++) {
 					if((choose-1)==i) {
-						buffer.add(floType[i]);
+						buffer.add(floType.get(i).getFlowername());
 					}
 				}
 				
