@@ -44,7 +44,7 @@ public class ViewOrderListV3 {
                 viewOrderList(false, orderItem, orderItem2);
             } else if (result == '2') {
                 indicateOrder(orderList, orderItem);
-            } else if(result == '3'){
+            } else if (result == '3') {
             }
         } while (result != 3);
 
@@ -70,9 +70,9 @@ public class ViewOrderListV3 {
             orderItem2.add(new Order("5", 6, todayDate, 22.34));
             orderItem2.add(new Order("6", 6, todayDate, 22.34));
 
-            orderList.add(new OrderList(orderItem2,"Or0001", pickUpDate, "Delivery", "PV13", "Cn0001", "Processing"));//hardcoding order list 1
-            orderList.add(new OrderList(orderItem,"Or0002", pickUpDate, "Self Pickup", "PV14", "Cn0001", "Processing"));//hardcoding order list 1
-            orderList.add(new OrderList(orderItem,"Or0003", pickUpDate, "Self Pickup", "PV14", "Cn0001", "Completed"));//hardcoding order list 1
+            orderList.add(new OrderList(orderItem, "Or0001", pickUpDate, "Delivery", "PV13", "Cn0001", "Processing", null));//hardcoding order list 1
+            orderList.add(new OrderList(orderItem, "Or0002", pickUpDate, "Self Pickup", "PV14", "Cr0001", "Processing", null));//hardcoding order list 1
+            orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Self Pickup", "PV14", "Cr0001", "Completed", null));//hardcoding order list 1
 
             if (!valid) {
                 System.out.println("Displaying order list of the day");
@@ -116,9 +116,9 @@ public class ViewOrderListV3 {
         do {
             System.out.println("Which customer's order do you want to indicate? Please enter ID: ");
             cusId = sc.next();
-          
+
             customerOrder(orderList, orderProcessingList, orderItem, cusId, count, a);
-            
+
             if (orderProcessingList.isEmpty()) {
                 System.out.println("This id is invalid or it does not has processing order");
             }
@@ -147,42 +147,53 @@ public class ViewOrderListV3 {
 //                sc.next();0
             }
         } while ((reply + 1) > orderProcessingList.size());
-        //  for (int i = 0; i < orderList.size(); i++)//find order requested by user
-        // {
-        //if (orderList.get(reply).getOrderList().get(reply)) {
+//          for (int i = 0; i < orderList.size(); i++)//find order requested by user
+//         {
+//        if (orderList.get(reply).getOrderList().get(reply)) {
+
         System.out.println("\n" + orderProcessingList.get(reply).getOrderList());
         System.out.println("\nThe price is RM " + orderProcessingList.get(reply).calcTotalPrice(orderItem) + ".\n");
-        System.out.print("Please enter your payment amount: RM "
-                + ""
-                + "");
-        while (!sc.hasNextInt() && !sc.hasNextDouble()) {
-            sc.next();
-            System.out.println("Please enter number only: ");
-        }
-        pay = sc.nextDouble();
-
-        while (pay < orderProcessingList.get(reply).calcTotalPrice(orderItem)) {
-            System.out.println("Insufficient money, please reenter!");
+        if (orderProcessingList.get(reply).getCustId().substring(0, 2).toLowerCase().equals("cn")) {
+            System.out.print("Please enter your payment amount: RM "
+                    + ""
+                    + "");
             while (!sc.hasNextInt() && !sc.hasNextDouble()) {
                 sc.next();
                 System.out.println("Please enter number only: ");
             }
             pay = sc.nextDouble();
-        }
 
-        change = pay - orderProcessingList.get(reply).calcTotalPrice(orderItem);
+            while (pay < orderProcessingList.get(reply).calcTotalPrice(orderItem)) {
+                System.out.println("Insufficient money, please reenter!");
+                while (!sc.hasNextInt() && !sc.hasNextDouble()) {
+                    sc.next();
+                    System.out.println("Please enter number only: ");
+                }
+                pay = sc.nextDouble();
+            }
 
-        for (OrderList aa : orderList) {
-            if (aa.getId().equals(orderProcessingList.get(reply).getId()))
-            {
-                aa.setStatus("Completed");
-                aa.setPickUpDate(ts);
+            change = pay - orderProcessingList.get(reply).calcTotalPrice(orderItem);
+
+            for (OrderList aa : orderList) {
+                if (aa.getId().equals(orderProcessingList.get(reply).getId())) {
+                    aa.setStatus("Completed");
+                    aa.setCollectDate(ts);
+                }
+            }
+            System.out.println("\nYour change is RM " + change + ". Thank you for coming!\n==============================================");
+        } else {
+            for (OrderList aa : orderList) {
+                if (aa.getId().equals(orderProcessingList.get(reply).getId())) {
+                    aa.setStatus("Completed");
+                    aa.setCollectDate(ts);
+                    System.out.println("Thank you for coming!\n==============================================");
+                }
             }
         }
-        System.out.println("\nYour change is RM " + change + ". Thank you for coming!\n==============================================");
         int b = 0;
         System.out.println(orderList.get(reply).getOrderList());
-        System.out.println(orderList.get(reply).getStatus());
+        System.out.println("Order status= " + orderList.get(reply).getStatus());
+        System.out.println("Collected time= " + orderList.get(reply).getCollectDate());
         //  }
         //  }
 //        indicateOrder(orderList, orderItem);
@@ -191,7 +202,7 @@ public class ViewOrderListV3 {
     public static List customerOrder(List<OrderList> orderList, List<OrderList> orderProcessingList, List<Order> orderItem, String cusId, int count, int a) {
 
         for (OrderList aa : orderList) {
-            if (aa.getCustId().equals(cusId) && aa.getStatus().equals("Processing")) {
+            if (aa.getCustId().toLowerCase().equals(cusId.toLowerCase()) && aa.getStatus().equals("Processing")) {
 
                 //alltotal+=aa.getAllTotal();
                 ++a;
