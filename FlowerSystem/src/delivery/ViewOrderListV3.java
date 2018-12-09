@@ -70,9 +70,9 @@ public class ViewOrderListV3 {
             orderItem2.add(new Order("5", 6, todayDate, 22.34));
             orderItem2.add(new Order("6", 6, todayDate, 22.34));
 
-            orderList.add(new OrderList(orderItem2,"Or0001", pickUpDate, "Delivery", "PV13", "Cn0001", "Processing"));//hardcoding order list 1
-            orderList.add(new OrderList(orderItem,"Or0002", pickUpDate, "Self Pickup", "PV14", "Cn0001", "Processing"));//hardcoding order list 1
-            orderList.add(new OrderList(orderItem,"Or0003", pickUpDate, "Self Pickup", "PV14", "Cn0001", "Completed"));//hardcoding order list 1
+            orderList.add(new OrderList(orderItem2,"Or0001", pickUpDate, "Delivery", "Setapak","PV13", "Cn0001", "Processing"));//hardcoding order list 1
+            orderList.add(new OrderList(orderItem,"Or0002", pickUpDate, "Self Pickup", "Setapak","PV14", "Cn0001", "Processing"));//hardcoding order list 1
+            orderList.add(new OrderList(orderItem,"Or0003", pickUpDate, "Self Pickup", "Setapak","PV14", "Cn0001", "Completed"));//hardcoding order list 1
 
             if (!valid) {
                 System.out.println("Displaying order list of the day");
