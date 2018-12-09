@@ -40,16 +40,15 @@ public class CustomerMaintenanceAndPayment{
             }  
             else if(choice==3)
                editCust(custList);
-            
-        }while(choice!=4);
-        
+            else if(choice==4)
+                IPMenu();
+        }while(choice!=5);
     }
  
     public static void classify(List<Customer> custList)  
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String name;
-        
         
         System.out.print("Enter customer name: ");
         name = scanner.next();
@@ -120,10 +119,11 @@ public class CustomerMaintenanceAndPayment{
         System.out.println("1. Customer Registration");
         System.out.println("2. View Customer");
         System.out.println("3. Edit Customer");
-        System.out.println("4. Exit");
+        System.out.println("4. Invoice Payment");
+        System.out.println("5. Exit");
         System.out.print("Enter your selection: ");
          
-        while(!scanner.hasNext("[1-4]{1}"))
+        while(!scanner.hasNext("[1-5]{1}"))
         {
             System.err.print("Please enter digit");
             System.out.print("Enter your selection: ");
@@ -429,4 +429,8 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
+    public static void IPMenu()
+    {
+        
+    }
 }
