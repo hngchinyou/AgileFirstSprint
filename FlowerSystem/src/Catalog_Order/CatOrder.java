@@ -36,9 +36,9 @@ public class CatOrder {
 
             count = getCustomer(custList, id, count, flower, allOrderPrice, arrOrder, orderList);
 
-        }else if(choice == 2){
-            generateSales(custList, flower,  allOrderPrice,  arrOrder,  orderList);
-            count = 1 ;
+        } else if (choice == 2) {
+            generateSales(custList, flower, allOrderPrice, arrOrder, orderList);
+            count = 1;
         }
         if (count == 0) {
             System.err.println("This person does not exist!");
@@ -289,14 +289,14 @@ public class CatOrder {
 
         Date date1 = new Date();
         boolean valid = true;
-       
+
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
         do {
-             String oid = generateOID(orderList);
+            String oid = generateOID(orderList);
             if (!orderList.isEmpty()) {
                 for (OrderList ol : orderList) {
 
@@ -445,24 +445,66 @@ public class CatOrder {
 
         System.out.print("Enter Customer ID : ");
         custId = sc.next();
-
+        int a = 0;
+        System.out.println("Customer [" + custId + "'s] Order ID");
+        System.out.println("===================================");
         for (OrderList ol : orderList) {
             if (ol.getCustId().equals(custId)) {
+                ++a;
+
+                System.out.print("[" + a + "] ");
                 System.out.println(ol.getId());
+
             }
 
         }
+        System.out.println("===================================");
         System.out.print("Enter Order ID : ");
         orderId = sc.next();
         int count = 0;
         int count2 = 0;
+        double price = 0;
         for (OrderList ol2 : orderList) {
             if (ol2.getId().equals(orderId)) {
+                for (int i = 0; i < ol2.getOrderList().size(); i++) {
+                    count = 0;
+                    if (orderItem.isEmpty()) {
+                        orderItem.add(new Order(ol2.getOrderList().get(i).getOrderNum(),
+                                ol2.getOrderList().get(i).getQuantity(), ol2.getOrderList().get(i).getPrice()));
+                    } else {
+                        for (Order oi : orderItem) {
+                            if (oi.getOrderNum().equals(ol2.getOrderList().get(i).getOrderNum())) {
+                                count2 = oi.getQuantity() + ol2.getOrderList().get(i).getQuantity();
+                                price = oi.calculatePrice() + ol2.getOrderList().get(i).calculatePrice();
+                                oi.setPrice(ol2.getOrderList().get(i).getPrice());
+                                oi.setQuantity(count2);
+                                count = 1;
+
+                            }
+                        }
+                        if (count == 0) {
+                            orderItem.add(new Order(ol2.getOrderList().get(i).getOrderNum(),
+                                    ol2.getOrderList().get(i).getQuantity(), ol2.getOrderList().get(i).getPrice()));
+
+                        }
+
+                    }
+
                 }
-           
+            }
 
         }
+        int b = 0;
+        System.out.println("Sales order for Customer ID [" + custId + "] Order ID [" + orderId + "]");
+        System.out.println("======================================================================");
+        for (Order oi2 : orderItem) {
+            ++b;
+            System.out.print("Item " + b);
 
+            System.out.print(oi2);
+
+        }
+        System.out.println("======================================================================");
     }
 
     private static int getCustomer(List<Customer> custList, String id, int count, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
@@ -508,9 +550,10 @@ public class CatOrder {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Catalogue Order");
         System.out.println("======================");
-        System.out.println("1.Make Order");
-        System.out.println("2.View Order List");
-        System.out.println("3.Generate Sales Order");
+        System.out.println("[1] Make Order");
+        System.out.println("[2] View Order List");
+        System.out.println("[3] Generate Sales Order");
+        System.out.println("[4] Exit");
         System.out.println("======================");
         System.out.print("Enter your choice:");
         choice = scanner.nextInt();
@@ -522,8 +565,8 @@ public class CatOrder {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please Choose the Collect Method ");
         System.out.println("==================================");
-        System.out.println("1. Delivery  ");
-        System.out.println("2. Self Pick Up");
+        System.out.println("[1] Delivery  ");
+        System.out.println("[2] Self Pick Up");
         System.out.println("==================================");
         System.out.print("Enter your choice:");
         choice = scanner.nextInt();
