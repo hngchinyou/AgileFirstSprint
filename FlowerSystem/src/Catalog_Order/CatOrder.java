@@ -68,6 +68,7 @@ public class CatOrder {
         double creditLimit = 1000.0;
         double totalSub = 0;
         double totalPrice = 0;
+        String area = "";
         // double allOrderPrice = 0;
         Date date1 = new Date();
         boolean valid = true;
@@ -206,6 +207,7 @@ public class CatOrder {
                             } catch (Exception ex) {
 
                             }
+
                             int choice = 0;
                             choice = collectMethodMenu();
                             switch (choice) {
@@ -219,7 +221,30 @@ public class CatOrder {
                                     address = " ";
                                     break;
                             }
-
+                            int areaChoice = 0;
+                            areaChoice = areaMenu();
+                            switch (areaChoice) {
+                                case 1:
+                                    area = "Setapak";
+                                    System.out.print("Enter Delivery Address:");
+                                    address = scanner.next();
+                                    break;
+                                case 2:
+                                    area = "Gombak";
+                                    System.out.print("Enter Delivery Address:");
+                                    address = scanner.next();
+                                    break;
+                                case 3:
+                                    area = "Cheras";
+                                    System.out.print("Enter Delivery Address:");
+                                    address = scanner.next();
+                                    break;
+                                case 4:
+                                    area = "Subang";
+                                    System.out.print("Enter Delivery Address:");
+                                    address = scanner.next();
+                                    break;
+                            }
                         }
 //            for(OrderList o : orderList){
 //                if(o.calcTotalPrice() > creditLimit){
@@ -228,7 +253,7 @@ public class CatOrder {
 //                }
 //            }        
                         if (valid) {
-                            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, address, id, "Processing"));
+                            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
 
                             // arrOrder.clear();
                             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -286,7 +311,7 @@ public class CatOrder {
         double creditLimit = 1000.0;
         double totalSub = 0;
         double totalPrice = 0;
-
+        String area = "";
         Date date1 = new Date();
         boolean valid = true;
 
@@ -382,20 +407,42 @@ public class CatOrder {
                 } catch (Exception ex) {
 
                 }
+
                 int choice = 0;
                 choice = collectMethodMenu();
                 switch (choice) {
                     case 1:
                         collectMethod = "Delivery";
-                        System.out.print("Enter Delivery Address:");
-                        address = scanner.next();
                         break;
                     case 2:
                         collectMethod = "Self Pick Up";
                         address = " ";
                         break;
                 }
-
+                int areaChoice = 0;
+                areaChoice = areaMenu();
+                switch (areaChoice) {
+                    case 1:
+                        area = "Setapak";
+                        System.out.print("Enter Delivery Address:");
+                        address = scanner.next();
+                        break;
+                    case 2:
+                        area = "Gombak";
+                        System.out.print("Enter Delivery Address:");
+                        address = scanner.next();
+                        break;
+                    case 3:
+                        area = "Cheras";
+                        System.out.print("Enter Delivery Address:");
+                        address = scanner.next();
+                        break;
+                    case 4:
+                        area = "Subang";
+                        System.out.print("Enter Delivery Address:");
+                        address = scanner.next();
+                        break;
+                }
             }
 //            for(OrderList o : orderList){
 //                if(o.calcTotalPrice() > creditLimit){
@@ -403,7 +450,7 @@ public class CatOrder {
 //                    System.err.println("Please Try Again~!");
 //                }
 //            }
-            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, address, id, "Processing"));
+            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
 
             // arrOrder.clear();
             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -551,9 +598,8 @@ public class CatOrder {
         System.out.println("Catalogue Order");
         System.out.println("======================");
         System.out.println("[1] Make Order");
-        System.out.println("[2] View Order List");
-        System.out.println("[3] Generate Sales Order");
-        System.out.println("[4] Exit");
+        System.out.println("[2] Generate Sales Order");
+        System.out.println("[3] Exit");
         System.out.println("======================");
         System.out.print("Enter your choice:");
         choice = scanner.nextInt();
@@ -567,6 +613,22 @@ public class CatOrder {
         System.out.println("==================================");
         System.out.println("[1] Delivery  ");
         System.out.println("[2] Self Pick Up");
+        System.out.println("==================================");
+        System.out.print("Enter your choice:");
+        choice = scanner.nextInt();
+        return choice;
+
+    }
+
+    public static int areaMenu() {
+        int choice = 0;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please Choose the Address Area ");
+        System.out.println("==================================");
+        System.out.println("[1] Setapak  ");
+        System.out.println("[2] Gombak");
+        System.out.println("[3] Cheras");
+        System.out.println("[4] Subang");
         System.out.println("==================================");
         System.out.print("Enter your choice:");
         choice = scanner.nextInt();
