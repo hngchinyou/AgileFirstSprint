@@ -251,12 +251,18 @@ public class CustomerMaintenanceAndPayment{
         for(Customer c: custList)
         {
             if(c.getcType().equals("Consumer"))
-            System.out.println(c);
+            {
+                System.out.print("Consumer List\n=============");
+                System.out.println(c);
+            }
         }
         for(Customer c: custList)
         {
             if(c.getcType().equals("Corporate"))
-            System.out.println(c);
+            {
+                System.out.print("\nCorporate List\n==============");
+                System.out.println(c);
+            }
         } 
     }
     
@@ -409,7 +415,7 @@ public class CustomerMaintenanceAndPayment{
         System.out.println("\nCustomer Modification");
         System.out.println("1. Modify name");
         System.out.println("2. Modify address");
-        System.out.println("3. Modify corporate customer informations");
+        System.out.println("3. Modify consumer customer informations");
         System.out.println("4. Exit");
         System.out.print("Enter your selection: ");
          
