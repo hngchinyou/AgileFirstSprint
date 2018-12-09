@@ -28,7 +28,7 @@ public class Main {
         // TODO Auto-generated method stub
         // catalog order initial array 
         double allOrderPrice = 0;
-          List<Order> arrOrder = new ArrayList<>();
+        List<Order> arrOrder = new ArrayList<>();
         List<OrderList> orderList = new ArrayList<>();
         // customer maintenance initial array
         List<Customer> custList = new ArrayList<>();

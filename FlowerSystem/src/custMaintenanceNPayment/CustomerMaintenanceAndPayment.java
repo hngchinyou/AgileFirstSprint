@@ -7,6 +7,8 @@ package custMaintenanceNPayment;
 
 import entity.CorporateCust;
 import entity.Customer;
+import entity.Order;
+import entity.OrderList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,7 +22,7 @@ public class CustomerMaintenanceAndPayment{
     /**
      * @param args the command line arguments
      */
-    public static void CPmain(List<Customer> custList) {
+    public static void CPmain(List<Customer> custList, List<Order> arrOrder, List<OrderList> orderList) {
         int choice = 0, choice2 = 0;
            
         
