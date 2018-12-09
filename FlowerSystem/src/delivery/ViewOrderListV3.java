@@ -105,12 +105,12 @@ public class ViewOrderListV3 {
         orderItem2.add(new Order("5", 6, todayDate, 22.34));
         orderItem2.add(new Order("6", 6, todayDate, 22.34));
 
-        orderList.add(new OrderList(orderItem, "Or0001", todayDate, "Delivery", "setapak", "Cn0001", "Processing", null));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0002", todayDate, "Delivery", "setapak", "Cr0001", "Processing", null));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Delivery", "cheras", "Cr0001", "Processing", null));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Cr0001", "Processing", null));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Delivery", "subang", "Cr0001", "Processing", null));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Cr0001", "Processing", null));//hardcoding order list 1
+        orderList.add(new OrderList(orderItem, "Or0001", todayDate, "Delivery", "setapak", "Pv13", "Cn0001", "Processing"));//hardcoding order list 1
+        orderList.add(new OrderList(orderItem, "Or0002", todayDate, "Delivery", "setapak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+        orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Delivery", "cheras", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+        orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Delivery", "subang", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
     }
 
     public static void indicateOrder(List<OrderList> orderList, List<Order> orderItem) {
