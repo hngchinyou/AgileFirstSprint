@@ -245,7 +245,7 @@ public class CatOrder {
                                     address = scanner.next();
                                     break;
                             }
-                        }
+                        } 
 //            for(OrderList o : orderList){
 //                if(o.calcTotalPrice() > creditLimit){
 //                    System.err.println("You already over your limit. you cannot continue order!");
