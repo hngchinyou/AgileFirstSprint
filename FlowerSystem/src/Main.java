@@ -10,6 +10,8 @@ import catalogueMaintanance.CatalogueAdd;
 import entity.CorporateCust;
 import entity.Customer;
 import entity.Flower2;
+import entity.Order;
+import entity.OrderList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class Main {
         // TODO Auto-generated method stub
         // catalog order initial array 
         double allOrderPrice = 0;
+          List<Order> arrOrder = new ArrayList<>();
+        List<OrderList> orderList = new ArrayList<>();
         // customer maintenance initial array
         List<Customer> custList = new ArrayList<>();
         custList.add(new Customer("Cn0001", "yohku", "Wangsa Maju", "Consumer"));
@@ -33,12 +37,13 @@ public class Main {
         // flower maintenance
         List<Flower2> flower = new ArrayList<>();
         flower.add(new Flower2("B1111", "Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
-        flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 12.20, 2));
-        flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 12.20, 2));
-        flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 12.20, 2));
-        flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 12.20, 5));
+        flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet",13.0, 2));
+        flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
+        flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
+        flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
         int choice;
 
+        
         Scanner scanner = new Scanner(System.in);
         do {
             System.out.println("Menu");
@@ -60,7 +65,7 @@ public class Main {
                     CustomerMaintenanceAndPayment.CPmain(custList);
                     break;
                 case 3:
-                    CatOrder.COmain(custList, flower,allOrderPrice);
+                    CatOrder.COmain(custList, flower,allOrderPrice,arrOrder,orderList);
                     break;
                 case 4:
                     ViewOrderListV3.Deliverymain();

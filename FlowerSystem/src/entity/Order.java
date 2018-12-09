@@ -23,6 +23,11 @@ public class Order {
         super();
     }
 
+    public Order(String orderNum, int quantity) {
+        this.orderNum = orderNum;
+        this.quantity = quantity;
+    }
+
 
 
     public Order(String orderNum, int quantity, Date date,double price) {

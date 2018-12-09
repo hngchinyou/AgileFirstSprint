@@ -25,7 +25,7 @@ public class CatOrder {
     /**
      * @param args the command line arguments
      */
-    public static void COmain(List<Customer> custList, List<Flower2> flower, double allOrderPrice) {
+    public static void COmain(List<Customer> custList, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         int choice;
         int count = 0;
@@ -34,33 +34,11 @@ public class CatOrder {
             System.out.print("Enter Customer Id: ");
             String id = scanner.next();
 
-            for (Customer c : custList) {
-                if (id.equals(c.getId())) {
-                    if (c.getcType().equals("Corporate")) {
-                        int j = 0;
-                        for (Flower2 f : flower) {
-                            System.out.println("================");
-                            System.out.print("Flower " + (++j) + "\n" + f.getFlowername() + "\nRM ");
-                            System.out.println(String.format("%.2f", f.getPrice()));
-                            System.out.println("================");
-                        }
-                        count = 1;
-                        catalogueOrder(custList, flower, id, allOrderPrice);
-                    } else if (c.getcType().equals("Consumer")) {
-                        int j = 0;
-                        for (Flower2 f : flower) {
-                            System.out.println("================");
-                            System.out.print("Flower " + (++j) + "\n" + f.getFlowername() + "\nRM ");
-                            System.out.println(String.format("%.2f", f.getPrice()));
-                            System.out.println("================");
-                        }
-                        count = 1;
-                        consOrder(custList, flower, id);
-                    }
-                }
+            count = getCustomer(custList, id, count, flower, allOrderPrice, arrOrder, orderList);
 
-            }
-
+        }else if(choice == 2){
+            generateSales(custList, flower,  allOrderPrice,  arrOrder,  orderList);
+            count = 1 ;
         }
         if (count == 0) {
             System.err.println("This person does not exist!");
@@ -68,7 +46,7 @@ public class CatOrder {
 
     }
 
-    public static void catalogueOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice) {
+    public static void catalogueOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         // respond
@@ -77,8 +55,6 @@ public class CatOrder {
         String remakeRes = "";
         String remakeRes1 = "";
         //Array Declaration    
-        List<Order> arrOrder = new ArrayList<>();
-        List<OrderList> orderList = new ArrayList<>();
 
         //Variable Declaration
         int quantity = 0;
@@ -95,7 +71,7 @@ public class CatOrder {
         // double allOrderPrice = 0;
         Date date1 = new Date();
         boolean valid = true;
-         String oid = generateOID(orderList);
+        String oid = generateOID(orderList);
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
@@ -252,7 +228,7 @@ public class CatOrder {
 //                }
 //            }        
                         if (valid) {
-                            orderList.add(new OrderList(arrOrder,oid, pDate, collectMethod, address, id, "Processing"));
+                            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, address, id, "Processing"));
 
                             // arrOrder.clear();
                             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -288,7 +264,7 @@ public class CatOrder {
         }
     }
 
-    public static void consOrder(List<Customer> custList, List<Flower2> flower, String id) {
+    public static void consOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         // respond
@@ -297,8 +273,6 @@ public class CatOrder {
         String remakeRes = "";
         String remakeRes1 = "";
         //Array Declaration    
-        List<Order> arrOrder = new ArrayList<>();
-        List<OrderList> orderList = new ArrayList<>();
 
         //Variable Declaration
         int quantity = 0;
@@ -312,16 +286,17 @@ public class CatOrder {
         double creditLimit = 1000.0;
         double totalSub = 0;
         double totalPrice = 0;
-        double allOrderPrice = 0;
+
         Date date1 = new Date();
         boolean valid = true;
-        String oid = generateOID(orderList);
+       
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
         do {
+             String oid = generateOID(orderList);
             if (!orderList.isEmpty()) {
                 for (OrderList ol : orderList) {
 
@@ -428,7 +403,7 @@ public class CatOrder {
 //                    System.err.println("Please Try Again~!");
 //                }
 //            }
-            orderList.add(new OrderList(arrOrder,oid, pDate, collectMethod, address, id, "Processing"));
+            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, address, id, "Processing"));
 
             // arrOrder.clear();
             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -447,15 +422,76 @@ public class CatOrder {
         for (OrderList aa : orderList) {
             for (Customer c : custList) {
                 if (id.equals(c.getId())) {
+
                     //alltotal+=aa.getAllTotal();
                     ++a;
                     System.out.print(aa.toString(a));
+
                 }
             }
             //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
         }
         System.out.print("\nTotal Price: RM ");
         System.out.println(totalPrice);
+
+    }
+
+    public static void generateSales(List<Customer> custList, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
+        Scanner sc = new Scanner(System.in).useDelimiter("\n");
+
+        String custId = "";
+        String orderId = "";
+        List<Order> orderItem = new ArrayList<>();
+
+        System.out.print("Enter Customer ID : ");
+        custId = sc.next();
+
+        for (OrderList ol : orderList) {
+            if (ol.getCustId().equals(custId)) {
+                System.out.println(ol.getId());
+            }
+
+        }
+        System.out.print("Enter Order ID : ");
+        orderId = sc.next();
+        int count = 0;
+        int count2 = 0;
+        for (OrderList ol2 : orderList) {
+            if (ol2.getId().equals(orderId)) {
+                }
+           
+
+        }
+
+    }
+
+    private static int getCustomer(List<Customer> custList, String id, int count, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
+        for (Customer c : custList) {
+            if (id.equals(c.getId())) {
+                if (c.getcType().equals("Corporate")) {
+                    count = Catalog(flower);
+                    catalogueOrder(custList, flower, id, allOrderPrice, arrOrder, orderList);
+                } else if (c.getcType().equals("Consumer")) {
+                    count = Catalog(flower);
+                    consOrder(custList, flower, id, allOrderPrice, arrOrder, orderList);
+                }
+            }
+
+        }
+        return count;
+    }
+
+    private static int Catalog(List<Flower2> flower) {
+        int count;
+        int j = 0;
+        for (Flower2 f : flower) {
+            System.out.println("================");
+            System.out.print("Flower " + (++j) + "\n" + f.getFlowername() + "\nRM ");
+            System.out.println(String.format("%.2f", f.getPrice()));
+            System.out.println("================");
+        }
+        count = 1;
+        return count;
     }
 
     public static String generateOID(List<OrderList> orderLists) {
@@ -463,8 +499,8 @@ public class CatOrder {
         for (OrderList id : orderLists) {
             count++;
         }
-            return String.format("Or%04d", ++count);
-        
+        return String.format("Or%04d", ++count);
+
     }
 
     public static int catalogueMenu() {
