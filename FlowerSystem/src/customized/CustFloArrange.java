@@ -20,6 +20,7 @@ public class CustFloArrange {
 	
 	public static void custFloArrange(List<Flower2> floType) {
 		int choice;
+		
 		do {
 			System.out.println("Customized Flower Arrangement Menu");
 	        System.out.println("==============================================");
