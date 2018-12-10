@@ -19,10 +19,10 @@ public class CustFloArrange {
 			size= {"Big","Medium","Small"},
 			accessory= {"Bear","Card","Chocolate"},
 			priorLevel= {"Express","Normal","Flexi"};
-	private static ArrayList<CustomizedFlower> flowerList = new ArrayList<>();
+	
 	
 	//customized flower menu
-	public static void custFloArrange(List<Customer> custList,List<Flower2> floType) {
+	public static void custFloArrange(List<Customer> custList,List<Flower2> floType,ArrayList<CustomizedFlower> flowerList) {
 		int choice;
 		
 		do {
@@ -42,13 +42,13 @@ public class CustFloArrange {
 	        System.out.println("");
 	        switch (choice) {
 			case 1:
-				customizedFlo(custList, floType);
+				customizedFlo(custList, floType,flowerList);
 				break;
 			case 2:
-				sortCustomizedFlo(floType);
+				sortCustomizedFlo(floType,flowerList);
 				break;
 			case 3:
-				itemizedBill(custList, floType);
+				itemizedBill(custList, floType,flowerList);
 			default:
 				break;
 			}
@@ -57,7 +57,7 @@ public class CustFloArrange {
 	}
 	
 	//display job queue (sorted)
-	public static void sortCustomizedFlo(List<Flower2> floType) {
+	public static void sortCustomizedFlo(List<Flower2> floType,ArrayList<CustomizedFlower> flowerList) {
 		if(!flowerList.isEmpty()) {
 			Collections.sort(flowerList, new Comparator<CustomizedFlower>() {
 
@@ -68,6 +68,7 @@ public class CustFloArrange {
 				}
 			});
 			for(int i=0;i<flowerList.size();i++) {
+                            if(flowerList.get(i).getStatus().equals("Processing"))
 				System.out.println("Customized Flower "+(i+1)+"\n"+flowerList.get(i).toString(floType)+"\n");
 			}
 		}
@@ -77,7 +78,7 @@ public class CustFloArrange {
 	}
 	
 	//itemized bill and calculate charge
-	public static void itemizedBill(List<Customer> custList,List<Flower2> floType) {
+	public static void itemizedBill(List<Customer> custList,List<Flower2> floType,ArrayList<CustomizedFlower> flowerList) {
 		String custId="";
 		
 		while(custId.equals("")) {
@@ -106,7 +107,7 @@ public class CustFloArrange {
 	}
 	
 	//customized flower
-	public static void customizedFlo(List<Customer> custList ,List<Flower2> floType) {
+	public static void customizedFlo(List<Customer> custList ,List<Flower2> floType,ArrayList<CustomizedFlower> flowerList) {
 		//declaration
 		ArrayList<CustomizedFlower> currentFlowerList = new ArrayList<>();
 		CustomizedFlower flower=new CustomizedFlower();

@@ -117,6 +117,54 @@ public class CustomizedFlower {
 		
 		return result;
 	}
+        
+        public double getTotalPrice(List<Flower2> floType){
+            double total = 0;
+            double totalFloType = 0;
+            double totalAccessory = 0;
+
+            int sizeFloType[] = new int[floType.size()];
+            int i = 0;
+            for (Flower2 f : floType) {
+                for (String ftName : this.floType) {
+                    if (ftName.equalsIgnoreCase(f.getFlowername())) {
+                        sizeFloType[i]++;
+                    }
+                }
+                i++;
+            }
+            i = 0;
+            for (int sft : sizeFloType) {
+                if (sft != 0) {
+                    totalFloType += floType.get(i).getPrice() * sft;
+                }
+                i++;
+            }
+
+            int a1 = 0, a2 = 0, a3 = 0;
+            for (String a : accessory) {
+                if (a.equals("Bear")) {
+                    a1++;
+                } else if (a.equals("Card")) {
+                    a2++;
+                } else {
+                    a3++;
+                }
+            }
+            if (a1 != 0) {
+                totalAccessory += 8.50 * a1;
+            }
+            if (a2 != 0) {
+                totalAccessory += 3.00 * a2;
+            }
+            if (a3 != 0) {
+                totalAccessory += 7.00 * a3;
+            }
+
+            total += 10 + calculateSize() + totalFloType + totalAccessory + calculatePriority();
+
+            return total;
+        }
 	
 	public String toString(List<Flower2> floType) {
 		String result="";
