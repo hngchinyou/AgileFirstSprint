@@ -437,11 +437,11 @@ public class CustomerMaintenanceAndPayment{
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("Invoice Payment Menu");
         System.out.println("1. Invoice Payment");
-        System.out.println("2. Invoice history");
-        System.out.println("3. Exit");
+        //System.out.println("2. Invoice history");
+        System.out.println("2. Exit");
         System.out.print("Enter your selection: ");
         
-        while(!scanner.hasNext("[1-3]{1}"))
+        while(!scanner.hasNext("[1-2]{1}"))
         {
             System.err.print("Please enter digit");
             System.out.print("Enter your selection: ");
@@ -526,9 +526,5 @@ public class CustomerMaintenanceAndPayment{
                 }
             }//after customer for each loop
         }//after choice == 1
-        else if(choice == 2)
-        {
-            
-        }
     }
 }

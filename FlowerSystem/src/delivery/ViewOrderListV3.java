@@ -41,25 +41,28 @@ public class ViewOrderListV3 {
 
         List<Order> orderItem = new ArrayList<>();
         List<Order> orderItem2 = new ArrayList<>();
-        List<OrderList> orderList = viewOrderList(true, orderItem, orderItem2);
+        List<OrderList> orderList1 = viewOrderList(true, orderList);
 
         do {
-            System.out.println("Please select your option\n1) View Order of today\n2) Indicate specific order\n3) View route");
+            System.out.println("Please select your option"
+                    + "\n1) View Order of today"
+                    + "\n2) Indicate specific order"
+                    + "\n3) View route"
+                    + "\n4) Exit");
             result = sc.next().charAt(0);
             if (result == '1') {
                 viewOrderList(false, orderList);
             } else if (result == '2') {
-                indicateOrder(orderList, orderItem);
+                indicateOrder(orderList);
             } else if (result == '3') {
-                sortRoute(orderList,orderItem);
+                sortRoute(orderList);
             }
-        } while (result != 4);
-
+        } while (result != '4');
     }
 
-    public static List<OrderList> viewOrderList(boolean valid, List<OrderList> orderList ){
+    public static List<OrderList> viewOrderList(boolean valid, List<OrderList> orderList) {
 
-       // List<OrderList> orderList = new ArrayList<>();
+        // List<OrderList> orderList = new ArrayList<>();
         try {
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -70,8 +73,7 @@ public class ViewOrderListV3 {
 
             todayDate = sdf.parse(sdf.format(new Date()));
 
-            addOrder(orderItem, todayDate, orderItem2, orderList, pickUpDate);
-
+            //    addOrder(orderItem, todayDate, orderItem2, orderList, pickUpDate);
             if (!valid) {
                 System.out.println("Displaying order list of the day");
 
@@ -98,22 +100,22 @@ public class ViewOrderListV3 {
     }//end of retrieving
 
     private static void addOrder(List<Order> orderItem, Date todayDate, List<Order> orderItem2, List<OrderList> orderList, Date pickUpDate) {
-        orderItem.add(new Order("1", 3, todayDate, 12.34));
-        orderItem.add(new Order("2", 1, todayDate, 54.32));
-        orderItem.add(new Order("3", 6, todayDate, 22.34));
-        orderItem2.add(new Order("4", 6, todayDate, 22.34));
-        orderItem2.add(new Order("5", 6, todayDate, 22.34));
-        orderItem2.add(new Order("6", 6, todayDate, 22.34));
-
-        orderList.add(new OrderList(orderItem, "Or0001", todayDate, "Delivery", "setapak", "Pv13", "Cn0001", "Processing"));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0002", todayDate, "Delivery", "setapak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Delivery", "cheras", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Delivery", "subang", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
-        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+//        orderItem.add(new Order("1", 3, todayDate, 12.34));
+//        orderItem.add(new Order("2", 1, todayDate, 54.32));
+//        orderItem.add(new Order("3", 6, todayDate, 22.34));
+//        orderItem2.add(new Order("4", 6, todayDate, 22.34));
+//        orderItem2.add(new Order("5", 6, todayDate, 22.34));
+//        orderItem2.add(new Order("6", 6, todayDate, 22.34));
+//
+//        orderList.add(new OrderList(orderItem, "Or0001", todayDate, "Delivery", "setapak", "Pv13", "Cn0001", "Processing"));//hardcoding order list 1
+//        orderList.add(new OrderList(orderItem, "Or0002", todayDate, "Delivery", "setapak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+//        orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Delivery", "cheras", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+//        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+//        orderList.add(new OrderList(orderItem, "Or0003", pickUpDate, "Delivery", "subang", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
+//        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
     }
 
-    public static void indicateOrder(List<OrderList> orderList, List<Order> orderItem) {
+    public static void indicateOrder(List<OrderList> orderList) {
         Date date = new Date();
         long time = date.getTime();
         List<OrderList> orderProcessingList = new ArrayList<>();
@@ -128,11 +130,11 @@ public class ViewOrderListV3 {
         Timestamp ts = new Timestamp(time);
         int a = 0;
         do {
-          
+
             System.out.println("Which customer's order do you want to indicate? Please enter ID: ");
             cusId = sc.next();
 
-            customerOrder(orderList, orderProcessingList, orderItem, cusId, count, a);
+            customerOrder(orderList, orderProcessingList, cusId, count, a);
 
             if (orderProcessingList.isEmpty()) {
                 System.out.println("This id is invalid or it does not has processing order");
@@ -167,7 +169,7 @@ public class ViewOrderListV3 {
 //        if (orderList.get(reply).getOrderList().get(reply)) {
 
         System.out.println("\n" + orderProcessingList.get(reply).getOrderList());
-        System.out.println("\nThe price is RM " + orderProcessingList.get(reply).calcTotalPrice(orderItem) + ".\n");
+        System.out.println("\nThe price is RM " + orderProcessingList.get(reply).calcTotalPrice(orderProcessingList.get(reply).getOrderList()) + ".\n");
         if (orderProcessingList.get(reply).getCustId().substring(0, 2).toLowerCase().equals("cn")) {
             System.out.print("Please enter your payment amount: RM "
                     + ""
@@ -178,7 +180,7 @@ public class ViewOrderListV3 {
             }
             pay = sc.nextDouble();
 
-            while (pay < orderProcessingList.get(reply).calcTotalPrice(orderItem)) {
+            while (pay < orderProcessingList.get(reply).calcTotalPrice(orderProcessingList.get(reply).getOrderList())) {
                 System.out.println("Insufficient money, please reenter!");
                 while (!sc.hasNextInt() && !sc.hasNextDouble()) {
                     sc.next();
@@ -187,7 +189,7 @@ public class ViewOrderListV3 {
                 pay = sc.nextDouble();
             }
 
-            change = pay - orderProcessingList.get(reply).calcTotalPrice(orderItem);
+            change = pay - orderProcessingList.get(reply).calcTotalPrice(orderProcessingList.get(reply).getOrderList());
 
             for (OrderList aa : orderList) {
                 if (aa.getId().equals(orderProcessingList.get(reply).getId())) {
@@ -212,7 +214,7 @@ public class ViewOrderListV3 {
         //  }
         //  }
 //        indicateOrder(orderList, orderItem);
-        
+
     }//end of indicating
 
     public static List customerOrder(List<OrderList> orderList, List<OrderList> orderProcessingList, String cusId, int count, int a) {
@@ -231,148 +233,175 @@ public class ViewOrderListV3 {
         return orderProcessingList;
     }
 
-    public static void sortRoute(List<OrderList> orderList,List<Order> orderItem) {
-        int vertices = 4;
-        Graph graph = new Graph(vertices);
-        int setapak = 0, cheras = 0, gombak = 0, subang = 0;
-        int sc = 0, sg = 0;
-        int cs = 0, cg = 0;
-        int gs = 0, gc = 0;
-        String input;
-        Queue routeQueue = new ArrayBlockingQueue<>(100);
-        Date date = new Date();
+    public static void sortRoute(List<OrderList> orderList) {
+        try {
+            int vertices = 4;
+            Graph graph = new Graph(vertices);
+            int setapak = 0, cheras = 0, gombak = 0, subang = 0;
+            int sc = 0, sg = 0;
+            int cs = 0, cg = 0;
+            int gs = 0, gc = 0;
+            String input;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Queue routeQueue = new ArrayBlockingQueue<>(100);
+            Date date = new Date();
+            date = sdf.parse(sdf.format(new Date()));
+            for (OrderList ol : orderList) {
+               
+                if (ol.getArea().toLowerCase().equals("setapak")
+                        && ol.getStatus().equals("Processing") && ol.getCollectMethod().equals("Delivery")
+                        && ol.getPickUpDate().compareTo(date) == 0) {
+                    setapak++;
 
-        for (OrderList ol : orderList) {
-            if (ol.getDAddress().toLowerCase().equals("setapak") && 
-                    ol.getStatus().equals("Processing") && ol.getCollectMethod().equals("Delivery") 
-                    && !ol.getCustId().substring(0, 2).toLowerCase().equals("cr")&&ol.getPickUpDate().equals(date)) {
-                setapak++;
-                
-            } else if (ol.getDAddress().toLowerCase().equals("gombak") && ol.getStatus().equals("Processing")
-                    && ol.getCollectMethod().equals("Delivery")
-                    && !ol.getCustId().substring(0, 2).toLowerCase().equals("cr")&&ol.getPickUpDate().equals(date)) {
-                gombak++;
-                
-            } else if (ol.getDAddress().toLowerCase().equals("cheras") && ol.getStatus().equals("Processing")
-                    && ol.getCollectMethod().equals("Delivery")
-                    && !ol.getCustId().substring(0, 2).toLowerCase().equals("cr")&&ol.getPickUpDate().equals(date)) {
-                cheras++;
-                
-            } else if (ol.getDAddress().toLowerCase().equals("subang") && ol.getStatus().equals("Processing")
-                    && ol.getCollectMethod().equals("Delivery")
-                    && !ol.getCustId().substring(0, 2).toLowerCase().equals("cr")&&ol.getPickUpDate().equals(date)) {
-                subang++;
-                
+                } else if (ol.getArea().toLowerCase().equals("gombak") && ol.getStatus().equals("Processing")
+                        && ol.getCollectMethod().equals("Delivery")
+                        && ol.getPickUpDate().compareTo(date) == 0) {
+                    gombak++;
+
+                } else if (ol.getArea().toLowerCase().equals("cheras") && ol.getStatus().equals("Processing")
+                        && ol.getCollectMethod().equals("Delivery")
+                        && ol.getPickUpDate().compareTo(date) == 0) {
+                    cheras++;
+
+                } else if (ol.getArea().toLowerCase().equals("subang") && ol.getStatus().equals("Processing")
+                        && ol.getCollectMethod().equals("Delivery")
+                        && ol.getPickUpDate().compareTo(date) == 0) {
+                    subang++;
+
+                }
             }
-        }
 //        setapakRoute(setapak, routeQueue, cheras, graph, gombak, subang);
 //        gombakRoute(gombak, routeQueue, cheras, graph, subang, setapak);
 //        cherasRoute(cheras, routeQueue, subang, graph, setapak, gombak);
 //        subangRoute(subang, routeQueue, setapak, graph, cheras, gombak);
-
-        System.out.print("There are \n");
-        if(setapak !=0 || gombak != 0 || cheras != 0 || subang != 0)
-        {
-        if(setapak!=0)
-        System.out.print(setapak + " order(s) from Setapak \n");
-        if(gombak!=0)
-        System.out.print(gombak + " order(s) from Gombak \n");
-        if(cheras!=0)
-        System.out.print(cheras + " order(s) from Cheras \n");
-        if(subang!=0)
-        System.out.print(subang + " order(s) from Subang\n");
-        }
-        else
-        {
-            System.out.print("no order today\n");
-        }
-        if (setapak != 0) {
-            getSetapakOrder(orderList,orderItem);
-        }
-        if (cheras != 0) {
-            getCherasOrder(orderList,orderItem);
-            if (gombak != 0) {
-                getGombakOrder(orderList,orderItem);
+        
+            System.out.print("There are \n");
+            if (setapak != 0 || gombak != 0 || cheras != 0 || subang != 0) {
+                if (setapak != 0) {
+                    System.out.print(setapak + " order(s) from Setapak \n");
+                }
+                if (gombak != 0) {
+                    System.out.print(gombak + " order(s) from Gombak \n");
+                }
+                if (cheras != 0) {
+                    System.out.print(cheras + " order(s) from Cheras \n");
+                }
                 if (subang != 0) {
-                    getSubangOrder(orderList,orderItem);
+                    System.out.print(subang + " order(s) from Subang\n");
                 }
             } else {
-                getSubangOrder(orderList,orderItem);
+                System.out.print("no order today\n");
             }
-        } else if (gombak != 0) {
-            getGombakOrder(orderList,orderItem);
-            if (subang != 0) {
-                getSubangOrder(orderList,orderItem);
+            if (setapak != 0) {
+                getSetapakOrder(orderList);
             }
-        } else if (subang != 0) {
-            getSubangOrder(orderList,orderItem);
+            if (cheras != 0) {
+                getCherasOrder(orderList);
+                if (gombak != 0) {
+                    getGombakOrder(orderList);
+                    if (subang != 0) {
+                        getSubangOrder(orderList);
+                    }
+                } else {
+                    getSubangOrder(orderList);
+                }
+            } else if (gombak != 0) {
+                getGombakOrder(orderList);
+                if (subang != 0) {
+                    getSubangOrder(orderList);
+                }
+            } else if (subang != 0) {
+                getSubangOrder(orderList);
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewOrderListV3.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    private static void getSetapakOrder(List<OrderList> orderList,List<Order> orderItem) {
-        
-        Date date = new Date();
+    private static void getSetapakOrder(List<OrderList> orderList) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = new Date();
+            date = sdf.parse(sdf.format(new Date()));
             System.out.println("======================\nSetapak");
-        for (OrderList ol : orderList) {
-            if (ol.getDAddress().toLowerCase().equals("setapak") && ol.getStatus().equals("Processing") 
-                    && ol.getCollectMethod().equals("Delivery")&&
-                    !ol.getCustId().substring(0, 2).toLowerCase().equals("cr") &&ol.getPickUpDate().equals(date)) {
-                
-                System.out.println(ol.getCustId());
-                System.out.println(ol.getPickUpDate());
-                System.out.println(ol.calcTotalPrice(orderItem));
+            for (OrderList ol : orderList) {
+                if (ol.getArea().toLowerCase().equals("setapak") && ol.getStatus().equals("Processing")
+                        && ol.getCollectMethod().equals("Delivery") && ol.getPickUpDate().compareTo(date)==0) {
+                    
+                    System.out.println(ol.getCustId());
+                    System.out.println(ol.getPickUpDate());
+                    System.out.println(ol.calcTotalPrice(ol.getOrderList()));
+                }
             }
+            System.out.println("======================\n");
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewOrderListV3.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("======================\n");
     }
 
-    private static void getGombakOrder(List<OrderList> orderList,List<Order> orderItem) {
-        Date date = new Date();
-        System.out.println("======================\nGombak");
-        for (OrderList ol : orderList) {
-            if (ol.getDAddress().toLowerCase().equals("gombak") && ol.getStatus().equals("Processing") 
-                    && ol.getCollectMethod().equals("Delivery")&&
-                    !ol.getCustId().substring(0, 2).toLowerCase().equals("cr")&&ol.getPickUpDate().equals(date)) {
-                
-                System.out.println(ol.getCustId());
-                System.out.println(ol.getPickUpDate());
-                System.out.println(ol.calcTotalPrice(orderItem));
+    private static void getGombakOrder(List<OrderList> orderList) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = new Date();
+            date = sdf.parse(sdf.format(new Date()));
+            System.out.println("======================\nGombak");
+            for (OrderList ol : orderList) {
+                if (ol.getArea().toLowerCase().equals("gombak") && ol.getStatus().equals("Processing")
+                        && ol.getCollectMethod().equals("Delivery") && ol.getPickUpDate().compareTo(date)==0) {
+                    
+                    System.out.println(ol.getCustId());
+                    System.out.println(ol.getPickUpDate());
+                    System.out.println(ol.calcTotalPrice(ol.getOrderList()));
+                }
             }
+            System.out.println("======================\n");
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewOrderListV3.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("======================\n");
     }
 
-    private static void getSubangOrder(List<OrderList> orderList,List<Order> orderItem) {
-        Date date = new Date();
-        System.out.println("======================\nSubang");
-        for (OrderList ol : orderList) {
-            if (ol.getDAddress().toLowerCase().equals("subang") && ol.getStatus().equals("Processing") && 
-                    ol.getCollectMethod().equals("Delivery")&&
-                    !ol.getCustId().substring(0, 2).toLowerCase().equals("cr")&&ol.getPickUpDate().equals(date)) {
-                
-                System.out.println(ol.getCustId());
-                System.out.println(ol.getPickUpDate());
-                System.out.println(ol.calcTotalPrice(orderItem));
+    private static void getSubangOrder(List<OrderList> orderList) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = new Date();
+            
+            date = sdf.parse(sdf.format(new Date()));
+            System.out.println("======================\nSubang");
+            for (OrderList ol : orderList) {
+                if (ol.getArea().toLowerCase().equals("subang") && ol.getStatus().equals("Processing")
+                        && ol.getCollectMethod().equals("Delivery") && ol.getPickUpDate().compareTo(date)==0) {
+                    
+                    System.out.println(ol.getCustId());
+                    System.out.println(ol.getPickUpDate());
+                    System.out.println(ol.calcTotalPrice(ol.getOrderList()));
+                }
             }
+            System.out.println("======================\n");
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewOrderListV3.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("======================\n");
     }
 
-    private static void getCherasOrder(List<OrderList> orderList,List<Order> orderItem) {
-        Date date = new Date();
-        System.out.println("======================\nCheras");
-        for (OrderList ol : orderList) {
-            if (ol.getDAddress().toLowerCase().equals("cheras") && ol.getStatus().equals("Processing") && 
-                    ol.getCollectMethod().equals("Delivery")&& 
-                    !ol.getCustId().substring(0, 2).toLowerCase().equals("cr")&&ol.getPickUpDate().equals(date)) {
-                
-                System.out.println(ol.getCustId());
-                System.out.println(ol.getPickUpDate());
-                System.out.println(ol.calcTotalPrice(orderItem));
+    private static void getCherasOrder(List<OrderList> orderList) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = new Date();
+            date = sdf.parse(sdf.format(new Date()));
+            System.out.println("======================\nCheras");
+            for (OrderList ol : orderList) {
+                if (ol.getArea().toLowerCase().equals("cheras") && ol.getStatus().equals("Processing")
+                        && ol.getCollectMethod().equals("Delivery") && ol.getPickUpDate().compareTo(date)==0) {
+                    
+                    System.out.println(ol.getCustId());
+                    System.out.println(ol.getPickUpDate());
+                    System.out.println(ol.calcTotalPrice(ol.getOrderList()));
+                }
             }
+            System.out.println("======================\n");
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewOrderListV3.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("======================\n");
     }
 
 //    
