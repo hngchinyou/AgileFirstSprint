@@ -144,7 +144,7 @@ public class ViewOrderListV3 {
 
         do {
             // System.out.println(count);//ask user to choose order to indicate
-            System.out.println("Which order do you want to indicate?");//ask user to choose order to indicate
+            System.out.print("Which order do you want to indicate? \nOrder ");//ask user to choose order to indicate
 
             while (!sc.hasNextInt()) {
                 sc.next();
@@ -169,7 +169,7 @@ public class ViewOrderListV3 {
 //        if (orderList.get(reply).getOrderList().get(reply)) {
 
         System.out.println("\n" + orderProcessingList.get(reply).getOrderList());
-        System.out.println("\nThe price is RM " + orderProcessingList.get(reply).calcTotalPrice(orderProcessingList.get(reply).getOrderList()) + ".\n");
+        System.out.println("\nThe price is RM " + String.format("%.2f", orderProcessingList.get(reply).calcTotalPrice(orderProcessingList.get(reply).getOrderList())) + ".\n");
         if (orderProcessingList.get(reply).getCustId().substring(0, 2).toLowerCase().equals("cn")) {
             System.out.print("Please enter your payment amount: RM "
                     + ""
@@ -197,7 +197,7 @@ public class ViewOrderListV3 {
                     aa.setPickUpDate(ts);
                 }
             }
-            System.out.println("\nYour change is RM " + change + ". Thank you for coming!\n==============================================");
+            System.out.println("\nYour change is RM " + String.format("%.2f", change) + ". Thank you for coming!\n==============================================");
         } else {
             for (OrderList aa : orderList) {
                 if (aa.getId().equals(orderProcessingList.get(reply).getId())) {
@@ -275,19 +275,19 @@ public class ViewOrderListV3 {
 //        cherasRoute(cheras, routeQueue, subang, graph, setapak, gombak);
 //        subangRoute(subang, routeQueue, setapak, graph, cheras, gombak);
         
-            System.out.print("There are \n");
+            System.out.print("There are ");
             if (setapak != 0 || gombak != 0 || cheras != 0 || subang != 0) {
                 if (setapak != 0) {
-                    System.out.print(setapak + " order(s) from Setapak \n");
+                    System.out.print("\n" + setapak + " order(s) from Setapak \n");
                 }
                 if (gombak != 0) {
-                    System.out.print(gombak + " order(s) from Gombak \n");
+                    System.out.print("\n" + gombak + " order(s) from Gombak \n");
                 }
                 if (cheras != 0) {
-                    System.out.print(cheras + " order(s) from Cheras \n");
+                    System.out.print("\n" + cheras + " order(s) from Cheras \n");
                 }
                 if (subang != 0) {
-                    System.out.print(subang + " order(s) from Subang\n");
+                    System.out.print("\n" + subang + " order(s) from Subang\n");
                 }
             } else {
                 System.out.print("no order today\n");
@@ -330,8 +330,8 @@ public class ViewOrderListV3 {
                         && ol.getCollectMethod().equals("Delivery") && ol.getPickUpDate().compareTo(date)==0) {
                     
                     System.out.println(ol.getCustId());
-                    System.out.println(ol.getPickUpDate());
-                    System.out.println(ol.calcTotalPrice(ol.getOrderList()));
+                    System.out.println(sdf.format(ol.getPickUpDate()));
+                    System.out.println(String.format("RM %.2f", ol.calcTotalPrice(ol.getOrderList())));
                 }
             }
             System.out.println("======================\n");
@@ -351,8 +351,8 @@ public class ViewOrderListV3 {
                         && ol.getCollectMethod().equals("Delivery") && ol.getPickUpDate().compareTo(date)==0) {
                     
                     System.out.println(ol.getCustId());
-                    System.out.println(ol.getPickUpDate());
-                    System.out.println(ol.calcTotalPrice(ol.getOrderList()));
+                    System.out.println(sdf.format(ol.getPickUpDate()));
+                    System.out.println(String.format("RM %.2f", ol.calcTotalPrice(ol.getOrderList())));
                 }
             }
             System.out.println("======================\n");
@@ -373,8 +373,8 @@ public class ViewOrderListV3 {
                         && ol.getCollectMethod().equals("Delivery") && ol.getPickUpDate().compareTo(date)==0) {
                     
                     System.out.println(ol.getCustId());
-                    System.out.println(ol.getPickUpDate());
-                    System.out.println(ol.calcTotalPrice(ol.getOrderList()));
+                    System.out.println(sdf.format(ol.getPickUpDate()));
+                    System.out.println(String.format("RM %.2f", ol.calcTotalPrice(ol.getOrderList())));
                 }
             }
             System.out.println("======================\n");
@@ -394,8 +394,8 @@ public class ViewOrderListV3 {
                         && ol.getCollectMethod().equals("Delivery") && ol.getPickUpDate().compareTo(date)==0) {
                     
                     System.out.println(ol.getCustId());
-                    System.out.println(ol.getPickUpDate());
-                    System.out.println(ol.calcTotalPrice(ol.getOrderList()));
+                    System.out.println(sdf.format(ol.getPickUpDate()));
+                    System.out.println(String.format("RM %.2f", ol.calcTotalPrice(ol.getOrderList())));
                 }
             }
             System.out.println("======================\n");
