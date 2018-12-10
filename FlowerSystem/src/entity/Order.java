@@ -88,7 +88,7 @@ public class Order {
     }
     @Override
     public String toString() {
-        return "\n\n=========================\nOrder Num: " + orderNum + "\nQuantity: " + quantity + "\nSub Price: " + String.format("%.2f", calculatePrice()) + "\n=========================";
+        return "\n=========================\nOrder Num: " + orderNum + "\nQuantity: " + quantity + "\nSub Price: " + String.format("%.2f", calculatePrice()) + "\n=========================\n";
     }
     
 
