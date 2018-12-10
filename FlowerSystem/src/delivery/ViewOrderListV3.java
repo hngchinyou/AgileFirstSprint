@@ -29,30 +29,30 @@ public class ViewOrderListV3 {
     /**
      * @param args the command line arguments
      */
-    public static void Deliverymain() {
+    public static void Deliverymain(List<OrderList> orderList) {
         // TODO code application logic here
         char result;
         Scanner sc = new Scanner(System.in);
 
-        List<Order> orderItem = new ArrayList<>();
-        List<Order> orderItem2 = new ArrayList<>();
-        List<OrderList> orderList = viewOrderList(true, orderItem, orderItem2);
+//        List<Order> orderItem = new ArrayList<>();
+//        List<Order> orderItem2 = new ArrayList<>();
+        List<OrderList> orderList1 = viewOrderList(true, orderList);
         do {
             System.out.println("Please select your option\n1) View Order of today\n2) Indicate specific order\n3) Exit");
             result = sc.next().charAt(0);
             if (result == '1') {
-                viewOrderList(false, orderItem, orderItem2);
+                viewOrderList(false, orderList);
             } else if (result == '2') {
-                indicateOrder(orderList, orderItem);
+                indicateOrder(orderList);
             } else if(result == '3'){
             }
         } while (result != 3);
 
     }
 
-    public static List<OrderList> viewOrderList(boolean valid, List<Order> orderItem, List<Order> orderItem2) {
+    public static List<OrderList> viewOrderList(boolean valid, List<OrderList> orderList ){
 
-        List<OrderList> orderList = new ArrayList<>();
+       // List<OrderList> orderList = new ArrayList<>();
         try {
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -63,16 +63,16 @@ public class ViewOrderListV3 {
 
             todayDate = sdf.parse(sdf.format(new Date()));
 
-            orderItem.add(new Order("1", 3, todayDate, 12.34));
-            orderItem.add(new Order("2", 1, todayDate, 54.32));
-            orderItem.add(new Order("3", 6, todayDate, 22.34));
-            orderItem2.add(new Order("4", 6, todayDate, 22.34));
-            orderItem2.add(new Order("5", 6, todayDate, 22.34));
-            orderItem2.add(new Order("6", 6, todayDate, 22.34));
-
-            orderList.add(new OrderList(orderItem2,"Or0001", pickUpDate, "Delivery", "Setapak","PV13", "Cn0001", "Processing"));//hardcoding order list 1
-            orderList.add(new OrderList(orderItem,"Or0002", pickUpDate, "Self Pickup", "Setapak","PV14", "Cn0001", "Processing"));//hardcoding order list 1
-            orderList.add(new OrderList(orderItem,"Or0003", pickUpDate, "Self Pickup", "Setapak","PV14", "Cn0001", "Completed"));//hardcoding order list 1
+//            orderItem.add(new Order("1", 3, todayDate, 12.34));
+//            orderItem.add(new Order("2", 1, todayDate, 54.32));
+//            orderItem.add(new Order("3", 6, todayDate, 22.34));
+//            orderItem2.add(new Order("4", 6, todayDate, 22.34));
+//            orderItem2.add(new Order("5", 6, todayDate, 22.34));
+//            orderItem2.add(new Order("6", 6, todayDate, 22.34));
+//
+//            orderList.add(new OrderList(orderItem2,"Or0001", pickUpDate, "Delivery", "Setapak","PV13", "Cn0001", "Processing"));//hardcoding order list 1
+//            orderList.add(new OrderList(orderItem,"Or0002", pickUpDate, "Self Pickup", "Setapak","PV14", "Cn0001", "Processing"));//hardcoding order list 1
+//            orderList.add(new OrderList(orderItem,"Or0003", pickUpDate, "Self Pickup", "Setapak","PV14", "Cn0001", "Completed"));//hardcoding order list 1
 
             if (!valid) {
                 System.out.println("Displaying order list of the day");
@@ -99,7 +99,7 @@ public class ViewOrderListV3 {
         return orderList;
     }//end of retrieving
 
-    public static void indicateOrder(List<OrderList> orderList, List<Order> orderItem) {
+    public static void indicateOrder(List<OrderList> orderList) {
         Date date = new Date();
         long time = date.getTime();
         List<OrderList> orderProcessingList = new ArrayList<>();
@@ -114,10 +114,11 @@ public class ViewOrderListV3 {
         Timestamp ts = new Timestamp(time);
         int a = 0;
         do {
+          
             System.out.println("Which customer's order do you want to indicate? Please enter ID: ");
             cusId = sc.next();
           
-            customerOrder(orderList, orderProcessingList, orderItem, cusId, count, a);
+            customerOrder(orderList, orderProcessingList, cusId, count, a);
             
             if (orderProcessingList.isEmpty()) {
                 System.out.println("This id is invalid or it does not has processing order");
@@ -151,7 +152,7 @@ public class ViewOrderListV3 {
         // {
         //if (orderList.get(reply).getOrderList().get(reply)) {
         System.out.println("\n" + orderProcessingList.get(reply).getOrderList());
-        System.out.println("\nThe price is RM " + orderProcessingList.get(reply).calcTotalPrice(orderItem) + ".\n");
+        System.out.println("\nThe price is RM " + orderProcessingList.get(reply).calcTotalPrice(orderProcessingList.get(reply).getOrderList()) + ".\n");
         System.out.print("Please enter your payment amount: RM "
                 + ""
                 + "");
@@ -161,7 +162,7 @@ public class ViewOrderListV3 {
         }
         pay = sc.nextDouble();
 
-        while (pay < orderProcessingList.get(reply).calcTotalPrice(orderItem)) {
+        while (pay < orderProcessingList.get(reply).calcTotalPrice(orderProcessingList.get(reply).getOrderList())) {
             System.out.println("Insufficient money, please reenter!");
             while (!sc.hasNextInt() && !sc.hasNextDouble()) {
                 sc.next();
@@ -170,7 +171,7 @@ public class ViewOrderListV3 {
             pay = sc.nextDouble();
         }
 
-        change = pay - orderProcessingList.get(reply).calcTotalPrice(orderItem);
+        change = pay - orderProcessingList.get(reply).calcTotalPrice(orderProcessingList.get(reply).getOrderList());
 
         for (OrderList aa : orderList) {
             if (aa.getId().equals(orderProcessingList.get(reply).getId()))
@@ -186,9 +187,10 @@ public class ViewOrderListV3 {
         //  }
         //  }
 //        indicateOrder(orderList, orderItem);
+        
     }//end of indicating
 
-    public static List customerOrder(List<OrderList> orderList, List<OrderList> orderProcessingList, List<Order> orderItem, String cusId, int count, int a) {
+    public static List customerOrder(List<OrderList> orderList, List<OrderList> orderProcessingList, String cusId, int count, int a) {
 
         for (OrderList aa : orderList) {
             if (aa.getCustId().equals(cusId) && aa.getStatus().equals("Processing")) {

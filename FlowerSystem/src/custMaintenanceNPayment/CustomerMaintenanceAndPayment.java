@@ -10,6 +10,7 @@ import entity.Customer;
 import entity.Order;
 import entity.OrderList;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class CustomerMaintenanceAndPayment{
     /**
      * @param args the command line arguments
      */
-    public static void CPmain(List<Customer> custList, List<Order> arrOrder, List<OrderList> orderList) {
+    public static void CPmain(List<Customer> custList, double allOrderPrice, List<OrderList> orderList) {
         int choice = 0, choice2 = 0;
         
         do{
@@ -42,7 +43,7 @@ public class CustomerMaintenanceAndPayment{
             else if(choice==3)
                editCust(custList);
             else if(choice==4)
-                IPMenu(custList, arrOrder, orderList);
+                IPMenu(custList, allOrderPrice, orderList);
         }while(choice!=5);
     }
  
@@ -430,7 +431,7 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
-    public static void IPMenu(List<Customer> custList,List<Order> arrOrder, List<OrderList> orderList)
+    public static void IPMenu(List<Customer> custList,double allOrderPrice, List<OrderList> orderList)
     {
         int choice;
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
@@ -460,11 +461,12 @@ public class CustomerMaintenanceAndPayment{
                 {
                     List<Order> order = new ArrayList<>();
                     int count=0;
+                    Date date = new Date();
                     for(OrderList ol: orderList)
                     {
-                        if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==12)
+                        if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
                         {
-                            for(Order o: arrOrder)
+                            for(Order o: ol.getOrderList())
                             {
                                 if(order.isEmpty())
                                 {
@@ -491,12 +493,36 @@ public class CustomerMaintenanceAndPayment{
                     double total=0;
                     for(Order o: order)
                     {
-                        System.out.println("Order Number" + o.getOrderNum());
-                        System.out.println("Quantity" + o.getQuantity());
+                        System.out.println("Order Number: " + o.getOrderNum());
+                        System.out.println("Quantity: " + o.getQuantity());
                         System.out.println(String.format("Price: RM %.2f",o.getQuantity()*o.getPrice()));
                         total += o.getQuantity()*o.getPrice();
                     }
-                    System.out.println(String.format("Total Payment: RM %.2f", total));
+                    System.out.println(String.format("\nTotal Payment: RM %.2f", total));
+                    System.out.println("The payment paid?");
+                    System.out.println("1. Yes");
+                    System.out.println("2. No");
+                    System.out.print("Enter your selection: ");
+                    int choice2;
+        
+                    while(!scanner.hasNext("[1-2]{1}"))
+                    {
+                        System.err.print("Please enter digit");
+                        System.out.print("Enter your selection: ");
+                        scanner.next();
+                    }
+                    choice2 = scanner.nextInt();
+                    if(choice2 == 1)
+                    {
+                        for(OrderList ol: orderList)
+                        {
+                            if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
+                            {
+                                ol.setStatus("Paid");
+                                allOrderPrice = 0;
+                            }
+                        }
+                    }
                 }
             }//after customer for each loop
         }//after choice == 1
