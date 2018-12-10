@@ -150,6 +150,7 @@ public class CustomizedFlowerTest {
 	public void testGetCustomerId() {
 		String expected="Cr0002";
 		String actual=flower.getCustomerId();
+		assertEquals(expected, actual);
 	}
 
 	@Test
