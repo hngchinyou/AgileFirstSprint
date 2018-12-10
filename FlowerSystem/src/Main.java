@@ -62,7 +62,7 @@ public class Main {
                     CatalogueAdd.CMmenu(flower);
                     break;
                 case 2:
-                    CustomerMaintenanceAndPayment.CPmain(custList);
+                    CustomerMaintenanceAndPayment.CPmain(custList, arrOrder, orderList);
                     break;
                 case 3:
                     CatOrder.COmain(custList, flower,allOrderPrice,arrOrder,orderList);

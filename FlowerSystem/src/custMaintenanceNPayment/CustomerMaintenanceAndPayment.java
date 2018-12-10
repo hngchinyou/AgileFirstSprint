@@ -24,7 +24,6 @@ public class CustomerMaintenanceAndPayment{
      */
     public static void CPmain(List<Customer> custList, List<Order> arrOrder, List<OrderList> orderList) {
         int choice = 0, choice2 = 0;
-           
         
         do{
             choice = shCMenu();
@@ -43,7 +42,7 @@ public class CustomerMaintenanceAndPayment{
             else if(choice==3)
                editCust(custList);
             else if(choice==4)
-                IPMenu();
+                IPMenu(custList, arrOrder, orderList);
         }while(choice!=5);
     }
  
@@ -431,8 +430,79 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
-    public static void IPMenu()
+    public static void IPMenu(List<Customer> custList,List<Order> arrOrder, List<OrderList> orderList)
     {
+        int choice;
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.println("Invoice Payment Menu");
+        System.out.println("1. Invoice Payment");
+        System.out.println("2. Invoice history");
+        System.out.println("3. Exit");
+        System.out.print("Enter your selection: ");
         
+        while(!scanner.hasNext("[1-3]{1}"))
+        {
+            System.err.print("Please enter digit");
+            System.out.print("Enter your selection: ");
+            scanner.next();
+        }
+        choice = scanner.nextInt();
+        
+        if(choice == 1)
+        {
+            String id;
+            System.out.print("\nEnter customer ID:");
+            id = scanner.next();
+            
+            for(Customer c: custList)
+            {
+                if(c.getId().equals(id) && c.getcType().equals("Corporate"))
+                {
+                    List<Order> order = new ArrayList<>();
+                    int count=0;
+                    for(OrderList ol: orderList)
+                    {
+                        if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==12)
+                        {
+                            for(Order o: arrOrder)
+                            {
+                                if(order.isEmpty())
+                                {
+                                    order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
+                                }
+                                else
+                                {
+                                    for(Order oo: order)
+                                    {
+                                        if(oo.getOrderNum().equals(o.getOrderNum()))
+                                        {
+                                            oo.setQuantity(oo.getQuantity()+o.getQuantity());
+                                            count=1;
+                                        }
+                                    }
+                                    if(count == 0)
+                                    {
+                                        order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    double total=0;
+                    for(Order o: order)
+                    {
+                        System.out.println("Order Number" + o.getOrderNum());
+                        System.out.println("Quantity" + o.getQuantity());
+                        System.out.println(String.format("Price: RM %.2f",o.getQuantity()*o.getPrice()));
+                        total += o.getQuantity()*o.getPrice();
+                    }
+                    System.out.println(String.format("Total Payment: RM %.2f", total));
+                }
+            }//after customer for each loop
+        }//after choice == 1
+        else if(choice == 2)
+        {
+            
+        }
     }
 }
