@@ -28,8 +28,8 @@ public class Order {
         this.quantity = quantity;
     }
 
-
-    public Order(String orderNum, int quantity, double price) {
+    public Order(String orderNum, int quantity, double price)
+    {
         this.orderNum = orderNum;
         this.quantity = quantity;
         this.price = price;

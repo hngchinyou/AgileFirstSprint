@@ -43,6 +43,10 @@ public class CatOrder {
         if (count == 0) {
             System.err.println("This person does not exist!");
         }
+        else if(count == 33)
+        {
+            System.err.println("Please do the payment!!!");
+        }
 
     }
 
@@ -72,17 +76,18 @@ public class CatOrder {
         // double allOrderPrice = 0;
         Date date1 = new Date();
         boolean valid = true;
-        String oid = generateOID(orderList);
+        
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
         do {
+            String oid = generateOID(orderList);
             if (!orderList.isEmpty()) {
                 for (OrderList ol : orderList) {
-
-                    allOrderPrice = ol.calcAllOrder(orderList, id);
+                    if(!ol.getStatus().equals("Paid"))
+                        allOrderPrice = ol.calcAllOrder(orderList, id);
                 }
             }
             for (Customer cust : custList) {
@@ -209,20 +214,24 @@ public class CatOrder {
                             }
 
                             int choice = 0;
+                            int count3 = 0;
                             choice = collectMethodMenu();
                             switch (choice) {
                                 case 1:
                                     collectMethod = "Delivery";
-                                    System.out.print("Enter Delivery Address:");
-                                    address = scanner.next();
+                                   
+                                    count3 = 1;
                                     break;
                                 case 2:
                                     collectMethod = "Self Pick Up";
                                     address = " ";
+                                    count3 = 2;
                                     break;
                             }
+                            if(count3 == 1){
                             int areaChoice = 0;
                             areaChoice = areaMenu();
+                            
                             switch (areaChoice) {
                                 case 1:
                                     area = "Setapak";
@@ -244,6 +253,7 @@ public class CatOrder {
                                     System.out.print("Enter Delivery Address:");
                                     address = scanner.next();
                                     break;
+                            }
                             }
                         } 
 //            for(OrderList o : orderList){
@@ -407,20 +417,23 @@ public class CatOrder {
                 } catch (Exception ex) {
 
                 }
-
+                int count3 = 0;
                 int choice = 0;
                 choice = collectMethodMenu();
                 switch (choice) {
                     case 1:
                         collectMethod = "Delivery";
+                            count3 = 1;
                         break;
                     case 2:
                         collectMethod = "Self Pick Up";
                         address = " ";
                         break;
                 }
+                    if(count3 == 1){
                 int areaChoice = 0;
                 areaChoice = areaMenu();
+            
                 switch (areaChoice) {
                     case 1:
                         area = "Setapak";
@@ -442,6 +455,7 @@ public class CatOrder {
                         System.out.print("Enter Delivery Address:");
                         address = scanner.next();
                         break;
+                }
                 }
             }
 //            for(OrderList o : orderList){
@@ -558,8 +572,32 @@ public class CatOrder {
         for (Customer c : custList) {
             if (id.equals(c.getId())) {
                 if (c.getcType().equals("Corporate")) {
-                    count = Catalog(flower);
-                    catalogueOrder(custList, flower, id, allOrderPrice, arrOrder, orderList);
+                    Date date = new Date();
+                    boolean valid = true;
+                    if((new Date(2018, 11, 8)).before(date))
+                    {
+                        valid = true;
+                    }
+                    else
+                    {
+                        for(OrderList ol:orderList)
+                        {
+                            if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
+                            {
+                                if(!(ol.getStatus().equals("Paid")))
+                                {
+                                    valid = false;
+                                    count=33;
+                                }
+                            }
+                        }
+                    }
+                    if(valid)
+                    {
+                        count = Catalog(flower);
+                        catalogueOrder(custList, flower, id, allOrderPrice, arrOrder, orderList);
+                    }
+                    
                 } else if (c.getcType().equals("Consumer")) {
                     count = Catalog(flower);
                     consOrder(custList, flower, id, allOrderPrice, arrOrder, orderList);
