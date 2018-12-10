@@ -66,7 +66,7 @@ public class Main {
                     ViewOrderListV3.Deliverymain();
                     break;
                 case 5:
-                    CustFloArrange.custFloArrange(flower);
+                    CustFloArrange.custFloArrange(custList,flower);
                     break;
             }
         } while (choice != 6);

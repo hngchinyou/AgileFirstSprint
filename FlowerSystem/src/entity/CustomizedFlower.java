@@ -1,57 +1,45 @@
 package entity;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CustomizedFlower {
-	String floArrangeType,size;
-	ArrayList<String> floType,accessory;
-	int priorLevel;
+	private String floArrangeType,size,customizedId,status;
+	private ArrayList<String> floType,accessory;
+	private int priorLevel;
+	private String customerId;
+	private Date pickupDate;
 	
 	public String toString(List<Flower2> floType) {
-		String result="Flower Arrangement Type: " + floArrangeType;
+		String result="";
+		result+="Customer ID: "+customerId;
+		result+="\nCustomized Flower ID: " + customizedId;
+		result+="\nFlower Arrangement Type: " + floArrangeType;
 		result+="\nSize: "+ size;
 		
-		//
-                int sizeFloType[] = new int[floType.size()];
+        int sizeFloType[] = new int[floType.size()];
 		int i=0;
 		String resultflo="";
 		int a1=0,a2=0,a3=0;
 		String resultacc="";
-		//
-		//
-                for(Flower2 f:floType){
-                    for(String ftName:this.floType){
-                        if(ftName.equalsIgnoreCase(f.getFlowername())){
-                            sizeFloType[i]++;
-                        }
-                    }
-                    i++;
+        for(Flower2 f:floType){
+            for(String ftName:this.floType){
+                if(ftName.equalsIgnoreCase(f.getFlowername())){
+                    sizeFloType[i]++;
                 }
-                i=0;
-                for(int sft:sizeFloType){
-                    if(sft!=0){
-                        resultflo+= floType.get(i).getFlowername() + " x" + sft + ",";
-                    }
-                    i++;
-                }
-//		for(String f: floType)
-//		{
-//			if(f.equals("Rose"))
-//				f1++;
-//			else
-//				f2++;
-//		}
-//		if(f1!=0)
-//		{
-//			resultflo+="Rose x" + f1 + ", ";
-//		}
-//		if(f2!=0)
-//		{
-//			resultflo+="Sunflower x" + f2 + ", ";
-//		}
+            }
+            i++;
+        }
+        i=0;
+        for(int sft:sizeFloType){
+            if(sft!=0){
+                resultflo+= floType.get(i).getFlowername() + " x" + sft + ",";
+            }
+            i++;
+        }
 		result+="\nFlower Type: " + resultflo;
-		//
-		//
+		
 		for(String a: accessory)
 		{
 			if(a.equals("Bear"))
@@ -68,7 +56,6 @@ public class CustomizedFlower {
 		if(a3!=0)
 			resultacc+="Chocolate x" + a3 + ", ";
 		result+="\nAccessory: " + resultacc;
-		//
 		
 		result+="\nPriority Level: ";
 		switch (priorLevel) {
@@ -83,6 +70,9 @@ public class CustomizedFlower {
 		default:
 			break;
 		}
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		result+="\nPickup Date: "+sdf.format(pickupDate);
+		result+="\nStatus: "+status;
 		return result;
 	}
 
@@ -90,14 +80,19 @@ public class CustomizedFlower {
 		super();
 	}
 
-	public CustomizedFlower(String floArrangeType, String size, ArrayList<String> floType, ArrayList<String> accessory,
-			int priorLevel) {
+	public CustomizedFlower(String floArrangeType, String size, String customizedId, String status,
+			ArrayList<String> floType, ArrayList<String> accessory, int priorLevel, String customerId,
+			Date pickupDate) {
 		super();
 		this.floArrangeType = floArrangeType;
 		this.size = size;
+		this.customizedId = customizedId;
+		this.status = status;
 		this.floType = floType;
 		this.accessory = accessory;
 		this.priorLevel = priorLevel;
+		this.customerId = customerId;
+		this.pickupDate = pickupDate;
 	}
 
 	public String getFloArrangeType() {
@@ -114,6 +109,22 @@ public class CustomizedFlower {
 
 	public void setSize(String size) {
 		this.size = size;
+	}
+
+	public String getCustomizedId() {
+		return customizedId;
+	}
+
+	public void setCustomizedId(String customizedId) {
+		this.customizedId = customizedId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public ArrayList<String> getFloType() {
@@ -139,5 +150,22 @@ public class CustomizedFlower {
 	public void setPriorLevel(int priorLevel) {
 		this.priorLevel = priorLevel;
 	}
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
+	public Date getPickupDate() {
+		return pickupDate;
+	}
+
+	public void setPickupDate(Date pickupDate) {
+		this.pickupDate = pickupDate;
+	}
+
 	
 }
