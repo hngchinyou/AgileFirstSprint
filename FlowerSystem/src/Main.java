@@ -10,6 +10,7 @@ import catalogueMaintanance.CatalogueAdd;
 import entity.CorporateCust;
 import entity.Customer;
 import entity.Flower2;
+import entity.Promotion;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,11 @@ public class Main {
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 12.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 12.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 12.20, 5));
+        //promotion
+        List<Promotion> promotion = new ArrayList<>();
+        promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
+        promotion.add(new Promotion("P1112", "Lover Day", "asdasdasdasd",13.20, 5));
+        promotion.add(new Promotion("P1113", "Sun Shine", "asdasdasdasd",14.20, 5));       
         int choice;
 
         Scanner scanner = new Scanner(System.in);
@@ -54,7 +60,7 @@ public class Main {
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    CatalogueAdd.CMmenu(flower);
+                    CatalogueAdd.CMmenu(flower, promotion);
                     break;
                 case 2:
                     CustomerMaintenanceAndPayment.CPmain(custList);
