@@ -1,5 +1,6 @@
 package catalogueMaintanance;
 
+import entity.Promotion;
 import entity.Flower2;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -18,9 +19,10 @@ import java.util.Scanner;
  * @author user
  */
 public class CatalogueAdd {
-    public static void CMmenu(List<Flower2> flower){
+    
+    public static void CMmenu(List<Flower2> flower, List<Promotion> promotion){
         Scanner scanner = new Scanner(System.in);
-        
+//        List<Promotion> promotion = new ArrayList<>();
         int choice;
         do{
         System.out.println("Catalogue Maintenance");
@@ -29,7 +31,8 @@ public class CatalogueAdd {
         System.out.println("2.View Catalogue");
         System.out.println("3.View Insufficient");
         System.out.println("4.Update Information");
-        System.out.println("5.Exit");
+        System.out.println("5.Add Promotion");
+        System.out.println("6.Exit");
         System.out.print("Enter your Choice: ");
         
         choice = scanner.nextInt();
@@ -38,7 +41,7 @@ public class CatalogueAdd {
                 CatalogueAdd.CAmain(flower);
                 break;
             case 2 : 
-                CatalogueView.CVmain(flower);
+                CatalogueView.CVmain(flower, promotion);
                 break;
             case 3 : 
                 CatalogueInsufficient.CImain(flower);
@@ -46,8 +49,10 @@ public class CatalogueAdd {
             case 4 :
                 CatalogueEdit.CEmain(flower);
                 break;
+            case 5 :
+                CataloguePromotion.CPmain(promotion);
         }
-        }while(choice !=5);
+        }while(choice !=6);
        
     }
     
