@@ -23,7 +23,17 @@ public class Order {
         super();
     }
 
+    public Order(String orderNum, int quantity) {
+        this.orderNum = orderNum;
+        this.quantity = quantity;
+    }
 
+    public Order(String orderNum, int quantity, double price)
+    {
+        this.orderNum = orderNum;
+        this.quantity = quantity;
+        this.price = price;
+    }
 
     public Order(String orderNum, int quantity, Date date,double price) {
         this.orderNum = orderNum;
@@ -78,7 +88,7 @@ public class Order {
     }
     @Override
     public String toString() {
-        return "\n\n=========================\nOrder Num: " + orderNum + "\nQuantity: " + quantity + "\nSub Price: " + String.format("%.2f", calculatePrice()) + "\n=========================";
+        return "\n=========================\nOrder Num: " + orderNum + "\nQuantity: " + quantity + "\nSub Price: " + String.format("%.2f", calculatePrice()) + "\n=========================\n";
     }
     
 

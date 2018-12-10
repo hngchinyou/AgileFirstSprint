@@ -7,7 +7,10 @@ package custMaintenanceNPayment;
 
 import entity.CorporateCust;
 import entity.Customer;
+import entity.Order;
+import entity.OrderList;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,9 +23,8 @@ public class CustomerMaintenanceAndPayment{
     /**
      * @param args the command line arguments
      */
-    public static void CPmain(List<Customer> custList) {
+    public static void CPmain(List<Customer> custList, double allOrderPrice, List<OrderList> orderList) {
         int choice = 0, choice2 = 0;
-           
         
         do{
             choice = shCMenu();
@@ -40,16 +42,15 @@ public class CustomerMaintenanceAndPayment{
             }  
             else if(choice==3)
                editCust(custList);
-            
-        }while(choice!=4);
-        
+            else if(choice==4)
+                IPMenu(custList, allOrderPrice, orderList);
+        }while(choice!=5);
     }
  
     public static void classify(List<Customer> custList)  
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String name;
-        
         
         System.out.print("Enter customer name: ");
         name = scanner.next();
@@ -120,10 +121,11 @@ public class CustomerMaintenanceAndPayment{
         System.out.println("1. Customer Registration");
         System.out.println("2. View Customer");
         System.out.println("3. Edit Customer");
-        System.out.println("4. Exit");
+        System.out.println("4. Invoice Payment");
+        System.out.println("5. Exit");
         System.out.print("Enter your selection: ");
          
-        while(!scanner.hasNext("[1-4]{1}"))
+        while(!scanner.hasNext("[1-5]{1}"))
         {
             System.err.print("Please enter digit");
             System.out.print("Enter your selection: ");
@@ -251,12 +253,18 @@ public class CustomerMaintenanceAndPayment{
         for(Customer c: custList)
         {
             if(c.getcType().equals("Consumer"))
-            System.out.println(c);
+            {
+                System.out.print("Consumer List\n=============");
+                System.out.println(c);
+            }
         }
         for(Customer c: custList)
         {
             if(c.getcType().equals("Corporate"))
-            System.out.println(c);
+            {
+                System.out.print("\nCorporate List\n==============");
+                System.out.println(c);
+            }
         } 
     }
     
@@ -294,7 +302,7 @@ public class CustomerMaintenanceAndPayment{
             {
                 if(c.getcType().equals("Corporate"))
                 {
-                // name, address, credit limit, companyname, contact num1
+                // name, address, credit limit, companyname, contact num12
                 choice = CorEMenu();
                 switch(choice)
                 {
@@ -409,7 +417,7 @@ public class CustomerMaintenanceAndPayment{
         System.out.println("\nCustomer Modification");
         System.out.println("1. Modify name");
         System.out.println("2. Modify address");
-        System.out.println("3. Modify corporate customer informations");
+        System.out.println("3. Modify consumer customer informations");
         System.out.println("4. Exit");
         System.out.print("Enter your selection: ");
          
@@ -423,4 +431,100 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
+    public static void IPMenu(List<Customer> custList,double allOrderPrice, List<OrderList> orderList)
+    {
+        int choice;
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        System.out.println("Invoice Payment Menu");
+        System.out.println("1. Invoice Payment");
+        //System.out.println("2. Invoice history");
+        System.out.println("2. Exit");
+        System.out.print("Enter your selection: ");
+        
+        while(!scanner.hasNext("[1-2]{1}"))
+        {
+            System.err.print("Please enter digit");
+            System.out.print("Enter your selection: ");
+            scanner.next();
+        }
+        choice = scanner.nextInt();
+        
+        if(choice == 1)
+        {
+            String id;
+            System.out.print("\nEnter customer ID:");
+            id = scanner.next();
+            
+            for(Customer c: custList)
+            {
+                if(c.getId().equals(id) && c.getcType().equals("Corporate"))
+                {
+                    List<Order> order = new ArrayList<>();
+                    int count=0;
+                    Date date = new Date();
+                    for(OrderList ol: orderList)
+                    {
+                        if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
+                        {
+                            for(Order o: ol.getOrderList())
+                            {
+                                if(order.isEmpty())
+                                {
+                                    order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
+                                }
+                                else
+                                {
+                                    for(Order oo: order)
+                                    {
+                                        if(oo.getOrderNum().equals(o.getOrderNum()))
+                                        {
+                                            oo.setQuantity(oo.getQuantity()+o.getQuantity());
+                                            count=1;
+                                        }
+                                    }
+                                    if(count == 0)
+                                    {
+                                        order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    double total=0;
+                    for(Order o: order)
+                    {
+                        System.out.println("Order Number: " + o.getOrderNum());
+                        System.out.println("Quantity: " + o.getQuantity());
+                        System.out.println(String.format("Price: RM %.2f",o.getQuantity()*o.getPrice()));
+                        total += o.getQuantity()*o.getPrice();
+                    }
+                    System.out.println(String.format("\nTotal Payment: RM %.2f", total));
+                    System.out.println("The payment paid?");
+                    System.out.println("1. Yes");
+                    System.out.println("2. No");
+                    System.out.print("Enter your selection: ");
+                    int choice2;
+        
+                    while(!scanner.hasNext("[1-2]{1}"))
+                    {
+                        System.err.print("Please enter digit");
+                        System.out.print("Enter your selection: ");
+                        scanner.next();
+                    }
+                    choice2 = scanner.nextInt();
+                    if(choice2 == 1)
+                    {
+                        for(OrderList ol: orderList)
+                        {
+                            if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
+                            {
+                                ol.setStatus("Paid");
+                                allOrderPrice = 0;
+                            }
+                        }
+                    }
+                }
+            }//after customer for each loop
+        }//after choice == 1
+    }
 }

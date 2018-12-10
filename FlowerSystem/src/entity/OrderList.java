@@ -25,17 +25,27 @@ public class OrderList {
     private String custId;
     private static double allTotal=0;
     private String status;
+    private String area; 
    
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    public OrderList(List<Order> orderList,String id, Date pickUpDate, String collectMethod, String DAddress,String custId,String status) {
+    public OrderList(List<Order> orderList,String id, Date pickUpDate, String collectMethod,String area ,String DAddress,String custId,String status) {
         this.orderList = orderList;
         this.id = id;
         this.pickUpDate = pickUpDate;
         this.collectMethod = collectMethod;
+        this.area = area ; 
         this.DAddress = DAddress;    
         this.custId = custId;
         this.status = status;
   
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getArea() {
+        return area;
     }
 
     public String getId() {
@@ -163,7 +173,7 @@ public class OrderList {
 
         return  "\n*************************\nOrder "+ count + "\nCustomer Id: " + custId + arString() + "\nOrder Id: " + id + 
                 "\n\nPick Up Date: " + formatter.format(pickUpDate) + 
-                "\nCollect Method: " + collectMethod + "\nAddress: " + DAddress +"\nStatus= " + status +
+                "\nCollect Method: " + collectMethod + "\nAddress: " + DAddress +", " + area  +"\nStatus= " + status +
                 "\n*************************\n";
     }
     

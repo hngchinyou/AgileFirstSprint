@@ -11,6 +11,8 @@ import entity.CorporateCust;
 import entity.Customer;
 import entity.Flower2;
 import entity.Promotion;
+import entity.Order;
+import entity.OrderList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,8 @@ public class Main {
         // TODO Auto-generated method stub
         // catalog order initial array 
         double allOrderPrice = 0;
+        List<Order> arrOrder = new ArrayList<>();
+        List<OrderList> orderList = new ArrayList<>();
         // customer maintenance initial array
         List<Customer> custList = new ArrayList<>();
         custList.add(new Customer("Cn0001", "yohku", "Wangsa Maju", "Consumer"));
@@ -34,10 +38,10 @@ public class Main {
         // flower maintenance
         List<Flower2> flower = new ArrayList<>();
         flower.add(new Flower2("B1111", "Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
-        flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 12.20, 2));
-        flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 12.20, 2));
-        flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 12.20, 2));
-        flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 12.20, 5));
+        flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 13.0, 2));
+        flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
+        flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
+        flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
         //promotion
         List<Promotion> promotion = new ArrayList<>();
         promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
@@ -45,16 +49,17 @@ public class Main {
         promotion.add(new Promotion("P1113", "Sun Shine", "asdasdasdasd",14.20, 5));       
         int choice;
 
+        
         Scanner scanner = new Scanner(System.in);
         do {
             System.out.println("Menu");
             System.out.println("==============================================");
-            System.out.println("1.Catalogue Maintenance");
-            System.out.println("2.Customer Maintenance and Invoice Payment");
-            System.out.println("3.Catalogue Order");
-            System.out.println("4.Pick Up and Delivery");
-            System.out.println("5.Customized Flower Arrangement");
-            System.out.println("6.Exit");
+            System.out.println("[1] Catalogue Maintenance");
+            System.out.println("[2] Customer Maintenance and Invoice Payment");
+            System.out.println("[3] Catalogue Order");
+            System.out.println("[4] Pick Up and Delivery");
+            System.out.println("[5] Customized Flower Arrangement");
+            System.out.println("[6] Exit");
             System.out.println("==============================================");
             System.out.print("Enter Your Choice: ");
             choice = scanner.nextInt();
@@ -63,13 +68,13 @@ public class Main {
                     CatalogueAdd.CMmenu(flower, promotion);
                     break;
                 case 2:
-                    CustomerMaintenanceAndPayment.CPmain(custList);
+                    CustomerMaintenanceAndPayment.CPmain(custList, allOrderPrice, orderList);
                     break;
                 case 3:
-                    CatOrder.COmain(custList, flower,allOrderPrice);
+                    CatOrder.COmain(custList, flower,allOrderPrice,arrOrder,orderList);
                     break;
                 case 4:
-                    ViewOrderListV3.Deliverymain();
+                    ViewOrderListV3.Deliverymain(orderList);
                     break;
                 case 5:
                     CustFloArrange.custFloArrange(flower);
