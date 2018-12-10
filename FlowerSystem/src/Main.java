@@ -10,6 +10,7 @@ import catalogueMaintanance.CatalogueAdd;
 import entity.CorporateCust;
 import entity.Customer;
 import entity.Flower2;
+import entity.Promotion;
 import entity.Order;
 import entity.OrderList;
 import java.util.ArrayList;
@@ -37,10 +38,15 @@ public class Main {
         // flower maintenance
         List<Flower2> flower = new ArrayList<>();
         flower.add(new Flower2("B1111", "Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
-        flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet",13.0, 2));
+        flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 13.0, 2));
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
+        //promotion
+        List<Promotion> promotion = new ArrayList<>();
+        promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
+        promotion.add(new Promotion("P1112", "Lover Day", "asdasdasdasd",13.20, 5));
+        promotion.add(new Promotion("P1113", "Sun Shine", "asdasdasdasd",14.20, 5));       
         int choice;
 
         
@@ -59,7 +65,7 @@ public class Main {
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    CatalogueAdd.CMmenu(flower);
+                    CatalogueAdd.CMmenu(flower, promotion);
                     break;
                 case 2:
                     CustomerMaintenanceAndPayment.CPmain(custList, allOrderPrice, orderList);

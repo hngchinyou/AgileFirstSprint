@@ -7,6 +7,7 @@ package entity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.junit.Before;
@@ -21,10 +22,10 @@ public class OrderListTest {
 
     private String id = "Or0001";
     private Date date = new Date();
- SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     //Order  o = new Order(orderNum, 1, date, 1.0);
     List<Order> orderList = new ArrayList<>();
-
+    
     OrderList ol = new OrderList(orderList, id, date, "Delivery", "Setapak", "abc", "Cn0001", "Processing");
 
     public OrderListTest() {
@@ -122,7 +123,7 @@ public class OrderListTest {
     @Test
     public void testGetOrderList() {
         System.out.println("getOrderList");
-        OrderList instance = null;
+       // OrderList instance = null;
         List<Order> expResult = new ArrayList<>();
         List<Order> result = ol.getOrderList();
         assertEquals(expResult, result);
@@ -138,7 +139,7 @@ public class OrderListTest {
         System.out.println("getPickUpDate");
         // OrderList instance = null;
         Date expResult = new Date();
-        Date result = ol.getPickUpDate();
+        Date result = new Date();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
