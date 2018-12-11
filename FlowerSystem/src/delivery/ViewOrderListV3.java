@@ -331,11 +331,11 @@ public class ViewOrderListV3 {
         return orderProcessingList;
     }
 
-    public static void sortRoute(List<OrderList> orderList) {
+    public static int sortRoute(List<OrderList> orderList) {
+            int setapak = 0, cheras = 0, gombak = 0, subang = 0;
         try {
             int vertices = 4;
             Graph graph = new Graph(vertices);
-            int setapak = 0, cheras = 0, gombak = 0, subang = 0;
             int sc = 0, sg = 0;
             int cs = 0, cg = 0;
             int gs = 0, gc = 0;
@@ -373,7 +373,7 @@ public class ViewOrderListV3 {
 //        cherasRoute(cheras, routeQueue, subang, graph, setapak, gombak);
 //        subangRoute(subang, routeQueue, setapak, graph, cheras, gombak);
 
-            if (!(setapak != 0 || gombak != 0 || cheras != 0 || subang != 0)) {
+            if ((setapak != 0 || gombak != 0 || cheras != 0 || subang != 0)) {
             } else {
                 System.out.print("There are no order today\n");
             }
@@ -401,6 +401,7 @@ public class ViewOrderListV3 {
         } catch (ParseException ex) {
             Logger.getLogger(ViewOrderListV3.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return setapak+gombak+cheras+subang;
 
     }
 
