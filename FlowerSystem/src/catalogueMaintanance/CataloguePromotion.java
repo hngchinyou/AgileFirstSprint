@@ -66,7 +66,7 @@ public class CataloguePromotion {
             }
             amount = scanner.nextInt();
             
-        promotion.add(new Promotion(fullPromotionID, name, description, price, amount));
+            addPromotion(promotion, fullPromotionID, name, description, price, amount);
         
         System.out.println("Do you want to add another new promotion(y/n)?");
             while (!scanner.hasNext("(Y|N)|(y|n){1}$")) {
@@ -78,4 +78,8 @@ public class CataloguePromotion {
     }while(result.equalsIgnoreCase("Y"));              
          System.out.println("Add successful." + "\n");
 }
+
+    public static void addPromotion(List<Promotion> promotion, String fullPromotionID, String name, String description, double price, int amount) {
+        promotion.add(new Promotion(fullPromotionID, name, description, price, amount));
+    }
 }

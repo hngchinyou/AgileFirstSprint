@@ -124,14 +124,18 @@ public class CatalogueView {
     }
         
         
-    public static void ViewPromotion(List<Promotion> promotion){
+    public static int ViewPromotion(List<Promotion> promotion){
+        int variable = 0;
         System.out.println("======================="); 
         System.out.println("Flower with promotion");
         System.out.println("=======================");
         for (Promotion promotions: promotion)
         {    
-            System.out.println(promotions);                               
-        }    
+            System.out.println(promotions);         
+            variable = 1;
+        }   
+        return variable;
     }
+    
 }
 
