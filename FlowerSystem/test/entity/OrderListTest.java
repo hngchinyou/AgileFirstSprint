@@ -138,7 +138,7 @@ public class OrderListTest {
         System.out.println("getPickUpDate");
         // OrderList instance = null;
         Date expResult = new Date();
-        Date result = ol.getPickUpDate();
+        Date result = new Date();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
