@@ -431,9 +431,10 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
-    public static void IPMenu(List<Customer> custList,double allOrderPrice, List<OrderList> orderList)
+    public static int IPMenu(List<Customer> custList,double allOrderPrice, List<OrderList> orderList)
     {
         int choice;
+        int test=0;
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("Invoice Payment Menu");
         System.out.println("1. Invoice Payment");
@@ -462,34 +463,7 @@ public class CustomerMaintenanceAndPayment{
                     List<Order> order = new ArrayList<>();
                     int count=0;
                     Date date = new Date();
-                    for(OrderList ol: orderList)
-                    {
-                        if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
-                        {
-                            for(Order o: ol.getOrderList())
-                            {
-                                if(order.isEmpty())
-                                {
-                                    order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
-                                }
-                                else
-                                {
-                                    for(Order oo: order)
-                                    {
-                                        if(oo.getOrderNum().equals(o.getOrderNum()))
-                                        {
-                                            oo.setQuantity(oo.getQuantity()+o.getQuantity());
-                                            count=1;
-                                        }
-                                    }
-                                    if(count == 0)
-                                    {
-                                        order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    test = sortInvoice(orderList, id, date, order, count, test);
                     double total=0;
                     for(Order o: order)
                     {
@@ -512,19 +486,61 @@ public class CustomerMaintenanceAndPayment{
                         scanner.next();
                     }
                     choice2 = scanner.nextInt();
-                    if(choice2 == 1)
-                    {
-                        for(OrderList ol: orderList)
-                        {
-                            if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
-                            {
-                                ol.setStatus("Paid");
-                                allOrderPrice = 0;
-                            }
-                        }
-                    }
+                    changeStatus(choice2, orderList, id, date);
                 }
             }//after customer for each loop
         }//after choice == 1
+        return test;
+    }
+
+    public static int sortInvoice(List<OrderList> orderList, String id, Date date, List<Order> order, int count, int test) {
+        for(OrderList ol: orderList)
+        {
+            if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
+            {
+                for(Order o: ol.getOrderList())
+                {
+                    if(order.isEmpty())
+                    {
+                        order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
+                    }
+                    else
+                    {
+                        for(Order oo: order)
+                        {
+                            if(oo.getOrderNum().equals(o.getOrderNum()))
+                            {
+                                oo.setQuantity(oo.getQuantity()+o.getQuantity());
+                                count=1;
+                                test=1;
+                            }
+                        }
+                        if(count == 0)
+                        {
+                            order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
+                        }
+                    }
+                }
+            }
+        }
+        return test;
+    }
+
+    public static int changeStatus(int choice2, List<OrderList> orderList, String id, Date date) {
+        double allOrderPrice;
+        int count =0;
+        if(choice2 == 1)
+        {
+            for(OrderList ol: orderList)
+            {
+                if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
+                {
+                    ol.setStatus("Paid");
+                    allOrderPrice = 0;
+                    count = 1;
+                }
+            }
+        }
+        return count;
     }
 }

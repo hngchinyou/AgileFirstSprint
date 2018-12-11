@@ -606,7 +606,7 @@ public class CatOrder {
             }
             
         }
-        return 1;
+        return count1;
     }
 
     private static int getCustomer(List<Customer> custList, String id, int count, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
