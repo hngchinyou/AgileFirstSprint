@@ -1,10 +1,14 @@
 package customized;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Scanner;
 
+import entity.Customer;
 import entity.CustomizedFlower;
 import entity.Flower2;
 import java.util.List;
@@ -13,20 +17,21 @@ public class CustFloArrange {
 	private static Scanner scanner = new Scanner(System.in);
 	private static String[] floArangeType = {"Elliptical","Vertical","Horizontal","Triangular","crescent","S' shaped","oval shaped","cascade"},
 			size= {"Big","Medium","Small"},
-			//floType= {"Rose","Sunflower"},
 			accessory= {"Bear","Card","Chocolate"},
 			priorLevel= {"Express","Normal","Flexi"};
-	private static ArrayList<CustomizedFlower> flowerList = new ArrayList<>();
 	
-	public static void custFloArrange(List<Flower2> floType) {
+	
+	//customized flower menu
+	public static void custFloArrange(List<Customer> custList,List<Flower2> floType,ArrayList<CustomizedFlower> flowerList) {
 		int choice;
 		
 		do {
-			System.out.println("Customized Flower Arrangement Menu");
+			System.out.println("\nCustomized Flower Arrangement Menu");
 	        System.out.println("==============================================");
 	        System.out.println("1.Customized flower");
 	        System.out.println("2.Display customized flower by priority");
-	        System.out.println("3.Back to Main menu");
+	        System.out.println("3.Generate itemized bill and calculate charge fee");
+	        System.out.println("4.Back to Main menu");
 	        System.out.println("==============================================");
 	        System.out.print("Enter Your Choice: ");
 	        while(!scanner.hasNextInt()||!scanner.hasNext("[1-3]")) {
@@ -37,19 +42,22 @@ public class CustFloArrange {
 	        System.out.println("");
 	        switch (choice) {
 			case 1:
-				customizedFlo(floType);
+				customizedFlo(custList, floType,flowerList);
 				break;
 			case 2:
-				sortCustomizedFlo();
+				sortCustomizedFlo(floType,flowerList);
 				break;
+			case 3:
+				itemizedBill(custList, floType,flowerList);
 			default:
 				break;
 			}
-		}while(choice!=3);
+		}while(choice!=4);
 		
 	}
 	
-	public static void sortCustomizedFlo() {
+	//display job queue (sorted)
+	public static void sortCustomizedFlo(List<Flower2> floType,ArrayList<CustomizedFlower> flowerList) {
 		if(!flowerList.isEmpty()) {
 			Collections.sort(flowerList, new Comparator<CustomizedFlower>() {
 
@@ -60,7 +68,8 @@ public class CustFloArrange {
 				}
 			});
 			for(int i=0;i<flowerList.size();i++) {
-				System.out.println("Customized Flower "+(i+1)+"\n"+flowerList.get(i)+"\n");
+                            if(flowerList.get(i).getStatus().equals("Processing"))
+				System.out.println("Customized Flower "+(i+1)+"\n"+flowerList.get(i).toString(floType)+"\n");
 			}
 		}
 		else {
@@ -68,14 +77,49 @@ public class CustFloArrange {
 		}
 	}
 	
-	public static void customizedFlo(List<Flower2> floType) {
+	//itemized bill and calculate charge
+	public static void itemizedBill(List<Customer> custList,List<Flower2> floType,ArrayList<CustomizedFlower> flowerList) {
+		String custId="";
+		
+		while(custId.equals("")) {
+			custId=selectCustomer(custList);
+		}
+		int count=0;
+		for(CustomizedFlower cf:flowerList) {
+			if(custId.equals(cf.getCustomerId())) {
+				if(cf.getStatus().equals("Processing")) {
+					count=1;
+					break;
+				}
+			}
+		}
+		if(count==1) {
+			System.out.println("Customer ID: "+custId+"\n--------------------");
+			for(CustomizedFlower cf:flowerList) {
+				if(custId.equals(cf.getCustomerId())) {
+					System.out.println(cf.displayBill(floType)+"\n");
+				}
+			}
+		}
+		else {
+			System.out.println("There have no customized flower record for this customer.");
+		}
+	}
+	
+	//customized flower
+	public static void customizedFlo(List<Customer> custList ,List<Flower2> floType,ArrayList<CustomizedFlower> flowerList) {
 		//declaration
 		ArrayList<CustomizedFlower> currentFlowerList = new ArrayList<>();
 		CustomizedFlower flower=new CustomizedFlower();
-		String respond="";
+		String respond="",custId="";
 		int maxFloType=0,maxAccessory=0;
-		
+		Date pickupDate=new Date();
+		while(custId.equals("")) {
+			custId=selectCustomer(custList);
+		}
 		do {
+			flower.setCustomerId(custId);
+			
 			selectFloArrange(flower);
 			
 			selectSize(flower);
@@ -98,6 +142,33 @@ public class CustFloArrange {
 			
 			selectPrior(flower);
 			
+			//auto select pickup date
+			pickupDate=new Date();
+			if(flower.getPriorLevel()==1) {
+				Calendar cal=Calendar.getInstance();
+				cal.setTime(pickupDate);
+				cal.add(Calendar.DATE, 1);
+				pickupDate=cal.getTime();
+			}
+			else if(flower.getPriorLevel()==2) {
+				Calendar cal=Calendar.getInstance();
+				cal.setTime(pickupDate);
+				cal.add(Calendar.DATE, 3);
+				pickupDate=cal.getTime();
+			}
+			else {
+				Calendar cal=Calendar.getInstance();
+				cal.setTime(pickupDate);
+				cal.add(Calendar.DATE, 5);
+				pickupDate=cal.getTime();
+			}
+			flower.setPickupDate(pickupDate);
+			
+			//auto generate id
+			flower.setCustomizedId(String.format("CF%04d", (flowerList.size()+currentFlowerList.size()+1)));
+			
+			flower.setStatus("Processing");
+			
 			//duplicate flower
 			currentFlowerList.add(flower);
 			do {
@@ -108,6 +179,9 @@ public class CustFloArrange {
 				}
 				respond=scanner.next();
 				if(respond.equalsIgnoreCase("Y")) {
+					CustomizedFlower temp=flower;
+					flower=new CustomizedFlower(temp.getFloArrangeType(),temp.getSize(),String.format("CF%04d", (flowerList.size()+currentFlowerList.size()+1))
+							,temp.getStatus(),temp.getFloType(),temp.getAccessory(),temp.getPriorLevel(),temp.getCustomerId(),temp.getPickupDate());
 					currentFlowerList.add(flower);
 				}
 			}while(respond.equalsIgnoreCase("Y"));
@@ -125,7 +199,7 @@ public class CustFloArrange {
 		
 		System.out.println("");
 		for(int i=0;i<currentFlowerList.size();i++) {
-			System.out.println("Customized Flower "+(i+1)+"\n"+currentFlowerList.get(i).toString(floType)+"\n");
+			System.out.println("Customized Flower "+(i+1)+"\n-------------------------------\n"+currentFlowerList.get(i).toString(floType)+"\n");
 		}
 		flowerList.addAll(currentFlowerList);
 		currentFlowerList.clear();
@@ -297,4 +371,21 @@ public class CustFloArrange {
 		flower.setPriorLevel(scanner.nextInt());
 	}
 
+	//enter customer
+	public static String selectCustomer(List<Customer> custList) {
+		String custId="";
+		System.out.println("Enter customer id: ");
+		custId=scanner.next();
+		for(Customer c:custList) {
+			if(custId.equals(c.getId())) {
+				return custId;
+			}
+		}
+		custId="";
+		if(custId.equals("")) {
+			System.err.println("Wrong customer id. Please re-enter.\n");
+		}
+		return custId;
+	}
+	
 }

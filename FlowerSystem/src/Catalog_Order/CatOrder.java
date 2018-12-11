@@ -42,15 +42,13 @@ public class CatOrder {
         }
         if (count == 0) {
             System.err.println("This person does not exist!");
-        }
-        else if(count == 33)
-        {
+        } else if (count == 33) {
             System.err.println("Please do the payment!!!");
         }
 
     }
 
-    public static void catalogueOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
+    public static void catalogueOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList, int count5) {
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         // respond
@@ -76,7 +74,7 @@ public class CatOrder {
         // double allOrderPrice = 0;
         Date date1 = new Date();
         boolean valid = true;
-        
+
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
@@ -86,8 +84,9 @@ public class CatOrder {
             String oid = generateOID(orderList);
             if (!orderList.isEmpty()) {
                 for (OrderList ol : orderList) {
-                    if(!ol.getStatus().equals("Paid"))
+                    if (!ol.getStatus().equals("Paid")) {
                         allOrderPrice = ol.calcAllOrder(orderList, id);
+                    }
                 }
             }
             for (Customer cust : custList) {
@@ -141,8 +140,22 @@ public class CatOrder {
                                     //remakeRes = scanner.next();
                                     //arrOrder.remove(arrOrder.size() - 1);
                                 } else {
+                                    double getdeprice = 0;
+                                    List<Flower2> fl = new ArrayList<>();
+                                    for (Flower2 f : flower) {
+                                        if (f.getType().equals("Bouquet") && count5 == 1) {
+                                            fl.add(f);
+                                            //getdeprice = f.getPrice();
 
-                                    arrOrder.add(new Order(orderNo, quantity, date, flower.get(Integer.parseInt(orderNo)).getPrice()));
+                                        } else if (f.getType().equals("Flower") && count5 == 2) {
+                                            fl.add(f);
+                                            //getdeprice = f.getPrice();
+
+                                        }
+
+                                    }
+                                    getdeprice = fl.get(Integer.parseInt(orderNo) - 1).getPrice();
+                                    arrOrder.add(new Order(orderNo, quantity, date, getdeprice));
 
                                     for (Order ol : arrOrder) {
                                         totalSub += ol.calculatePrice();
@@ -219,7 +232,7 @@ public class CatOrder {
                             switch (choice) {
                                 case 1:
                                     collectMethod = "Delivery";
-                                   
+
                                     count3 = 1;
                                     break;
                                 case 2:
@@ -228,34 +241,34 @@ public class CatOrder {
                                     count3 = 2;
                                     break;
                             }
-                            if(count3 == 1){
-                            int areaChoice = 0;
-                            areaChoice = areaMenu();
-                            
-                            switch (areaChoice) {
-                                case 1:
-                                    area = "Setapak";
-                                    System.out.print("Enter Delivery Address:");
-                                    address = scanner.next();
-                                    break;
-                                case 2:
-                                    area = "Gombak";
-                                    System.out.print("Enter Delivery Address:");
-                                    address = scanner.next();
-                                    break;
-                                case 3:
-                                    area = "Cheras";
-                                    System.out.print("Enter Delivery Address:");
-                                    address = scanner.next();
-                                    break;
-                                case 4:
-                                    area = "Subang";
-                                    System.out.print("Enter Delivery Address:");
-                                    address = scanner.next();
-                                    break;
+                            if (count3 == 1) {
+                                int areaChoice = 0;
+                                areaChoice = areaMenu();
+
+                                switch (areaChoice) {
+                                    case 1:
+                                        area = "Setapak";
+                                        System.out.print("Enter Delivery Address:");
+                                        address = scanner.next();
+                                        break;
+                                    case 2:
+                                        area = "Gombak";
+                                        System.out.print("Enter Delivery Address:");
+                                        address = scanner.next();
+                                        break;
+                                    case 3:
+                                        area = "Cheras";
+                                        System.out.print("Enter Delivery Address:");
+                                        address = scanner.next();
+                                        break;
+                                    case 4:
+                                        area = "Subang";
+                                        System.out.print("Enter Delivery Address:");
+                                        address = scanner.next();
+                                        break;
+                                }
                             }
-                            }
-                        } 
+                        }
 //            for(OrderList o : orderList){
 //                if(o.calcTotalPrice() > creditLimit){
 //                    System.err.println("You already over your limit. you cannot continue order!");
@@ -299,7 +312,7 @@ public class CatOrder {
         }
     }
 
-    public static void consOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
+    public static void consOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList, int count5) {
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         // respond
@@ -374,11 +387,27 @@ public class CatOrder {
                     //System.err.print("Do you want to Remake Order ?[Y/N]");
                     //remakeRes = scanner.next();
                     //arrOrder.remove(arrOrder.size() - 1);
-                    arrOrder.add(new Order(orderNo, quantity, date, flower.get(Integer.parseInt(orderNo)).getPrice()));
+                    double getdeprice = 0;
+                    List<Flower2> fl = new ArrayList<>();
+                    for (Flower2 f : flower) {
+                        if (f.getType().equals("Bouquet") && count5 == 1) {
+                            fl.add(f);
+                            //getdeprice = f.getPrice();
 
-                    for (Order ol : arrOrder) {
-                        totalSub += ol.calculatePrice();
+                        } else if (f.getType().equals("Flower") && count5 == 2) {
+                            fl.add(f);
+                            //getdeprice = f.getPrice();
+
+                        }
+
                     }
+                    getdeprice = fl.get(Integer.parseInt(orderNo) - 1).getPrice();
+
+                    arrOrder.add(new Order(orderNo, quantity, date, getdeprice));
+
+                    totalSub += arrOrder.get(arrOrder.size() - 1).calculatePrice();
+                    //totalSub += ol.getQuantity()*ol.getPrice();
+
                     //check credit limit
                     totalPrice = totalSub + allOrderPrice;
                     //System.out.println(allOrderPrice);
@@ -423,39 +452,39 @@ public class CatOrder {
                 switch (choice) {
                     case 1:
                         collectMethod = "Delivery";
-                            count3 = 1;
+                        count3 = 1;
                         break;
                     case 2:
                         collectMethod = "Self Pick Up";
                         address = " ";
                         break;
                 }
-                    if(count3 == 1){
-                int areaChoice = 0;
-                areaChoice = areaMenu();
-            
-                switch (areaChoice) {
-                    case 1:
-                        area = "Setapak";
-                        System.out.print("Enter Delivery Address:");
-                        address = scanner.next();
-                        break;
-                    case 2:
-                        area = "Gombak";
-                        System.out.print("Enter Delivery Address:");
-                        address = scanner.next();
-                        break;
-                    case 3:
-                        area = "Cheras";
-                        System.out.print("Enter Delivery Address:");
-                        address = scanner.next();
-                        break;
-                    case 4:
-                        area = "Subang";
-                        System.out.print("Enter Delivery Address:");
-                        address = scanner.next();
-                        break;
-                }
+                if (count3 == 1) {
+                    int areaChoice = 0;
+                    areaChoice = areaMenu();
+
+                    switch (areaChoice) {
+                        case 1:
+                            area = "Setapak";
+                            System.out.print("Enter Delivery Address:");
+                            address = scanner.next();
+                            break;
+                        case 2:
+                            area = "Gombak";
+                            System.out.print("Enter Delivery Address:");
+                            address = scanner.next();
+                            break;
+                        case 3:
+                            area = "Cheras";
+                            System.out.print("Enter Delivery Address:");
+                            address = scanner.next();
+                            break;
+                        case 4:
+                            area = "Subang";
+                            System.out.print("Enter Delivery Address:");
+                            address = scanner.next();
+                            break;
+                    }
                 }
             }
 //            for(OrderList o : orderList){
@@ -493,11 +522,11 @@ public class CatOrder {
             //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
         }
         System.out.print("\nTotal Price: RM ");
-        System.out.println(totalPrice);
+        System.out.println(String.format("%.2f", totalPrice));
 
     }
 
-    public static void generateSales(List<Customer> custList, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
+    public static int generateSales(List<Customer> custList, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
 
         String custId = "";
@@ -522,39 +551,7 @@ public class CatOrder {
         System.out.println("===================================");
         System.out.print("Enter Order ID : ");
         orderId = sc.next();
-        int count = 0;
-        int count2 = 0;
-        double price = 0;
-        for (OrderList ol2 : orderList) {
-            if (ol2.getId().equals(orderId)) {
-                for (int i = 0; i < ol2.getOrderList().size(); i++) {
-                    count = 0;
-                    if (orderItem.isEmpty()) {
-                        orderItem.add(new Order(ol2.getOrderList().get(i).getOrderNum(),
-                                ol2.getOrderList().get(i).getQuantity(), ol2.getOrderList().get(i).getPrice()));
-                    } else {
-                        for (Order oi : orderItem) {
-                            if (oi.getOrderNum().equals(ol2.getOrderList().get(i).getOrderNum())) {
-                                count2 = oi.getQuantity() + ol2.getOrderList().get(i).getQuantity();
-                                price = oi.calculatePrice() + ol2.getOrderList().get(i).calculatePrice();
-                                oi.setPrice(ol2.getOrderList().get(i).getPrice());
-                                oi.setQuantity(count2);
-                                count = 1;
-
-                            }
-                        }
-                        if (count == 0) {
-                            orderItem.add(new Order(ol2.getOrderList().get(i).getOrderNum(),
-                                    ol2.getOrderList().get(i).getQuantity(), ol2.getOrderList().get(i).getPrice()));
-
-                        }
-
-                    }
-
-                }
-            }
-
-        }
+        int count1 = addQuantity(orderList, orderId, orderItem);
         int b = 0;
         System.out.println("Sales order for Customer ID [" + custId + "] Order ID [" + orderId + "]");
         System.out.println("======================================================================");
@@ -566,6 +563,50 @@ public class CatOrder {
 
         }
         System.out.println("======================================================================");
+        return count1;
+        
+    }
+
+    public static int addQuantity(List<OrderList> orderList, String orderId, List<Order> orderItem) {
+        int count = 0;
+        int count2 = 0;
+        int count1 = 0;
+        double price = 0;
+        for (OrderList ol2 : orderList) {
+            if (ol2.getId().equals(orderId)) {
+                for (int i = 0; i < ol2.getOrderList().size(); i++) {
+                    count = 0;
+                    if (orderItem.isEmpty()) {
+                        orderItem.add(new Order(ol2.getOrderList().get(i).getOrderNum(),
+                                ol2.getOrderList().get(i).getQuantity(), ol2.getOrderList().get(i).getPrice()));
+                        count1 = 1;
+                    } else {
+                        for (Order oi : orderItem) {
+                            if (oi.getOrderNum().equals(ol2.getOrderList().get(i).getOrderNum())) {
+                                count2 = oi.getQuantity() + ol2.getOrderList().get(i).getQuantity();
+                                price = oi.calculatePrice() + ol2.getOrderList().get(i).calculatePrice();
+                                oi.setPrice(ol2.getOrderList().get(i).getPrice());
+                                oi.setQuantity(count2);
+                                count = 1;
+                                count1 = 1;
+                                
+
+                            }
+                        }
+                        if (count == 0) {
+                            orderItem.add(new Order(ol2.getOrderList().get(i).getOrderNum(),
+                                    ol2.getOrderList().get(i).getQuantity(), ol2.getOrderList().get(i).getPrice()));
+                            count1 = 1;
+
+                        }
+
+                    }
+
+                }
+            }
+            
+        }
+        return 1;
     }
 
     private static int getCustomer(List<Customer> custList, String id, int count, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
@@ -574,33 +615,26 @@ public class CatOrder {
                 if (c.getcType().equals("Corporate")) {
                     Date date = new Date();
                     boolean valid = true;
-                    if((new Date(2018, 11, 8)).before(date))
-                    {
+                    if ((new Date(2018, 11, 8)).before(date)) {
                         valid = true;
-                    }
-                    else
-                    {
-                        for(OrderList ol:orderList)
-                        {
-                            if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
-                            {
-                                if(!(ol.getStatus().equals("Paid")))
-                                {
+                    } else {
+                        for (OrderList ol : orderList) {
+                            if (ol.getCustId().equals(id) && ol.getPickUpDate().getMonth() == date.getMonth() - 1) {
+                                if (!(ol.getStatus().equals("Paid"))) {
                                     valid = false;
-                                    count=33;
+                                    count = 33;
                                 }
                             }
                         }
                     }
-                    if(valid)
-                    {
+                    if (valid) {
                         count = Catalog(flower);
-                        catalogueOrder(custList, flower, id, allOrderPrice, arrOrder, orderList);
+                        catalogueOrder(custList, flower, id, allOrderPrice, arrOrder, orderList, count);
                     }
-                    
+
                 } else if (c.getcType().equals("Consumer")) {
                     count = Catalog(flower);
-                    consOrder(custList, flower, id, allOrderPrice, arrOrder, orderList);
+                    consOrder(custList, flower, id, allOrderPrice, arrOrder, orderList, count);
                 }
             }
 
@@ -609,16 +643,31 @@ public class CatOrder {
     }
 
     private static int Catalog(List<Flower2> flower) {
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         int count;
         int j = 0;
+        int choice;
+
+        System.out.println("Catalogue Menu\n==============");
+        System.out.println("1. Bouquet Menu");
+        System.out.println("2. Flower Menu");
+        choice = scanner.nextInt();
+
         for (Flower2 f : flower) {
-            System.out.println("================");
-            System.out.print("Flower " + (++j) + "\n" + f.getFlowername() + "\nRM ");
-            System.out.println(String.format("%.2f", f.getPrice()));
-            System.out.println("================");
+            if (f.getType().equals("Bouquet") && choice == 1) {
+                System.out.println("================");
+                System.out.print("Flower " + (++j) + "\n" + f.getFlowername() + "\nRM ");
+                System.out.println(String.format("%.2f", f.getPrice()));
+                System.out.println("================");
+            } else if (f.getType().equals("Flower") && choice == 2) {
+                System.out.println("================");
+                System.out.print("Flower " + (++j) + "\n" + f.getFlowername() + "\nRM ");
+                System.out.println(String.format("%.2f", f.getPrice()));
+                System.out.println("================");
+            }
         }
         count = 1;
-        return count;
+        return choice;
     }
 
     public static String generateOID(List<OrderList> orderLists) {
