@@ -9,11 +9,14 @@ import delivery.ViewOrderListV3;
 import catalogueMaintanance.CatalogueAdd;
 import entity.CorporateCust;
 import entity.Customer;
+import entity.CustomizedFlower;
 import entity.Flower2;
 import entity.Promotion;
 import entity.Order;
 import entity.OrderList;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +34,9 @@ public class Main {
         double allOrderPrice = 0;
         List<Order> arrOrder = new ArrayList<>();
         List<OrderList> orderList = new ArrayList<>();
+//        arrOrder.add(new Order("1", 3, new Date(), 12.34));
+//        orderList.add(new OrderList(arrOrder, "Or0001", new Date(), "Delivery", "setapak", "Pv13", "Cn0001", "Processing"));//hardcoding order list 1
+
         // customer maintenance initial array
         List<Customer> custList = new ArrayList<>();
         custList.add(new Customer("Cn0001", "yohku", "Wangsa Maju", "Consumer"));
@@ -42,6 +48,12 @@ public class Main {
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
+        ArrayList<CustomizedFlower> flowerList = new ArrayList<>();
+        ArrayList<String> floType = new ArrayList<>(Arrays.asList("Clover"));
+	ArrayList<String> accessory = new ArrayList<>(Arrays.asList("Bear"));
+	CustomizedFlower custflower=new CustomizedFlower("Vertical", "Big", "CF0001", "Processing", floType, accessory, 1, "Cn0001",new Date());
+
+        flowerList.add(custflower);
         //promotion
         List<Promotion> promotion = new ArrayList<>();
         promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
@@ -74,10 +86,10 @@ public class Main {
                     CatOrder.COmain(custList, flower,allOrderPrice,arrOrder,orderList);
                     break;
                 case 4:
-                    ViewOrderListV3.Deliverymain(orderList);
+                    ViewOrderListV3.Deliverymain(orderList, flowerList,flower);
                     break;
                 case 5:
-                    CustFloArrange.custFloArrange(flower);
+                    CustFloArrange.custFloArrange(custList,flower,flowerList);
                     break;
             }
         } while (choice != 6);
