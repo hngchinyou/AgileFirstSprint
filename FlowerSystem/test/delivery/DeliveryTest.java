@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Delivery;
+package delivery;
 
 import delivery.ViewOrderListV3;
 import entity.Order;

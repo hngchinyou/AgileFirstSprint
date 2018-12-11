@@ -48,12 +48,13 @@ public class Main {
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
-        ArrayList<CustomizedFlower> flowerList = new ArrayList<>();
-        ArrayList<String> floType = new ArrayList<>(Arrays.asList("Clover"));
-	ArrayList<String> accessory = new ArrayList<>(Arrays.asList("Bear"));
-	CustomizedFlower custflower=new CustomizedFlower("Vertical", "Big", "CF0001", "Processing", floType, accessory, 1, "Cn0001",new Date());
+		ArrayList<CustomizedFlower> flowerList = new ArrayList<>();
+		ArrayList<String> floType = new ArrayList<>(Arrays.asList("Clover"));
+		ArrayList<String> accessory = new ArrayList<>(Arrays.asList("Bear"));
+		CustomizedFlower custflower = new CustomizedFlower("Vertical", "Big", "CF0001", "Processing", floType,
+				accessory, 1, "Cn0001", new Date());
 
-        flowerList.add(custflower);
+		flowerList.add(custflower);
         //promotion
         List<Promotion> promotion = new ArrayList<>();
         promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
