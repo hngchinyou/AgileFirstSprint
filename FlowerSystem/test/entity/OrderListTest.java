@@ -5,11 +5,14 @@
  */
 package entity;
 
+import Interface.ArrayList;
+import Interface.ListInterface;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.Iterator;
+//import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -24,7 +27,8 @@ public class OrderListTest {
     private Date date = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     //Order  o = new Order(orderNum, 1, date, 1.0);
-    List<Order> orderList = new ArrayList<>();
+    ListInterface<Order> orderList = new ArrayList<>();
+    
     
     OrderList ol = new OrderList(orderList, id, date, "Delivery", "Setapak", "abc", "Cn0001", "Processing");
 
@@ -120,16 +124,7 @@ public class OrderListTest {
     /**
      * Test of getOrderList method, of class OrderList.
      */
-    @Test
-    public void testGetOrderList() {
-        System.out.println("getOrderList");
-       // OrderList instance = null;
-        List<Order> expResult = new ArrayList<>();
-        List<Order> result = ol.getOrderList();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //   fail("The test case is a prototype.");
-    }
+   
 
     /**
      * Test of getPickUpDate method, of class OrderList.
@@ -189,29 +184,11 @@ public class OrderListTest {
     /**
      * Test of setOrderList method, of class OrderList.
      */
-    @Test
-    public void testSetOrderList() {
-        System.out.println("setOrderList");
-        List<Order> orderList = new ArrayList<>();
-        //OrderList instance = null;
-        ol.setOrderList(orderList);
-        // TODO review the generated test code and remove the default call to fail.
-        //  fail("The test case is a prototype.");
-    }
-
+    
     /**
      * Test of setCustId method, of class OrderList.
      */
-    @Test
-    public void testSetCustId() {
-        System.out.println("setCustId");
-        String custId = "Cn0001";
-        // OrderList instance = null;
-        ol.setCustId(custId);
-        // TODO review the generated test code and remove the default call to fail.
-        // fail("The test case is a prototype.");
-    }
-
+  
     /**
      * Test of setPickUpDate method, of class OrderList.
      */
@@ -257,6 +234,21 @@ public class OrderListTest {
     /**
      * Test of calcTotalPrice method, of class OrderList.
      */
+    @Test
+    public void testCalTotalPrice(){
+     Iterator<Order> a = orderList.getIterator();
+     orderList.add(new Order(id, 1, date, 1.0));
+           double totalPrice=0.0;
+     for(Iterator<Order> i = orderList.getIterator(); i.hasNext(); ) {
+            totalPrice += a.next().calculatePrice();
+        }      
+        
+        assertEquals(1.0, totalPrice,0.0);
+    
+    }
+    
+    
+    
     /**
      * Test of calcAllOrder method, of class OrderList.
      */

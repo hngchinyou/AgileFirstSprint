@@ -5,17 +5,19 @@
  */
 package entity;
 
+import Interface.ArrayList;
+import Interface.ListInterface;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
+import java.util.Iterator;
+//import java.util.List;
 /**
  *
  * @author User
  */
 public class OrderList {
-    private List<Order> orderList = new ArrayList<>();
+    private ListInterface<Order> orderList = new ArrayList<>();
     private String id;
     private Date pickUpDate;
     private String collectMethod;
@@ -26,9 +28,11 @@ public class OrderList {
     private static double allTotal=0;
     private String status;
     private String area; 
+     Iterator<Order> iterator = orderList.getIterator();
+     
    
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    public OrderList(List<Order> orderList,String id, Date pickUpDate, String collectMethod,String area ,String DAddress,String custId,String status) {
+    public OrderList(ListInterface<Order> orderList,String id, Date pickUpDate, String collectMethod,String area ,String DAddress,String custId,String status) {
         this.orderList = orderList;
         this.id = id;
         this.pickUpDate = pickUpDate;
@@ -66,7 +70,7 @@ public class OrderList {
         return custId;
     }
 
-    public List<Order> getOrderList() {
+    public ListInterface<Order> getOrderList() {
         return orderList;
     }
 
@@ -86,7 +90,7 @@ public class OrderList {
         this.status = status;
     }
 
-    public void setOrderList(List<Order> orderList) {
+    public void setOrderList(ListInterface<Order> orderList) {
         this.orderList = orderList;
     }
 
@@ -109,39 +113,41 @@ public class OrderList {
     public String arString()
     {
         String s="";
-        for(Order o: orderList)
+        
+        while(iterator.hasNext())
         {
-            s += o;
+            s += iterator.next();
         }
         return s;
     }
    
-    public double calcTotalPrice(List<Order> orderArr){
+    public double calcTotalPrice(ListInterface<Order> orderArr){
         totalPrice=0;
-        for(Order o : orderArr){
-            totalPrice += o.calculatePrice();
+     for(Iterator<Order> i = orderArr.getIterator(); i.hasNext(); ) {
+            totalPrice += iterator.next().calculatePrice();
         }      
         
         return totalPrice;
     }
     
-    public double calcAllOrder(List<OrderList> orderList, List<Order> orderArr)
+    public double calcAllOrder(ListInterface<OrderList> orderList, ListInterface<Order> orderArr)
     {
+        
+        Iterator<OrderList> iterator = orderList.getIterator();
         allTotal=0;
-        for(OrderList ol: orderList)
-        {
-            allTotal += ol.calcTotalPrice(orderArr);
+        while(iterator.hasNext()){
+            allTotal += iterator.next().calcTotalPrice(orderArr);
         }
         return allTotal;
     }
     
-    public double calcAllOrder(List<OrderList> orderList, String customerId)
+    public double calcAllOrder(ListInterface<OrderList> orderList, String customerId)
     {
+         Iterator<OrderList> iterator = orderList.getIterator();
         allTotal=0;
-        for(OrderList ol: orderList)
-        {
-            if(customerId.equals(ol.getCustId())){
-            allTotal += ol.calcTotalPrice(ol.getOrderList());
+        for(int i = 0 ; i < orderList.size();i++){
+            if(customerId.equals(orderList.get(i).getCustId())){
+            allTotal += orderList.get(i).calcTotalPrice(orderList.get(i).getOrderList());
             
             }
         }
