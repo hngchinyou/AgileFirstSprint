@@ -7,6 +7,8 @@ package Catalog_Order;
 
 //import Interface.List;
 //import Interface.ArrayList;
+import custMaintenanceNPayment.mLinked;
+import custMaintenanceNPayment.mLinkedInterface;
 import entity.CorporateCust;
 import entity.Customer;
 import entity.Flower2;
@@ -27,7 +29,7 @@ public class CatOrder {
     /**
      * @param args the command line arguments
      */
-    public static void COmain(List<Customer> custList, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
+    public static void COmain(mLinkedInterface<Customer> custList, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         int choice;
         int count = 0;
@@ -50,7 +52,7 @@ public class CatOrder {
 
     }
 
-    public static void catalogueOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList, int count5) {
+    public static void catalogueOrder(mLinkedInterface<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList, int count5) {
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         // respond
@@ -317,7 +319,7 @@ public class CatOrder {
         }
     }
 
-    public static void consOrder(List<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList, int count5) {
+    public static void consOrder(mLinkedInterface<Customer> custList, List<Flower2> flower, String id, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList, int count5) {
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         // respond
@@ -531,7 +533,7 @@ public class CatOrder {
 
     }
 
-    public static int generateSales(List<Customer> custList, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
+    public static int generateSales(mLinkedInterface<Customer> custList, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
 
         String custId = "";
@@ -636,7 +638,7 @@ public class CatOrder {
         return count1;
     }
 
-    private static int getCustomer(List<Customer> custList, String id, int count, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
+    private static int getCustomer(mLinkedInterface<Customer> custList, String id, int count, List<Flower2> flower, double allOrderPrice, List<Order> arrOrder, List<OrderList> orderList) {
         for (int i = 0 ; i < custList.size();i++) {
             if (id.equals(custList.get(i).getId())) {
                 if (custList.get(i).getcType().equals("Corporate")) {

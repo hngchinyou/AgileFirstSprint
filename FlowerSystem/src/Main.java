@@ -9,6 +9,8 @@ import Catalog_Order.CatOrder;
 import custMaintenanceNPayment.CustomerMaintenanceAndPayment;
 import delivery.ViewOrderListV3;
 import catalogueMaintanance.CatalogueAdd;
+import custMaintenanceNPayment.mLinked;
+import custMaintenanceNPayment.mLinkedInterface;
 import entity.CorporateCust;
 import entity.Customer;
 import entity.CustomizedFlower;
@@ -43,7 +45,7 @@ public class Main {
 
         // customer maintenance initial array
         //ListInterface<Customer> custList = new ArrayList<>();
-        List<Customer> custList = new ArrayList<>();
+        mLinkedInterface<Customer> custList = new mLinked<>();
         custList.add(new Customer("Cn0001", "yohku", "Wangsa Maju", "Consumer"));
         custList.add(new CorporateCust("Cr0002", "kuma", "Wangsa Maju 2", "Corporate", 5000, "Kumasou", "60-5936555"));
         // flower maintenance

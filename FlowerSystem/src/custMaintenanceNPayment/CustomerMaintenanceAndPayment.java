@@ -23,7 +23,7 @@ public class CustomerMaintenanceAndPayment{
     /**
      * @param args the command line arguments
      */
-    public static void CPmain(List<Customer> custList, double allOrderPrice, List<OrderList> orderList) {
+    public static void CPmain(mLinkedInterface<Customer> custList, double allOrderPrice, List<OrderList> orderList) {
         int choice = 0, choice2 = 0;
         
         do{
@@ -49,7 +49,7 @@ public class CustomerMaintenanceAndPayment{
         }while(choice!=6);
     }
     
-    public static void Testing(List<Customer> custList)
+    public static void Testing(mLinkedInterface<Customer> custList)
     {
         String id;
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
@@ -57,9 +57,9 @@ public class CustomerMaintenanceAndPayment{
         
         mLinkedInterface<Customer> cll = new mLinked<>();
         
-        for(Customer c: custList)
+        for(int i=0; i<custList.size();i++)
         {
-            cll.add(c);
+            cll.add(custList.get(i));
         }
         
         for(int i=0; i< cll.size(); i++)
@@ -76,7 +76,7 @@ public class CustomerMaintenanceAndPayment{
         }
     }
  
-    public static void classify(List<Customer> custList)  
+    public static void classify(mLinkedInterface<Customer> custList)  
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String name;
@@ -93,19 +93,19 @@ public class CustomerMaintenanceAndPayment{
         
     }
     
-    public static int verifyCT(String name, List<Customer> custList)
+    public static int verifyCT(String name, mLinkedInterface<Customer> custList)
     {
-        for(Customer c: custList)
+        for(int i=0; i< custList.size();i++)
         {
-            if(name.equals(c.getName())&& c.getcType().equals("Corporate"))
+            if(name.equals(custList.get(i).getName())&& custList.get(i).getcType().equals("Corporate"))
                 return 1;
-            else if(name.equals(c.getName())&& c.getcType().equals("Consumer"))
+            else if(name.equals(custList.get(i).getName())&& custList.get(i).getcType().equals("Consumer"))
                 return 2;
         }
         return 0;
     }
     
-    public static void setLimit(List<Customer> custList)
+    public static void setLimit(mLinkedInterface<Customer> custList)
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String name;
@@ -115,9 +115,9 @@ public class CustomerMaintenanceAndPayment{
         System.out.print("Please enter the corporate customer name: ");
         name = scanner.next();
         
-        for(Customer c: custList)
+        for(int i=0;i<custList.size();i++)
         {
-            if(name.equals(c.getName()) && c.getcType().equals("Corporate"))
+            if(name.equals(custList.get(i).getName()) && custList.get(i).getcType().equals("Corporate"))
             {
                 System.out.print("Enter the credit for the corporate customer: RM ");
                 while(!scanner.hasNext("\\s*(?=.*[1-9])\\d*(?:\\.\\d{1,2})?\\s*$"))
@@ -128,7 +128,7 @@ public class CustomerMaintenanceAndPayment{
                 }
                 credit = scanner.nextDouble();
                 
-                ((CorporateCust)c).setCredit(credit);
+                ((CorporateCust)custList.get(i)).setCredit(credit);
                 valid = true;
                 System.out.println(name + String.format("'s credit is RM %.2f\n", credit));
             }
@@ -189,7 +189,7 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
-    public static void addCust(List<Customer> custList)
+    public static void addCust(mLinkedInterface<Customer> custList)
     {
         int choice = 0;
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
@@ -213,7 +213,7 @@ public class CustomerMaintenanceAndPayment{
             addCon(custList);
     }
     
-    public static void addCon(List<Customer> custList)
+    public static void addCon(mLinkedInterface<Customer> custList)
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String s = generateCID(custList, 2);
@@ -229,7 +229,7 @@ public class CustomerMaintenanceAndPayment{
         System.out.println("The customer register successfully!\n");
     }
     
-    public static void addCor(List<Customer> custList)
+    public static void addCor(mLinkedInterface<Customer> custList)
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String s = generateCID(custList, 1);
@@ -265,10 +265,10 @@ public class CustomerMaintenanceAndPayment{
     }
     
     // generate customer id
-    public static String generateCID(List<Customer> custList, int type)
+    public static String generateCID(mLinkedInterface<Customer> custList, int type)
     {
         int count=0;
-        for(Customer c: custList)
+        for(int i=0; i<custList.size();i++)
         {
             count++;
         }
@@ -280,45 +280,45 @@ public class CustomerMaintenanceAndPayment{
     }
     
     // print all customer information
-    public static void viewCust(List<Customer> custList)
+    public static void viewCust(mLinkedInterface<Customer> custList)
     {
-        for(Customer c: custList)
+        for(int i=0;i<custList.size();i++)
         {
-            if(c.getcType().equals("Consumer"))
+            if(custList.get(i).getcType().equals("Consumer"))
             {
                 System.out.print("Consumer List\n=============");
-                System.out.println(c);
+                System.out.println(custList.get(i));
             }
         }
-        for(Customer c: custList)
+        for(int i=0; i<custList.size();i++)
         {
-            if(c.getcType().equals("Corporate"))
+            if(custList.get(i).getcType().equals("Corporate"))
             {
                 System.out.print("\nCorporate List\n==============");
-                System.out.println(c);
+                System.out.println(custList.get(i));
             }
         } 
     }
     
-    public static void viewConCust(List<Customer> custList)
+    public static void viewConCust(mLinkedInterface<Customer> custList)
     {
-        for(Customer c: custList)
+        for(int i=0;i<custList.size();i++)
         {
-            if(c.getcType().equals("Consumer"))
-                System.out.println(c);
+            if(custList.get(i).getcType().equals("Consumer"))
+                System.out.println(custList.get(i));
         }
     }
     
-    public static void viewCorCust(List<Customer> custList)
+    public static void viewCorCust(mLinkedInterface<Customer> custList)
     {
-        for(Customer c: custList)
+        for(int i=0;i<custList.size();i++)
         {
-            if(c.getcType().equals("Corporate"))
-                System.out.println(c);
+            if(custList.get(i).getcType().equals("Corporate"))
+                System.out.println(custList.get(i));
         }
     }
     
-    public static void editCust(List<Customer> custList)
+    public static void editCust(mLinkedInterface<Customer> custList)
     {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         
@@ -328,65 +328,65 @@ public class CustomerMaintenanceAndPayment{
         System.out.print("Enter customer ID: ");
         id = scanner.next();
         
-        for(Customer c: custList)
+        for(int i=0;i<custList.size();i++)
         {
-            if(c.getId().equals(id))
+            if(custList.get(i).getId().equals(id))
             {
-                if(c.getcType().equals("Corporate"))
+                if(custList.get(i).getcType().equals("Corporate"))
                 {
                 // name, address, credit limit, companyname, contact num12
                 choice = CorEMenu();
                 switch(choice)
                 {
-                    case 1: System.out.println("Name: "+c.getName());
+                    case 1: System.out.println("Name: "+custList.get(i).getName());
                             System.out.print("Enter new customer name: ");
-                            c.setName(scanner.next());
+                            custList.get(i).setName(scanner.next());
                             break;
-                    case 2: System.out.println("Address: "+c.getAddress());
+                    case 2: System.out.println("Address: "+custList.get(i).getAddress());
                             System.out.print("Enter new customer address: ");
-                            c.setAddress(scanner.next());
+                            custList.get(i).setAddress(scanner.next());
                             break;
-                    case 3: System.out.println("Credit Limit: RM "+((CorporateCust)c).getCredit());
+                    case 3: System.out.println("Credit Limit: RM "+((CorporateCust)custList.get(i)).getCredit());
                             System.out.print("Enter the credit for the corporate customer: RM ");
                             while(!scanner.hasNext("\\s*(?=.*[1-9])\\d*(?:\\.\\d{1,2})?\\s*$"))
                             {
                                 System.err.println("Please enter digit");
-                                System.out.println("Credit Limit: RM "+((CorporateCust)c).getCredit());
+                                System.out.println("Credit Limit: RM "+((CorporateCust)custList.get(i)).getCredit());
                                 System.out.print("Enter the credit for the corporate customer: RM ");
                                 scanner.next();
                             }
-                            ((CorporateCust)c).setCredit(scanner.nextDouble());
+                            ((CorporateCust)custList.get(i)).setCredit(scanner.nextDouble());
                             break;
-                    case 4: System.out.println("Company Name: "+((CorporateCust)c).getCompanyName());
+                    case 4: System.out.println("Company Name: "+((CorporateCust)custList.get(i)).getCompanyName());
                             System.out.print("Enter new company name: ");
-                            ((CorporateCust)c).setCompanyName(scanner.next());
+                            ((CorporateCust)custList.get(i)).setCompanyName(scanner.next());
                             break;
-                    case 5: System.out.println("Contact No: "+((CorporateCust)c).getContactNo());
+                    case 5: System.out.println("Contact No: "+((CorporateCust)custList.get(i)).getContactNo());
                             System.out.print("Enter new contact number: ");
-                            ((CorporateCust)c).setContactNo(scanner.next());
+                            ((CorporateCust)custList.get(i)).setContactNo(scanner.next());
                             break;
-                    case 6: System.out.println("Name: "+c.getName());
+                    case 6: System.out.println("Name: "+custList.get(i).getName());
                             System.out.print("Enter new customer name: ");
-                            c.setName(scanner.next());
-                            System.out.println("Address: "+c.getAddress());
+                            custList.get(i).setName(scanner.next());
+                            System.out.println("Address: "+custList.get(i).getAddress());
                             System.out.print("Enter new customer address: ");
-                            c.setAddress(scanner.next());
-                            System.out.println("Credit Limit: RM "+((CorporateCust)c).getCredit());
+                            custList.get(i).setAddress(scanner.next());
+                            System.out.println("Credit Limit: RM "+((CorporateCust)custList.get(i)).getCredit());
                             System.out.print("Enter the credit for the corporate customer: RM ");
                             while(!scanner.hasNext("\\s*(?=.*[1-9])\\d*(?:\\.\\d{1,2})?\\s*$"))
                             {
                                 System.err.println("Please enter digit");
-                                System.out.println("Credit Limit: RM "+((CorporateCust)c).getCredit());
+                                System.out.println("Credit Limit: RM "+((CorporateCust)custList.get(i)).getCredit());
                                 System.out.print("Enter the credit for the corporate customer: RM ");
                                 scanner.next();
                             }
-                            ((CorporateCust)c).setCredit(scanner.nextDouble());
-                            System.out.println("Company Name: "+((CorporateCust)c).getCompanyName());
+                            ((CorporateCust)custList.get(i)).setCredit(scanner.nextDouble());
+                            System.out.println("Company Name: "+((CorporateCust)custList.get(i)).getCompanyName());
                             System.out.print("Enter new company name: ");
-                            ((CorporateCust)c).setCompanyName(scanner.next());
-                            System.out.println("Contact No: "+((CorporateCust)c).getContactNo());
+                            ((CorporateCust)custList.get(i)).setCompanyName(scanner.next());
+                            System.out.println("Contact No: "+((CorporateCust)custList.get(i)).getContactNo());
                             System.out.print("Enter new contact number: ");
-                            ((CorporateCust)c).setContactNo(scanner.next());
+                            ((CorporateCust)custList.get(i)).setContactNo(scanner.next());
                             break;
                 }
                 }
@@ -395,20 +395,20 @@ public class CustomerMaintenanceAndPayment{
                     choice = ConEMenu();
                     switch(choice)
                     {
-                    case 1: System.out.println("Name: "+c.getName());
+                    case 1: System.out.println("Name: "+custList.get(i).getName());
                             System.out.print("Enter new customer name: ");
-                            c.setName(scanner.next());
+                            custList.get(i).setName(scanner.next());
                             break;
-                    case 2: System.out.println("Address: "+c.getAddress());
+                    case 2: System.out.println("Address: "+custList.get(i).getAddress());
                             System.out.print("Enter new customer address: ");
-                            c.setAddress(scanner.next());
+                            custList.get(i).setAddress(scanner.next());
                             break;
-                    case 3: System.out.println("Name: "+c.getName());
+                    case 3: System.out.println("Name: "+custList.get(i).getName());
                             System.out.print("Enter new customer name: ");
-                            c.setName(scanner.next());
-                            System.out.println("Address: "+c.getAddress());
+                            custList.get(i).setName(scanner.next());
+                            System.out.println("Address: "+custList.get(i).getAddress());
                             System.out.print("Enter new customer address: ");
-                            c.setAddress(scanner.next());
+                            custList.get(i).setAddress(scanner.next());
                             break;
                     }
                 }
@@ -463,7 +463,7 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
-    public static int IPMenu(List<Customer> custList,double allOrderPrice, List<OrderList> orderList)
+    public static int IPMenu(mLinkedInterface<Customer> custList,double allOrderPrice, List<OrderList> orderList)
     {
         int choice;
         int test=0;
@@ -488,9 +488,9 @@ public class CustomerMaintenanceAndPayment{
             System.out.print("\nEnter customer ID:");
             id = scanner.next();
             
-            for(Customer c: custList)
+            for(int i=0;i<custList.size();i++)
             {
-                if(c.getId().equals(id) && c.getcType().equals("Corporate"))
+                if(custList.get(i).getId().equals(id) && custList.get(i).getcType().equals("Corporate"))
                 {
                     List<Order> order = new ArrayList<>();
                     int count=0;
