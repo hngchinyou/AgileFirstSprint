@@ -1,5 +1,6 @@
 package catalogueMaintanance;
 
+import custMaintenanceNPayment.mLinkedInterface;
 import entity.Promotion;
 import entity.Flower2;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.Scanner;
  */
 public class CatalogueAdd {
     
-    public static void CMmenu(List<Flower2> flower, List<Promotion> promotion){
+    public static void CMmenu(mLinkedInterface<Flower2> flower, mLinkedInterface<Promotion> promotion){
         Scanner scanner = new Scanner(System.in);
 //        List<Promotion> promotion = new ArrayList<>();
         int choice;
@@ -56,7 +57,7 @@ public class CatalogueAdd {
        
     }
     
-    public static void CAmain(List<Flower2> flower) {
+    public static void CAmain(mLinkedInterface<Flower2> flower) {
 //        List<Flower2> flower = new ArrayList<>();
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String result = "";
@@ -88,8 +89,8 @@ public class CatalogueAdd {
             choice = scanner.nextInt();
             
             if(choice == 1){
-                for(Flower2 flowers: flower){
-                    if(("F" + Flowerid).equals(flowers.getId())){
+                for(int i=0;i<flower.size();i++){
+                    if(("F" + Flowerid).equals(flower.get(i).getId())){
                         Flowerid++;
                     }
                 }
@@ -99,8 +100,8 @@ public class CatalogueAdd {
                 Flowerid ++;
                 System.out.print("\n");               
             }else{
-                for(Flower2 flowers: flower){
-                    if(("B" + Bouquetid).equals(flowers.getId())){
+                for(int i=0;i<flower.size();i++){
+                    if(("B" + Bouquetid).equals(flower.get(i).getId())){
                         Bouquetid++;
                     }
                 }

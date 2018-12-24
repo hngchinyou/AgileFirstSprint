@@ -1,5 +1,7 @@
 package catalogueMaintanance;
 
+import custMaintenanceNPayment.mLinked;
+import custMaintenanceNPayment.mLinkedInterface;
 import entity.Flower2;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,7 @@ import entity.Promotion;
  * @author user
  */
 public class CatalogueView {
-    public static void CVmain(List<Flower2> flower, List<Promotion> promotion) {
+    public static void CVmain(mLinkedInterface<Flower2> flower, mLinkedInterface<Promotion> promotion) {
         Scanner scanner = new Scanner(System.in);
         char answer;
         int choice;
@@ -47,7 +49,7 @@ public class CatalogueView {
         }while(choice !=3);
     }
         
-        public static void ViewProduct(List<Flower2> flower) {
+        public static void ViewProduct(mLinkedInterface<Flower2> flower) {
         Scanner scanner = new Scanner(System.in);
         char answer;    
         
@@ -73,14 +75,14 @@ public class CatalogueView {
                 ans = scanner.next();
             }
             if(ans.equalsIgnoreCase("a")){
-                for (Flower2 flowers: flower){
-                    if(flowers.getType().equalsIgnoreCase("Flower"))
-                    System.out.println(flowers);
+                for (int i=0;i<flower.size();i++){
+                    if(flower.get(i).getType().equalsIgnoreCase("Flower"))
+                    System.out.println(flower.get(i));
                 }
             }else if(ans.equalsIgnoreCase("b")){
-                for (Flower2 flowers: flower){
-                    if(flowers.getType().equalsIgnoreCase("Bouquet"))
-                    System.out.println(flowers);
+                for (int i=0; i<flower.size();i++){
+                    if(flower.get(i).getType().equalsIgnoreCase("Bouquet"))
+                    System.out.println(flower.get(i));
                 }
             }           
             }
@@ -99,11 +101,11 @@ public class CatalogueView {
                 System.out.println("================="); 
                 System.out.println("Flower For Sales");
                 System.out.println("=================");
-                for (Flower2 flowers: flower){
-                    if(flowers.getType().equalsIgnoreCase("Flower")){
+                for (int i=0;i<flower.size();i++){
+                    if(flower.get(i).getType().equalsIgnoreCase("Flower")){
                     System.out.println("**************************");
-                    System.out.println("Product ID:" + flowers.getId() + "\n" + "Product Name:" + flowers.getFlowername() + 
-                    "\n" + "Price:" + flowers.getPrice());
+                    System.out.println("Product ID:" + flower.get(i).getId() + "\n" + "Product Name:" + flower.get(i).getFlowername() + 
+                    "\n" + "Price:" + flower.get(i).getPrice());
                     System.out.println("**************************" + "\n");
                     }                   
                 }
@@ -111,11 +113,11 @@ public class CatalogueView {
                 System.out.println("================="); 
                 System.out.println("Flower For Sales");
                 System.out.println("=================");
-                for (Flower2 flowers: flower){
-                    if(flowers.getType().equalsIgnoreCase("Bouquet")){
+                for (int i=0;i<flower.size();i++){
+                    if(flower.get(i).getType().equalsIgnoreCase("Bouquet")){
                         System.out.println("**************************");
-                    System.out.println("Product ID:" + flowers.getId() + "\n" + "Product Name:" + flowers.getFlowername() + 
-                    "\n" + "Price:" + flowers.getPrice());
+                    System.out.println("Product ID:" + flower.get(i).getId() + "\n" + "Product Name:" + flower.get(i).getFlowername() + 
+                    "\n" + "Price:" + flower.get(i).getPrice());
                     System.out.println("**************************" + "\n");
                     }                  
                 }
@@ -124,14 +126,14 @@ public class CatalogueView {
     }
         
         
-    public static int ViewPromotion(List<Promotion> promotion){
+    public static int ViewPromotion(mLinkedInterface<Promotion> promotion){
         int variable = 0;
         System.out.println("======================="); 
         System.out.println("Flower with promotion");
         System.out.println("=======================");
-        for (Promotion promotions: promotion)
+        for (int i=0;i<promotion.size();i++)
         {    
-            System.out.println(promotions);         
+            System.out.println(promotion.get(i));         
             variable = 1;
         }   
         return variable;

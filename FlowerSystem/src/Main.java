@@ -49,7 +49,7 @@ public class Main {
         custList.add(new Customer("Cn0001", "yohku", "Wangsa Maju", "Consumer"));
         custList.add(new CorporateCust("Cr0002", "kuma", "Wangsa Maju 2", "Corporate", 5000, "Kumasou", "60-5936555"));
         // flower maintenance
-        List<Flower2> flower = new ArrayList<>();
+        mLinkedInterface<Flower2> flower = new mLinked<>();
         flower.add(new Flower2("B1111", "Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
         flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 13.0, 2));
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
@@ -63,7 +63,7 @@ public class Main {
 
 //		flowerList.add(custflower);
         //promotion
-        List<Promotion> promotion = new ArrayList<>();
+        mLinkedInterface<Promotion> promotion = new mLinked<>();
         promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
         promotion.add(new Promotion("P1112", "Lover Day", "asdasdasdasd",13.20, 5));
         promotion.add(new Promotion("P1113", "Sun Shine", "asdasdasdasd",14.20, 5));       

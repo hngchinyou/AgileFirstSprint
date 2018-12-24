@@ -1,5 +1,6 @@
 package catalogueMaintanance;
 
+import custMaintenanceNPayment.mLinkedInterface;
 import entity.Flower2;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ import java.util.Scanner;
  * @author user
  */
 public class CatalogueInsufficient {
-    public static void CImain(List<Flower2> flower){
+    public static void CImain(mLinkedInterface<Flower2> flower){
         //List<Flower2> flower = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         
@@ -27,12 +28,12 @@ public class CatalogueInsufficient {
         
         System.out.println("\n");
         System.out.println("Insufficient stock");
-        for (Flower2 flowers: flower){
-            if(flowers.getAmount()<3){
+        for (int i=0; i<flower.size();i++){
+            if(flower.get(i).getAmount()<3){
                 System.out.println("***********************");
-                System.out.println("Product ID:" +  flowers.getId());
-                System.out.println("Product Name:" +  flowers.getFlowername());
-                System.out.println("Quantity:" + flowers.getAmount());
+                System.out.println("Product ID:" +  flower.get(i).getId());
+                System.out.println("Product Name:" +  flower.get(i).getFlowername());
+                System.out.println("Quantity:" + flower.get(i).getAmount());
                 System.out.println("***********************" + "\n");
             }
             

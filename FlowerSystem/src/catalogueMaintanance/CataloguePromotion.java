@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package catalogueMaintanance;
+import custMaintenanceNPayment.mLinkedInterface;
 import entity.Promotion;
 import java.util.List;
 import java.util.Scanner;
@@ -12,7 +13,7 @@ import java.util.Scanner;
  * @author user
  */
 public class CataloguePromotion {
-    public static void CPmain(List<Promotion> promotion){
+    public static void CPmain(mLinkedInterface<Promotion> promotion){
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String name, description;
         double price;
@@ -21,8 +22,8 @@ public class CataloguePromotion {
         String result = "";
         String fullPromotionID = "";
         do{
-        for(Promotion promotions: promotion){
-                    if(("P" + PromotionId).equals(promotions.getId())){
+        for(int i=0; i<promotion.size();i++){
+                    if(("P" + PromotionId).equals(promotion.get(i).getId())){
                         PromotionId++;
                     }
         }
@@ -79,7 +80,7 @@ public class CataloguePromotion {
          System.out.println("Add successful." + "\n");
 }
 
-    public static void addPromotion(List<Promotion> promotion, String fullPromotionID, String name, String description, double price, int amount) {
+    public static void addPromotion(mLinkedInterface<Promotion> promotion, String fullPromotionID, String name, String description, double price, int amount) {
         promotion.add(new Promotion(fullPromotionID, name, description, price, amount));
     }
 }
