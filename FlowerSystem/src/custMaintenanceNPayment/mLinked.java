@@ -45,10 +45,11 @@ public class mLinked<T> implements mLinkedInterface<T> {
             topNode = newNode;
             topNode.next = newNode;
             lastNode = newNode;
+            
         }
         else
         {
-            if(topNode.next == topNode)
+            if(count==1)
             {
                 topNode.next = newNode;
                 lastNode = newNode;
@@ -68,6 +69,25 @@ public class mLinked<T> implements mLinkedInterface<T> {
         if(topNode != null)
         {
             data = topNode.data;
+        }
+        return data;
+    }
+    
+    
+    public T get(int index)
+    {
+        T data = null;
+        if(topNode!=null)
+        {
+            Node temp = topNode;
+            for(int i=0; i<=index; i++)
+            {
+                if(i == index)
+                {
+                    data = temp.data;
+                }
+                temp = temp.next;
+            }
         }
         return data;
     }
@@ -94,4 +114,8 @@ public class mLinked<T> implements mLinkedInterface<T> {
             return false;
     }
     
+    public int size()
+    {
+        return count;
+    }
 }

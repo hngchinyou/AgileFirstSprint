@@ -5,11 +5,13 @@
  */
 package entity;
 
+//import Interface.ArrayList;
+//import Interface.List;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-
 /**
  *
  * @author User
@@ -26,6 +28,8 @@ public class OrderList {
     private static double allTotal=0;
     private String status;
     private String area; 
+    // Iterator<Order> iterator = orderList.getIterator();
+     
    
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     public OrderList(List<Order> orderList,String id, Date pickUpDate, String collectMethod,String area ,String DAddress,String custId,String status) {
@@ -109,6 +113,7 @@ public class OrderList {
     public String arString()
     {
         String s="";
+        
         for(Order o: orderList)
         {
             s += o;
@@ -118,8 +123,8 @@ public class OrderList {
    
     public double calcTotalPrice(List<Order> orderArr){
         totalPrice=0;
-        for(Order o : orderArr){
-            totalPrice += o.calculatePrice();
+     for(int i = 0 ; i < orderArr.size();i++) {
+            totalPrice += orderArr.get(i).calculatePrice();
         }      
         
         return totalPrice;
@@ -127,9 +132,10 @@ public class OrderList {
     
     public double calcAllOrder(List<OrderList> orderList, List<Order> orderArr)
     {
+        
+      //  Iterator<OrderList> iterator = orderList.getIterator();
         allTotal=0;
-        for(OrderList ol: orderList)
-        {
+        for(OrderList ol:orderList){
             allTotal += ol.calcTotalPrice(orderArr);
         }
         return allTotal;
@@ -137,11 +143,11 @@ public class OrderList {
     
     public double calcAllOrder(List<OrderList> orderList, String customerId)
     {
+     //    Iterator<OrderList> iterator = orderList.getIterator();
         allTotal=0;
-        for(OrderList ol: orderList)
-        {
-            if(customerId.equals(ol.getCustId())){
-            allTotal += ol.calcTotalPrice(ol.getOrderList());
+        for(int i = 0 ; i < orderList.size();i++){
+            if(customerId.equals(orderList.get(i).getCustId())){
+            allTotal += orderList.get(i).calcTotalPrice(orderList.get(i).getOrderList());
             
             }
         }

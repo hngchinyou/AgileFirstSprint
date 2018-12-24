@@ -5,6 +5,8 @@
  */
 package entity;
 
+import custMaintenanceNPayment.mLinkedInterface;
+
 /**
  *
  * @author Kuma

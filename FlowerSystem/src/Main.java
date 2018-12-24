@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import customized.CustFloArrange;
 import Catalog_Order.CatOrder;
+//import Interface.ArrayList;
+//import Interface.ListInterface;
 import custMaintenanceNPayment.CustomerMaintenanceAndPayment;
 import delivery.ViewOrderListV3;
 import catalogueMaintanance.CatalogueAdd;
@@ -14,10 +16,12 @@ import entity.Flower2;
 import entity.Promotion;
 import entity.Order;
 import entity.OrderList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.Date;
+//import java.util.List;
 
 /**
  *
@@ -38,6 +42,7 @@ public class Main {
 //        orderList.add(new OrderList(arrOrder, "Or0001", new Date(), "Delivery", "setapak", "Pv13", "Cn0001", "Processing"));//hardcoding order list 1
 
         // customer maintenance initial array
+        //ListInterface<Customer> custList = new ArrayList<>();
         List<Customer> custList = new ArrayList<>();
         custList.add(new Customer("Cn0001", "yohku", "Wangsa Maju", "Consumer"));
         custList.add(new CorporateCust("Cr0002", "kuma", "Wangsa Maju 2", "Corporate", 5000, "Kumasou", "60-5936555"));
@@ -48,12 +53,13 @@ public class Main {
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
-        ArrayList<CustomizedFlower> flowerList = new ArrayList<>();
-        ArrayList<String> floType = new ArrayList<>(Arrays.asList("Clover"));
-	ArrayList<String> accessory = new ArrayList<>(Arrays.asList("Bear"));
-	CustomizedFlower custflower=new CustomizedFlower("Vertical", "Big", "CF0001", "Processing", floType, accessory, 1, "Cn0001",new Date());
+//		ListInterface<CustomizedFlower> flowerList = new ArrayList<>();
+//		ListInterface<String> floType = new ArrayList<>(Arrays.asList("Clover"));
+//		ListInterface<String> accessory = new ArrayList<>(Arrays.asList("Bear"));
+//		CustomizedFlower custflower = new CustomizedFlower("Vertical", "Big", "CF0001", "Processing", floType,
+//				accessory, 1, "Cn0001", new Date());
 
-        flowerList.add(custflower);
+//		flowerList.add(custflower);
         //promotion
         List<Promotion> promotion = new ArrayList<>();
         promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
@@ -83,13 +89,14 @@ public class Main {
                     CustomerMaintenanceAndPayment.CPmain(custList, allOrderPrice, orderList);
                     break;
                 case 3:
+                    System.out.print(custList.get(0));
                     CatOrder.COmain(custList, flower,allOrderPrice,arrOrder,orderList);
                     break;
                 case 4:
-                    ViewOrderListV3.Deliverymain(orderList, flowerList,flower);
+                    //ViewOrderListV3.Deliverymain(orderList, flowerList,flower);
                     break;
                 case 5:
-                    CustFloArrange.custFloArrange(custList,flower,flowerList);
+                    //CustFloArrange.custFloArrange(custList,flower,flowerList);
                     break;
             }
         } while (choice != 6);

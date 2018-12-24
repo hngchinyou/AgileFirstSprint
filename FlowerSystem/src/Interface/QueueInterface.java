@@ -3,17 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package custMaintenanceNPayment;
+package Interface;
 
 /**
  *
- * @author Kuma
+ * @author taruc
  */
-public interface mLinkedInterface<T> {
+public interface QueueInterface<T> {
+
+    public void enqueue(T newEntry);
+
+    public T dequeue();
+
     public T getFront();
-    public void add(T data);
+
     public boolean isEmpty();
-    public boolean exist(T data);
-    public T get(int index);
+
+    public void clear();
+    
     public int size();
 }

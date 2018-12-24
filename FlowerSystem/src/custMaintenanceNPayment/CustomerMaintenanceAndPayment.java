@@ -44,7 +44,36 @@ public class CustomerMaintenanceAndPayment{
                editCust(custList);
             else if(choice==4)
                 IPMenu(custList, allOrderPrice, orderList);
-        }while(choice!=5);
+            else if(choice==5)
+                Testing(custList);
+        }while(choice!=6);
+    }
+    
+    public static void Testing(List<Customer> custList)
+    {
+        String id;
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        id = scanner.next();
+        
+        mLinkedInterface<Customer> cll = new mLinked<>();
+        
+        for(Customer c: custList)
+        {
+            cll.add(c);
+        }
+        
+        for(int i=0; i< cll.size(); i++)
+        {
+            if(cll.get(i).getId().equals(id))
+            {
+                cll.get(i).setName("testtest");
+            }
+        }
+        
+        for(int i=0; i< cll.size(); i++)
+        {
+            System.out.println(cll.get(i).toString());
+        }
     }
  
     public static void classify(List<Customer> custList)  
@@ -122,10 +151,11 @@ public class CustomerMaintenanceAndPayment{
         System.out.println("2. View Customer");
         System.out.println("3. Edit Customer");
         System.out.println("4. Invoice Payment");
-        System.out.println("5. Exit");
+        System.out.println("5. Test");
+        System.out.println("6. Exit");
         System.out.print("Enter your selection: ");
          
-        while(!scanner.hasNext("[1-5]{1}"))
+        while(!scanner.hasNext("[1-6]{1}"))
         {
             System.err.print("Please enter digit");
             System.out.print("Enter your selection: ");
@@ -145,6 +175,8 @@ public class CustomerMaintenanceAndPayment{
         System.out.println("2. View Corporate Customer");
         System.out.println("3. View All Customer");
         System.out.println("4. Exit");
+        
+        
         System.out.print("Enter your selection: ");
          
         while(!scanner.hasNext("[1-4]{1}"))
@@ -412,7 +444,7 @@ public class CustomerMaintenanceAndPayment{
     // consumer edit
     public static int ConEMenu()
     {
-        int choice=0;
+        int choice = 0;
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("\nCustomer Modification");
         System.out.println("1. Modify name");
