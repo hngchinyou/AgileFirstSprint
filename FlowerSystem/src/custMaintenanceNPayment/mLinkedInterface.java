@@ -15,5 +15,7 @@ public interface mLinkedInterface<T> {
     public boolean isEmpty();
     public boolean exist(T data);
     public T get(int index);
+    public void clear();
+    public void remove(int index);
     public int size();
 }

@@ -38,8 +38,8 @@ public class Main {
         // TODO Auto-generated method stub
         // catalog order initial array 
         double allOrderPrice = 0;
-        List<Order> arrOrder = new ArrayList<>();
-        List<OrderList> orderList = new ArrayList<>();
+        mLinkedInterface<Order> arrOrder = new mLinked<>();
+        mLinkedInterface<OrderList> orderList = new mLinked<>();
 //        arrOrder.add(new Order("1", 3, new Date(), 12.34));
 //        orderList.add(new OrderList(arrOrder, "Or0001", new Date(), "Delivery", "setapak", "Pv13", "Cn0001", "Processing"));//hardcoding order list 1
 
@@ -55,7 +55,7 @@ public class Main {
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
-//		ListInterface<CustomizedFlower> flowerList = new ArrayList<>();
+		mLinkedInterface<CustomizedFlower> flowerList = new mLinked<>();
 //		ListInterface<String> floType = new ArrayList<>(Arrays.asList("Clover"));
 //		ListInterface<String> accessory = new ArrayList<>(Arrays.asList("Bear"));
 //		CustomizedFlower custflower = new CustomizedFlower("Vertical", "Big", "CF0001", "Processing", floType,

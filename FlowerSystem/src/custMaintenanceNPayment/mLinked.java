@@ -92,9 +92,33 @@ public class mLinked<T> implements mLinkedInterface<T> {
         return data;
     }
     
+    public void remove(int index)
+    {
+        if(topNode!=null)
+        {
+            Node temp = topNode;
+            Node prev = topNode;
+            for(int i=0; i<=index; i++)
+            {
+                if(i == index)
+                {
+                    prev.next = temp.next;
+                }
+                prev = temp;
+                temp = temp.next;
+            }
+        }
+    }
+    
     public boolean isEmpty()
     {
         return topNode==null;
+    }
+    
+    public void clear()
+    {
+        topNode = null;
+        count=0;
     }
     
     public boolean exist(T data)

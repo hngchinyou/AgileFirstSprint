@@ -1,5 +1,7 @@
 package customized;
 
+import custMaintenanceNPayment.mLinked;
+import custMaintenanceNPayment.mLinkedInterface;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,8 +22,8 @@ public class CustFloArrange {
 			accessory = { "Bear", "Card", "Chocolate" }, priorLevel = { "Express", "Normal", "Flexi" };
 
 	// customized flower menu
-	public static void custFloArrange(List<Customer> custList, List<Flower2> floType,
-			ArrayList<CustomizedFlower> flowerList) {
+	public static void custFloArrange(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> floType,
+			mLinkedInterface<CustomizedFlower> flowerList) {
 		int choice;
 
 		do {
@@ -56,7 +58,7 @@ public class CustFloArrange {
 	}
 
 	// display job queue (sorted)
-	public static void sortCustomizedFlo(List<Flower2> floType, ArrayList<CustomizedFlower> flowerList) {
+	public static void sortCustomizedFlo(mLinkedInterface<Flower2> floType, mLinkedInterface<CustomizedFlower> flowerList) {
 		if (!flowerList.isEmpty()) {
 			Collections.sort(flowerList, new Comparator<CustomizedFlower>() {
 
@@ -77,8 +79,8 @@ public class CustFloArrange {
 	}
 
 	// itemized bill and calculate charge
-	public static void itemizedBill(List<Customer> custList, List<Flower2> floType,
-			ArrayList<CustomizedFlower> flowerList) {
+	public static void itemizedBill(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> floType,
+			mLinkedInterface<CustomizedFlower> flowerList) {
 		String custId = "";
 
 		while (custId.equals("")) {
@@ -87,12 +89,12 @@ public class CustFloArrange {
 		billResult(floType, flowerList, custId);
 	}
 
-	public static String billResult(List<Flower2> floType, ArrayList<CustomizedFlower> flowerList, String custId) {
+	public static String billResult(mLinkedInterface<Flower2> floType, mLinkedInterface<CustomizedFlower> flowerList, String custId) {
 		String result="";
 		int count = 0;
-		for (CustomizedFlower cf : flowerList) {
-			if (custId.equals(cf.getCustomerId())) {
-				if (cf.getStatus().equals("Processing")) {
+		for (int i=0;i<flowerList.size();i++) {
+			if (custId.equals(flowerList.get(i).getCustomerId())) {
+				if (flowerList.get(i).getStatus().equals("Processing")) {
 					count = 1;
 					break;
 				}
@@ -100,10 +102,10 @@ public class CustFloArrange {
 		}
 		if (count == 1) {
 			result+="Customer ID: " + custId + "\n--------------------\n";
-			for (CustomizedFlower cf : flowerList) {
-				if (custId.equals(cf.getCustomerId())) {
-					if (cf.getStatus().equals("Processing")) {
-						result+=cf.displayBill(floType) + "\n";
+			for (int i=0;i<flowerList.size();i++) {
+				if (custId.equals(flowerList.get(i).getCustomerId())) {
+					if (flowerList.get(i).getStatus().equals("Processing")) {
+						result+=flowerList.get(i).displayBill(floType) + "\n";
 					}
 				}
 			}
@@ -114,10 +116,10 @@ public class CustFloArrange {
 	}
 
 	// customized flower
-	public static void customizedFlo(List<Customer> custList, List<Flower2> floType,
-			ArrayList<CustomizedFlower> flowerList) {
+	public static void customizedFlo(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> floType,
+			mLinkedInterface<CustomizedFlower> flowerList) {
 		// declaration
-		ArrayList<CustomizedFlower> currentFlowerList = new ArrayList<>();
+		mLinkedInterface<CustomizedFlower> currentFlowerList = new mLinked<>();
 		CustomizedFlower flower = new CustomizedFlower();
 		String respond = "", custId = "";
 		int maxFloType = 0, maxAccessory = 0;
@@ -208,7 +210,11 @@ public class CustFloArrange {
 			System.out.println("Customized Flower " + (i + 1) + "\n-------------------------------\n"
 					+ currentFlowerList.get(i).toString(floType) + "\n");
 		}
-		flowerList.addAll(currentFlowerList);
+		
+                for(int i=0;i<currentFlowerList.size();i++)
+                {
+                    flowerList.add(currentFlowerList.get(i));
+                }
 		currentFlowerList.clear();
 	}
 
@@ -279,10 +285,10 @@ public class CustFloArrange {
 	}
 
 	// third step of customized flower
-	public static void selectFlower(CustomizedFlower flower, int maxFloType, List<Flower2> floType) {
+	public static void selectFlower(CustomizedFlower flower, int maxFloType, mLinkedInterface<Flower2> floType) {
 		int selected = 0;
 		String respond = "";
-		ArrayList<String> buffer = new ArrayList<>();
+		mLinkedInterface<String> buffer = new mLinked<>();
 		do {
 			selected++;
 			if (selected <= maxFloType) {
@@ -324,7 +330,7 @@ public class CustFloArrange {
 	public static void selectAccessory(CustomizedFlower flower, int maxAccessory) {
 		int selected = 0;
 		String respond = "";
-		ArrayList<String> buffer = new ArrayList<>();
+		mLinkedInterface<String> buffer = new mLinked<>();
 
 		do {
 			selected++;
@@ -376,12 +382,12 @@ public class CustFloArrange {
 	}
 
 	// enter customer
-	public static String selectCustomer(List<Customer> custList) {
+	public static String selectCustomer(mLinkedInterface<Customer> custList) {
 		String custId = "";
 		System.out.println("Enter customer id: ");
 		custId = scanner.next();
-		for (Customer c : custList) {
-			if (custId.equals(c.getId())) {
+		for (int i=0;i<custList.size();i++) {
+			if (custId.equals(custList.get(i).getId())) {
 				return custId;
 			}
 		}

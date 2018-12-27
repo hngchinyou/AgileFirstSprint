@@ -23,7 +23,7 @@ public class CustomerMaintenanceAndPayment{
     /**
      * @param args the command line arguments
      */
-    public static void CPmain(mLinkedInterface<Customer> custList, double allOrderPrice, List<OrderList> orderList) {
+    public static void CPmain(mLinkedInterface<Customer> custList, double allOrderPrice, mLinkedInterface<OrderList> orderList) {
         int choice = 0, choice2 = 0;
         
         do{
@@ -463,7 +463,7 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
-    public static int IPMenu(mLinkedInterface<Customer> custList,double allOrderPrice, List<OrderList> orderList)
+    public static int IPMenu(mLinkedInterface<Customer> custList,double allOrderPrice, mLinkedInterface<OrderList> orderList)
     {
         int choice;
         int test=0;
@@ -492,17 +492,17 @@ public class CustomerMaintenanceAndPayment{
             {
                 if(custList.get(i).getId().equals(id) && custList.get(i).getcType().equals("Corporate"))
                 {
-                    List<Order> order = new ArrayList<>();
+                    mLinkedInterface<Order> order = new mLinked<>();
                     int count=0;
                     Date date = new Date();
                     test = sortInvoice(orderList, id, date, order, count, test);
                     double total=0;
-                    for(Order o: order)
+                    for(int j=0;j<order.size();j++)
                     {
-                        System.out.println("Order Number: " + o.getOrderNum());
-                        System.out.println("Quantity: " + o.getQuantity());
-                        System.out.println(String.format("Price: RM %.2f",o.getQuantity()*o.getPrice()));
-                        total += o.getQuantity()*o.getPrice();
+                        System.out.println("Order Number: " + order.get(j).getOrderNum());
+                        System.out.println("Quantity: " + order.get(j).getQuantity());
+                        System.out.println(String.format("Price: RM %.2f",order.get(j).getQuantity()*order.get(j).getPrice()));
+                        total += order.get(j).getQuantity()*order.get(j).getPrice();
                     }
                     System.out.println(String.format("\nTotal Payment: RM %.2f", total));
                     System.out.println("The payment paid?");
@@ -525,31 +525,31 @@ public class CustomerMaintenanceAndPayment{
         return test;
     }
 
-    public static int sortInvoice(List<OrderList> orderList, String id, Date date, List<Order> order, int count, int test) {
-        for(OrderList ol: orderList)
+    public static int sortInvoice(mLinkedInterface<OrderList> orderList, String id, Date date, mLinkedInterface<Order> order, int count, int test) {
+        for(int k=0;k<orderList.size();k++)
         {
-            if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
+            if(orderList.get(k).getCustId().equals(id) && orderList.get(k).getPickUpDate().getMonth()==date.getMonth()-1)
             {
-                for(Order o: ol.getOrderList())
+                for(int i=0;i<order.size();i++)
                 {
                     if(order.isEmpty())
                     {
-                        order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
+                        order.add(new Order(order.get(i).getOrderNum(), order.get(i).getQuantity(), order.get(i).getPrice()));
                     }
                     else
                     {
-                        for(Order oo: order)
+                        for(int j=0;j<order.size();j++)
                         {
-                            if(oo.getOrderNum().equals(o.getOrderNum()))
+                            if(order.get(j).getOrderNum().equals(order.get(i).getOrderNum()))
                             {
-                                oo.setQuantity(oo.getQuantity()+o.getQuantity());
+                                order.get(j).setQuantity(order.get(j).getQuantity()+order.get(i).getQuantity());
                                 count=1;
                                 test=1;
                             }
                         }
                         if(count == 0)
                         {
-                            order.add(new Order(o.getOrderNum(), o.getQuantity(), o.getPrice()));
+                            order.add(new Order(order.get(i).getOrderNum(), order.get(i).getQuantity(), order.get(i).getPrice()));
                         }
                     }
                 }
@@ -558,16 +558,16 @@ public class CustomerMaintenanceAndPayment{
         return test;
     }
 
-    public static int changeStatus(int choice2, List<OrderList> orderList, String id, Date date) {
+    public static int changeStatus(int choice2, mLinkedInterface<OrderList> orderList, String id, Date date) {
         double allOrderPrice;
         int count =0;
         if(choice2 == 1)
         {
-            for(OrderList ol: orderList)
+            for(int i=0;i<orderList.size();i++)
             {
-                if(ol.getCustId().equals(id) && ol.getPickUpDate().getMonth()==date.getMonth()-1)
+                if(orderList.get(i).getCustId().equals(id) && orderList.get(i).getPickUpDate().getMonth()==date.getMonth()-1)
                 {
-                    ol.setStatus("Paid");
+                    orderList.get(i).setStatus("Paid");
                     allOrderPrice = 0;
                     count = 1;
                 }

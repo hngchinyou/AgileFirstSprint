@@ -7,6 +7,8 @@ package entity;
 
 import Interface.ArrayList;
 import Interface.ListInterface;
+import custMaintenanceNPayment.mLinked;
+import custMaintenanceNPayment.mLinkedInterface;
 import java.text.SimpleDateFormat;
 //import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +29,7 @@ public class OrderListTest {
     private Date date = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     //Order  o = new Order(orderNum, 1, date, 1.0);
-    ListInterface<Order> orderList = new ArrayList<>();
+    mLinkedInterface<Order> orderList = new mLinked<>();
     
     
     OrderList ol = new OrderList(orderList, id, date, "Delivery", "Setapak", "abc", "Cn0001", "Processing");

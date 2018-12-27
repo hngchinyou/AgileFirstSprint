@@ -1,4 +1,5 @@
 package entity;
+import custMaintenanceNPayment.mLinkedInterface;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +7,7 @@ import java.util.List;
 
 public class CustomizedFlower {
 	private String floArrangeType,size,customizedId,status;
-	private ArrayList<String> floType,accessory;
+	private mLinkedInterface<String> floType,accessory;
 	private int priorLevel;
 	private String customerId;
 	private Date pickupDate;
@@ -44,7 +45,7 @@ public class CustomizedFlower {
 		return priorPrice;
 	}
 	
-	public String displayBill(List<Flower2> floType) {
+	public String displayBill(mLinkedInterface<Flower2> floType) {
 		String result="";
 		double totalFloType=0,totalAccessory=0;
 		result+="Customized Flower ID: " + customizedId;
@@ -54,9 +55,10 @@ public class CustomizedFlower {
 		int sizeFloType[] = new int[floType.size()];
 		int i=0;
 		String resultflo="";
-        for(Flower2 f:floType){
-            for(String ftName:this.floType){
-                if(ftName.equalsIgnoreCase(f.getFlowername())){
+        for(int j=0;j<floType.size();j++){
+            for(int k=0;k<this.floType.size();k++){
+                String ftName = this.floType.get(k);
+                if(ftName.equalsIgnoreCase(floType.get(j).getFlowername())){
                     sizeFloType[i]++;
                 }
             }
@@ -75,8 +77,9 @@ public class CustomizedFlower {
 		
 		int a1=0,a2=0,a3=0;
 		String resultacc="";
-		for(String a: accessory)
+                for(int j=0;j<accessory.size();j++)
 		{
+                    String a=accessory.get(j);
 			if(a.equals("Bear"))
 				a1++;
 			else if(a.equals("Card"))
@@ -118,16 +121,17 @@ public class CustomizedFlower {
 		return result;
 	}
         
-        public double getTotalPrice(List<Flower2> floType){
+        public double getTotalPrice(mLinkedInterface<Flower2> floType){
             double total = 0;
             double totalFloType = 0;
             double totalAccessory = 0;
 
             int sizeFloType[] = new int[floType.size()];
             int i = 0;
-            for (Flower2 f : floType) {
-                for (String ftName : this.floType) {
-                    if (ftName.equalsIgnoreCase(f.getFlowername())) {
+            for (int j=0;j<floType.size();j++) {
+                for(int k=0;k<this.floType.size();k++){
+                    String ftName=this.floType.get(k);
+                    if (ftName.equalsIgnoreCase(floType.get(j).getFlowername())) {
                         sizeFloType[i]++;
                     }
                 }
@@ -142,7 +146,8 @@ public class CustomizedFlower {
             }
 
             int a1 = 0, a2 = 0, a3 = 0;
-            for (String a : accessory) {
+            for(int j=0;j<accessory.size();j++){
+                String a=accessory.get(j);
                 if (a.equals("Bear")) {
                     a1++;
                 } else if (a.equals("Card")) {
@@ -166,7 +171,7 @@ public class CustomizedFlower {
             return total;
         }
 	
-	public String toString(List<Flower2> floType) {
+	public String toString(mLinkedInterface<Flower2> floType) {
 		String result="";
 		result+="Customer ID: "+customerId;
 		result+="\nCustomized Flower ID: " + customizedId;
@@ -178,9 +183,10 @@ public class CustomizedFlower {
 		String resultflo="";
 		int a1=0,a2=0,a3=0;
 		String resultacc="";
-        for(Flower2 f:floType){
-            for(String ftName:this.floType){
-                if(ftName.equalsIgnoreCase(f.getFlowername())){
+        for(int j=0;i<floType.size();j++){
+            for(int k=0;k<this.floType.size();k++){
+                String ftName=this.floType.get(k);
+                if(ftName.equalsIgnoreCase(floType.get(j).getFlowername())){
                     sizeFloType[i]++;
                 }
             }
@@ -195,8 +201,9 @@ public class CustomizedFlower {
         }
 		result+="\nFlower Type: " + resultflo;
 		
-		for(String a: accessory)
+                for(int j=0;j<accessory.size();j++)
 		{
+                    String a=accessory.get(j);
 			if(a.equals("Bear"))
 				a1++;
 			else if(a.equals("Card"))
@@ -236,92 +243,91 @@ public class CustomizedFlower {
 		super();
 	}
 
-	public CustomizedFlower(String floArrangeType, String size, String customizedId, String status,
-			ArrayList<String> floType, ArrayList<String> accessory, int priorLevel, String customerId,
-			Date pickupDate) {
-		super();
-		this.floArrangeType = floArrangeType;
-		this.size = size;
-		this.customizedId = customizedId;
-		this.status = status;
-		this.floType = floType;
-		this.accessory = accessory;
-		this.priorLevel = priorLevel;
-		this.customerId = customerId;
-		this.pickupDate = pickupDate;
-	}
+    public CustomizedFlower(String floArrangeType, String size, String customizedId, String status, mLinkedInterface<String> floType, mLinkedInterface<String> accessory, int priorLevel, String customerId, Date pickupDate) {
+        this.floArrangeType = floArrangeType;
+        this.size = size;
+        this.customizedId = customizedId;
+        this.status = status;
+        this.floType = floType;
+        this.accessory = accessory;
+        this.priorLevel = priorLevel;
+        this.customerId = customerId;
+        this.pickupDate = pickupDate;
+    }
 
-	public String getFloArrangeType() {
-		return floArrangeType;
-	}
+    public String getFloArrangeType() {
+        return floArrangeType;
+    }
 
-	public void setFloArrangeType(String floArrangeType) {
-		this.floArrangeType = floArrangeType;
-	}
+    public String getSize() {
+        return size;
+    }
 
-	public String getSize() {
-		return size;
-	}
+    public String getCustomizedId() {
+        return customizedId;
+    }
 
-	public void setSize(String size) {
-		this.size = size;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public String getCustomizedId() {
-		return customizedId;
-	}
+    public mLinkedInterface<String> getFloType() {
+        return floType;
+    }
 
-	public void setCustomizedId(String customizedId) {
-		this.customizedId = customizedId;
-	}
+    public mLinkedInterface<String> getAccessory() {
+        return accessory;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public int getPriorLevel() {
+        return priorLevel;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getCustomerId() {
+        return customerId;
+    }
 
-	public ArrayList<String> getFloType() {
-		return floType;
-	}
+    public Date getPickupDate() {
+        return pickupDate;
+    }
 
-	public void setFloType(ArrayList<String> floType) {
-		this.floType = floType;
-	}
+    public void setFloArrangeType(String floArrangeType) {
+        this.floArrangeType = floArrangeType;
+    }
 
-	public ArrayList<String> getAccessory() {
-		return accessory;
-	}
+    public void setSize(String size) {
+        this.size = size;
+    }
 
-	public void setAccessory(ArrayList<String> accessory) {
-		this.accessory = accessory;
-	}
+    public void setCustomizedId(String customizedId) {
+        this.customizedId = customizedId;
+    }
 
-	public int getPriorLevel() {
-		return priorLevel;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public void setPriorLevel(int priorLevel) {
-		this.priorLevel = priorLevel;
-	}
+    public void setFloType(mLinkedInterface<String> floType) {
+        this.floType = floType;
+    }
 
-	public String getCustomerId() {
-		return customerId;
-	}
+    public void setAccessory(mLinkedInterface<String> accessory) {
+        this.accessory = accessory;
+    }
 
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
+    public void setPriorLevel(int priorLevel) {
+        this.priorLevel = priorLevel;
+    }
 
-	public Date getPickupDate() {
-		return pickupDate;
-	}
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
 
-	public void setPickupDate(Date pickupDate) {
-		this.pickupDate = pickupDate;
-	}
+    public void setPickupDate(Date pickupDate) {
+        this.pickupDate = pickupDate;
+    }
+
+	
 
 	
 }
