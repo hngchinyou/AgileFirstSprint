@@ -46,7 +46,7 @@ public class CustFloArrange {
 				customizedFlo(custList, floType, flowerList);
 				break;
 			case 2:
-				sortCustomizedFlo(floType, flowerList);
+				//sortCustomizedFlo(floType, flowerList);
 				break;
 			case 3:
 				itemizedBill(custList, floType, flowerList);
@@ -58,25 +58,25 @@ public class CustFloArrange {
 	}
 
 	// display job queue (sorted)
-	public static void sortCustomizedFlo(mLinkedInterface<Flower2> floType, mLinkedInterface<CustomizedFlower> flowerList) {
-		if (!flowerList.isEmpty()) {
-			Collections.sort(flowerList, new Comparator<CustomizedFlower>() {
-
-				@Override
-				public int compare(CustomizedFlower o1, CustomizedFlower o2) {
-					// TODO Auto-generated method stub
-					return o1.getPriorLevel() - o2.getPriorLevel();
-				}
-			});
-			for (int i = 0; i < flowerList.size(); i++) {
-				if (flowerList.get(i).getStatus().equals("Processing"))
-					System.out.println(
-							"Customized Flower " + (i + 1) + "\n" + flowerList.get(i).toString(floType) + "\n");
-			}
-		} else {
-			System.err.println("There not have any record in the customized flower order.\n");
-		}
-	}
+//	public static void sortCustomizedFlo(mLinkedInterface<Flower2> floType, mLinkedInterface<CustomizedFlower> flowerList) {
+//		if (!flowerList.isEmpty()) {
+//			Collections.sort(flowerList, new Comparator<CustomizedFlower>() {
+//
+//				@Override
+//				public int compare(CustomizedFlower o1, CustomizedFlower o2) {
+//					// TODO Auto-generated method stub
+//					return o1.getPriorLevel() - o2.getPriorLevel();
+//				}
+//			});
+//			for (int i = 0; i < flowerList.size(); i++) {
+//				if (flowerList.get(i).getStatus().equals("Processing"))
+//					System.out.println(
+//							"Customized Flower " + (i + 1) + "\n" + flowerList.get(i).toString(floType) + "\n");
+//			}
+//		} else {
+//			System.err.println("There not have any record in the customized flower order.\n");
+//		}
+//	}
 
 	// itemized bill and calculate charge
 	public static void itemizedBill(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> floType,
