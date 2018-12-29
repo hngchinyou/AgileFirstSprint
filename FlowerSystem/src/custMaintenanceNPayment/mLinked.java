@@ -10,6 +10,38 @@ package custMaintenanceNPayment;
  * @author Kuma
  */
 public class mLinked<T> implements mLinkedInterface<T> {
+	public void add(int pos,T newData) {
+		Node newNode = new Node(newData);
+		
+//		if(this.topNode == null && count != 0) { //if head is null and position is zero skip it.
+//			return;
+//		} else if(this.topNode == null && count == 0) { // if head null and position is zero set at the head.
+//			this.topNode = newNode;
+//		}
+ 
+		if(count == 0) {
+			newNode.next = topNode;
+			topNode = newNode;
+			lastNode= newNode;
+		}
+ 
+		Node current = topNode;
+		Node previous = topNode;
+		int i = 0;
+ 
+		while(i < pos) {
+			previous = current;
+			current = current.next;
+			if(current == null)
+				break;
+			i++;
+		}
+ 
+		newNode.next = current;
+		previous.next = newNode;
+		count++;
+	}
+	
     private class Node
     {
         private T data;

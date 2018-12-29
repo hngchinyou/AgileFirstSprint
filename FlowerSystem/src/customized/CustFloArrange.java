@@ -2,6 +2,8 @@ package customized;
 
 import custMaintenanceNPayment.mLinked;
 import custMaintenanceNPayment.mLinkedInterface;
+
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -86,7 +88,7 @@ public class CustFloArrange {
 		while (custId.equals("")) {
 			custId = selectCustomer(custList);
 		}
-		billResult(floType, flowerList, custId);
+		System.out.println(billResult(floType, flowerList, custId));
 	}
 
 	public static String billResult(mLinkedInterface<Flower2> floType, mLinkedInterface<CustomizedFlower> flowerList, String custId) {
@@ -105,7 +107,7 @@ public class CustFloArrange {
 			for (int i=0;i<flowerList.size();i++) {
 				if (custId.equals(flowerList.get(i).getCustomerId())) {
 					if (flowerList.get(i).getStatus().equals("Processing")) {
-						result+=flowerList.get(i).displayBill(floType) + "\n";
+						result+=flowerList.get(i).displayBill(floType) + "\n\n";
 					}
 				}
 			}
@@ -168,7 +170,13 @@ public class CustFloArrange {
 				cal.add(Calendar.DATE, 5);
 				pickupDate = cal.getTime();
 			}
-			flower.setPickupDate(pickupDate);
+			
+			 SimpleDateFormat sdf=new SimpleDateFormat("dd-mm-yyyy");
+		        Date dsf=null;
+		        try {
+		        dsf = sdf.parse("25-12-2018");}catch(Exception ex) {}
+	        
+			flower.setPickupDate(dsf);
 
 			// auto generate id
 			flower.setCustomizedId(String.format("CF%04d", (flowerList.size() + currentFlowerList.size() + 1)));
@@ -211,10 +219,44 @@ public class CustFloArrange {
 					+ currentFlowerList.get(i).toString(floType) + "\n");
 		}
 		
-                for(int i=0;i<currentFlowerList.size();i++)
-                {
-                    flowerList.add(currentFlowerList.get(i));
-                }
+        for(int i=0;i<currentFlowerList.size();i++)
+        {
+        	if(flowerList.isEmpty()) {
+        		flowerList.add(currentFlowerList.get(i));
+        	}
+        	else {
+        		Date comp = flowerList.get(flowerList.size()/2).getPickupDate();
+	        	int pos=0;
+	        	int sizeFl=flowerList.size();
+	        	Date current=currentFlowerList.get(i).getPickupDate();
+	        	if(comp.after(currentFlowerList.get(i).getPickupDate())) {
+	        		for(int j=0;j<sizeFl/2+((sizeFl%2==0)?0:1);j++){
+	        			if(flowerList.get(j).getPickupDate().after(currentFlowerList.get(i).getPickupDate())){
+	        				pos=j;
+	        				break;
+	        			}
+	        		}
+	        	}
+	        	else if(comp.before(currentFlowerList.get(i).getPickupDate())) {
+	        		for(int j=sizeFl/2+((sizeFl%2==0)?0:1)-1;j<sizeFl;j++) {
+	        			if(flowerList.get(j).getPickupDate().after(currentFlowerList.get(i).getPickupDate())){
+	        				pos=j;
+	        				break;
+	        			}
+	        		}
+	        	}
+	        	else {
+	        		for(int j=sizeFl/2+((sizeFl%2==0)?0:1)-1;j<sizeFl;j++) {
+	        			if(flowerList.get(j).getPickupDate().after(currentFlowerList.get(i).getPickupDate())){
+	        				pos=j;
+	        				break;
+	        			}
+	        		}
+	        	}
+	        	flowerList.add(pos, currentFlowerList.get(i));
+        	}
+            //flowerList.add(currentFlowerList.get(i));
+        }
 		currentFlowerList.clear();
 	}
 

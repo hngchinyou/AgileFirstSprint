@@ -5,6 +5,8 @@
  */
 package custMaintenanceNPayment;
 
+import custMaintenanceNPayment.mLinked.Node;
+
 /**
  *
  * @author Kuma
@@ -18,4 +20,5 @@ public interface mLinkedInterface<T> {
     public void clear();
     public void remove(int index);
     public int size();
+    public void add(int pos,T newData);
 }

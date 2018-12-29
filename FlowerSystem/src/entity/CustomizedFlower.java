@@ -117,7 +117,7 @@ public class CustomizedFlower {
 			break;
 		}
 		result+="\nTotal: RM "+String.format("%.2f", (10+calculateSize()+totalFloType+totalAccessory+calculatePriority()));
-		
+		result+="\nDate= "+pickupDate;
 		return result;
 	}
         
