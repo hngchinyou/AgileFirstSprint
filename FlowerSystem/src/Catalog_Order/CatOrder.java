@@ -23,7 +23,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  *
  * @author Han Xin
  */
-public class CatOrder {
+public class CatOrder<T> {
     //12
 
     /**
@@ -83,17 +83,17 @@ public class CatOrder {
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        
+
         do {
             String oid = generateOID(orderList);
             if (!orderList.isEmpty()) {
-                for (int i = 0 ; i < orderList.size();i++) {
+                for (int i = 0; i < orderList.size(); i++) {
                     if (!orderList.get(i).getStatus().equals("Paid")) {
                         allOrderPrice = orderList.get(i).calcAllOrder(orderList, id);
                     }
                 }
             }
-            for (int i = 0 ; i < custList.size();i++) {
+            for (int i = 0; i < custList.size(); i++) {
 
                 if (id.equals(custList.get(i).getId())) {
                     System.out.println(custList.get(i).getName() + ",monthly limit is : " + (((CorporateCust) custList.get(i)).getCredit() - allOrderPrice));
@@ -109,7 +109,7 @@ public class CatOrder {
                         do {
 
                             do {
-                                if (remakeRes.equalsIgnoreCase("y") && totalPrice > ((CorporateCust)  custList.get(i)).getCredit()) {
+                                if (remakeRes.equalsIgnoreCase("y") && totalPrice > ((CorporateCust) custList.get(i)).getCredit()) {
                                     totalPrice -= totalSub;
                                 }
                                 totalSub = 0;
@@ -138,7 +138,7 @@ public class CatOrder {
                                 //{
                                 //    allOrderPrice += orderList.get(j).calcAllOrder(orderList, "Cr0001");
                                 //}
-                                if (allOrderPrice > ((CorporateCust)  custList.get(i)).getCredit()) {
+                                if (allOrderPrice > ((CorporateCust) custList.get(i)).getCredit()) {
                                     //System.err.println("You Have Over your monthly limit !");
                                     //System.err.print("Do you want to Remake Order ?[Y/N]");
                                     //remakeRes = scanner.next();
@@ -146,7 +146,7 @@ public class CatOrder {
                                 } else {
                                     double getdeprice = 0;
                                     mLinkedInterface<Flower2> fl = new mLinked<>();
-                                    for (int j = 0 ; j < flower.size();j++) {
+                                    for (int j = 0; j < flower.size(); j++) {
                                         if (flower.get(j).getType().equals("Bouquet") && count5 == 1) {
                                             fl.add(flower.get(j));
                                             //getdeprice = flower.get(i).getPrice();
@@ -158,11 +158,11 @@ public class CatOrder {
                                         }
 
                                     }
-                                  //  getdeprice = fl.get(Integer.parseInt(orderNo) - 1).getPrice();
+                                    //  getdeprice = fl.get(Integer.parseInt(orderNo) - 1).getPrice();
                                     getdeprice = fl.get(0).getPrice();
                                     arrOrder.add(new Order(orderNo, quantity, date, getdeprice));
 
-                                    for (int j = 0;j<arrOrder.size();j++) {
+                                    for (int j = 0; j < arrOrder.size(); j++) {
                                         totalSub += arrOrder.get(j).calculatePrice();
                                     }
                                     //check credit limit
@@ -281,6 +281,9 @@ public class CatOrder {
 //                }
 //            }        
                         if (valid) {
+                            int first = 0, last = 0;
+                            System.out.println(orderList.get(0).getPickUpDate());
+                            binarySearch(first, last, pDate, orderList);
                             orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
 
                             // arrOrder.clear();
@@ -299,13 +302,13 @@ public class CatOrder {
             }
 
         } while (res1.equalsIgnoreCase("Y"));
-        
+
         System.out.print(arrOrder.size());
         if (valid) {
             double alltotal = 0;
             int a = 0;
-            for (int j = 0; j < orderList.size();j++) {
-                for (int i=0 ; i < custList.size();i++) {
+            for (int j = 0; j < orderList.size(); j++) {
+                for (int i = 0; i < custList.size(); i++) {
                     if (id.equals(custList.get(i).getId())) {
                         //alltotal+=aa.getAllTotal();
                         ++a;
@@ -317,6 +320,21 @@ public class CatOrder {
             System.out.print("\nTotal Price: RM ");
             System.out.println(String.format("%.2f", totalPrice));
         }
+    }
+
+    private static boolean binarySearch(int first, int last, Date pDate, mLinkedInterface<OrderList> orderList) {
+        boolean found;
+        int mid = (first + last) / 2;
+        if (first > last) {
+            found = false;
+        } else if (pDate.equals(orderList.get(mid).getPickUpDate())) {
+            found = true;
+        } else if (pDate.compareTo(orderList.get(mid).getPickUpDate()) < 0) {
+            found = binarySearch(first, mid - 1, pDate, orderList);
+        } else {
+            found = binarySearch(mid + 1, last, pDate, orderList);
+        }
+        return found;
     }
 
     public static void consOrder(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, String id, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList, int count5) {
@@ -353,7 +371,7 @@ public class CatOrder {
         do {
             String oid = generateOID(orderList);
             if (!orderList.isEmpty()) {
-                for (int i = 0 ; i < orderList.size();i++) {
+                for (int i = 0; i < orderList.size(); i++) {
 
                     allOrderPrice = orderList.get(i).calcAllOrder(orderList, id);
                 }
@@ -396,7 +414,7 @@ public class CatOrder {
                     //arrOrder.remove(arrOrder.size() - 1);
                     double getdeprice = 0;
                     List<Flower2> fl = new ArrayList<>();
-                    for (int i = 0 ; i < flower.size();i++) {
+                    for (int i = 0; i < flower.size(); i++) {
                         if (flower.get(i).getType().equals("Bouquet") && count5 == 1) {
                             fl.add(flower.get(i));
                             //getdeprice = flower.get(i).getPrice();
@@ -516,8 +534,8 @@ public class CatOrder {
 
         double alltotal = 0;
         int a = 0;
-        for( int i = 0 ; i<orderList.size();i++) {
-            for (int j = 0 ; j < custList.size(); j++) {
+        for (int i = 0; i < orderList.size(); i++) {
+            for (int j = 0; j < custList.size(); j++) {
                 if (id.equals(custList.get(j).getId())) {
 
                     //alltotal+=aa.getAllTotal();
@@ -544,42 +562,42 @@ public class CatOrder {
         custId = sc.next();
         int count1 = 0;
         int count2 = 0;
-        
+
         int a = 0;
-        for (int i = 0 ;i<custList.size();i++) {
+        for (int i = 0; i < custList.size(); i++) {
             if (custList.get(i).getId().equals(custId)) {
                 System.out.println("Customer [" + custId + "'s] Order ID");
                 System.out.println("===================================");
 
-                for (int j = 0; j<orderList.size();j++) {
+                for (int j = 0; j < orderList.size(); j++) {
                     if (orderList.get(j).getCustId().equals(custId)) {
                         ++a;
 
                         System.out.print("[" + a + "] ");
                         System.out.println(orderList.get(j).getId());
                         count2 = 1;
-                    }else{
+                    } else {
                         count2 = 0;
                     }
 
                 }
-                if(count2 == 1){
-                System.out.println("===================================");
-                System.out.print("Enter Order ID : ");
-                orderId = sc.next();
-                count1 = addQuantity(orderList, orderId, orderItem);
-                int b = 0;
-                System.out.println("Sales order for Customer ID [" + custId + "] Order ID [" + orderId + "]");
-                System.out.println("======================================================================");
-                for (int k = 0 ; k < orderItem.size();k++) {
-                    ++b;
-                    System.out.print("Item " + b);
+                if (count2 == 1) {
+                    System.out.println("===================================");
+                    System.out.print("Enter Order ID : ");
+                    orderId = sc.next();
+                    count1 = addQuantity(orderList, orderId, orderItem);
+                    int b = 0;
+                    System.out.println("Sales order for Customer ID [" + custId + "] Order ID [" + orderId + "]");
+                    System.out.println("======================================================================");
+                    for (int k = 0; k < orderItem.size(); k++) {
+                        ++b;
+                        System.out.print("Item " + b);
 
-                    System.out.print(orderItem.get(k));
+                        System.out.print(orderItem.get(k));
 
-                }
-                System.out.println("======================================================================");
-                count = 1;
+                    }
+                    System.out.println("======================================================================");
+                    count = 1;
                 }
             } else {
                 count = 0;
@@ -590,7 +608,7 @@ public class CatOrder {
         if (count == 0) {
             System.err.println("This person does not exist!");
         }
-        
+
         return count1;
 
     }
@@ -600,7 +618,7 @@ public class CatOrder {
         int count2 = 0;
         int count1 = 0;
         double price = 0;
-        for (int i = 0 ; i < orderList.size();i++) {
+        for (int i = 0; i < orderList.size(); i++) {
 
             if (orderList.get(i).getId().equals(orderId)) {
 
@@ -611,7 +629,7 @@ public class CatOrder {
                                 orderList.get(i).getOrderList().get(k).getQuantity(), orderList.get(i).getOrderList().get(k).getPrice()));
                         count1 = 1;
                     } else {
-                        for (int j = 0 ; j <orderItem.size();j++) {
+                        for (int j = 0; j < orderItem.size(); j++) {
                             if (orderItem.get(j).getOrderNum().equals(orderList.get(i).getOrderList().get(k).getOrderNum())) {
                                 count2 = orderItem.get(j).getQuantity() + orderList.get(i).getOrderList().get(k).getQuantity();
                                 price = orderItem.get(j).calculatePrice() + orderList.get(i).getOrderList().get(k).calculatePrice();
@@ -639,7 +657,7 @@ public class CatOrder {
     }
 
     private static int getCustomer(mLinkedInterface<Customer> custList, String id, int count, mLinkedInterface<Flower2> flower, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList) {
-        for (int i = 0 ; i < custList.size();i++) {
+        for (int i = 0; i < custList.size(); i++) {
             if (id.equals(custList.get(i).getId())) {
                 if (custList.get(i).getcType().equals("Corporate")) {
                     Date date = new Date();
@@ -647,7 +665,7 @@ public class CatOrder {
                     if ((new Date(2018, 11, 8)).before(date)) {
                         valid = true;
                     } else {
-                        for (int j =0;j< orderList.size();j++) {
+                        for (int j = 0; j < orderList.size(); j++) {
                             if (orderList.get(j).getCustId().equals(id) && orderList.get(j).getPickUpDate().getMonth() == date.getMonth() - 1) {
                                 if (!(orderList.get(j).getStatus().equals("Paid"))) {
                                     valid = false;
@@ -682,7 +700,7 @@ public class CatOrder {
         System.out.println("2. Flower Menu");
         choice = scanner.nextInt();
 
-        for (int i = 0 ; i<flower.size();i++) {
+        for (int i = 0; i < flower.size(); i++) {
             if (flower.get(i).getType().equals("Bouquet") && choice == 1) {
                 System.out.println("================");
                 System.out.print("Flower " + (++j) + "\n" + flower.get(i).getFlowername() + "\nRM ");
@@ -701,7 +719,7 @@ public class CatOrder {
 
     public static String generateOID(mLinkedInterface<OrderList> orderLists) {
         int count = 0;
-        for (int i = 0; i < orderLists.size();i++) {
+        for (int i = 0; i < orderLists.size(); i++) {
             count++;
         }
         return String.format("Or%04d", ++count);
