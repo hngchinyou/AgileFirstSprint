@@ -92,7 +92,7 @@ public class Main {
 		CustomizedFlower custflower8 = new CustomizedFlower("Vertical", "Big", "CF0001", "Processing", floType,
 				accessory, 1, "Cn0001", dsf8);
 		CustomizedFlower custflower9 = new CustomizedFlower("Vertical", "Big", "CF0001", "Processing", floType,
-				accessory, 1, "Cn0001", dsf9);
+				accessory, 3, "Cn0001", dsf9);
 
 
 		flowerList.add(custflower);

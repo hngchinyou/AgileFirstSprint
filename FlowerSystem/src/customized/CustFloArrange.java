@@ -174,7 +174,7 @@ public class CustFloArrange {
 			 SimpleDateFormat sdf=new SimpleDateFormat("dd-mm-yyyy");
 		        Date dsf=null;
 		        try {
-		        dsf = sdf.parse("26-12-2018");}catch(Exception ex) {}
+		        dsf = sdf.parse("27-12-2018");}catch(Exception ex) {}
 	        
 			flower.setPickupDate(dsf);
 
@@ -226,16 +226,38 @@ public class CustFloArrange {
         	}
         	else {
         		Date currentDate = currentFlowerList.get(i).getPickupDate();
-				if(flowerList.get(flowerList.size()-1).getPickupDate().compareTo(currentDate)>0) {
+				if(flowerList.get(flowerList.size()-1).getPickupDate().compareTo(currentDate)>=0) {
         			Date comp = flowerList.get(flowerList.size()/2).getPickupDate();
     	        	int pos=0;
     	        	int sizeFl=flowerList.size();
-    	        	Date current=currentDate;
     	        	if(comp.after(currentDate)) {
     	        		for(int j=0;j<sizeFl/2+((sizeFl%2==0)?0:1);j++){
     	        			if(flowerList.get(j).getPickupDate().after(currentDate)){
     	        				pos=j;
     	        				break;
+    	        			}
+    	        			else if(flowerList.get(j).getPickupDate().compareTo(currentDate)==0) {
+    	        				if(currentFlowerList.get(i).getPriorLevel()==1) {
+    	        					if(1<flowerList.get(j).getPriorLevel()) {
+    	        						pos=j;
+    	        						break;
+    	        					}
+    	        					else {
+    	        						pos=j+1;
+    	        					}
+    	        				}
+    	        				else if(currentFlowerList.get(i).getPriorLevel()==2) {
+    	        					if(2<flowerList.get(j).getPriorLevel()) {
+    	        						pos=j;
+    	        						break;
+    	        					}
+    	        					else {
+    	        						pos=j+1;
+    	        					}
+    	        				}
+    	        				else {
+    	        						pos=j+1;
+    	        				}
     	        			}
     	        		}
     	        	}
@@ -245,14 +267,81 @@ public class CustFloArrange {
     	        				pos=j;
     	        				break;
     	        			}
+    	        			else if(flowerList.get(j).getPickupDate().compareTo(currentDate)==0) {
+    	        				if(currentFlowerList.get(i).getPriorLevel()==1) {
+    	        					if(1<flowerList.get(j).getPriorLevel()) {
+    	        						pos=j;
+    	        						break;
+    	        					}
+    	        					else {
+    	        						pos=j+1;
+    	        					}
+    	        				}
+    	        				else if(currentFlowerList.get(i).getPriorLevel()==2) {
+    	        					if(2<flowerList.get(j).getPriorLevel()) {
+    	        						pos=j;
+    	        						break;
+    	        					}
+    	        					else {
+    	        						pos=j+1;
+    	        					}
+    	        				}
+    	        				else {
+    	        						pos=j+1;
+    	        				}
+    	        			}
     	        		}
     	        	}
     	        	else {
-    	        		for(int j=sizeFl/2+((sizeFl%2==0)?0:1)-1;j<sizeFl;j++) {
-    	        			if(flowerList.get(j).getPickupDate().after(currentDate)){
-    	        				pos=j;
-    	        				break;
-    	        			}
+    	        		if(flowerList.get(flowerList.size()/2).getPriorLevel()<=currentFlowerList.get(i).getPriorLevel()) {
+    	        			for(int j=sizeFl/2+((sizeFl%2==0)?0:1)-1;j<sizeFl;j++) {
+		        				if(currentFlowerList.get(i).getPriorLevel()==1) {
+		        					if(1<flowerList.get(j).getPriorLevel()) {
+		        						pos=j;
+		        						break;
+		        					}
+		        					else {
+		        						pos=j+1;
+		        					}
+		        				}
+		        				else if(currentFlowerList.get(i).getPriorLevel()==2) {
+		        					if(2<flowerList.get(j).getPriorLevel()) {
+		        						pos=j;
+		        						break;
+		        					}
+		        					else {
+		        						pos=j+1;
+		        					}
+		        				}
+		        				else {
+		        						pos=j+1;
+		        				}
+        	        		}
+    	        		}
+    	        		else {
+    	        			for(int j=0;j<sizeFl/2+((sizeFl%2==0)?0:1);j++){
+    	        				if(currentFlowerList.get(i).getPriorLevel()==1) {
+    	        					if(1<flowerList.get(j).getPriorLevel()) {
+    	        						pos=j;
+    	        						break;
+    	        					}
+    	        					else {
+    	        						pos=j+1;
+    	        					}
+    	        				}
+    	        				else if(currentFlowerList.get(i).getPriorLevel()==2) {
+    	        					if(2<flowerList.get(j).getPriorLevel()) {
+    	        						pos=j;
+    	        						break;
+    	        					}
+    	        					else {
+    	        						pos=j+1;
+    	        					}
+    	        				}
+    	        				else {
+    	        						pos=j+1;
+    	        				}
+        	        		}
     	        		}
     	        	}
     	        	flowerList.add(pos, currentFlowerList.get(i));
