@@ -52,7 +52,7 @@ public class CatalogueAdd {
                 CatalogueEdit.CEmain(flower);
                 break;
             case 5 :
-                CataloguePromotion.CPmain(promotion);
+                CataloguePromotion.CPmain(promotion, flower);
         }
         }while(choice !=6);
        
@@ -171,13 +171,6 @@ public class CatalogueAdd {
             }
             price = scanner.nextDouble();
             
-            System.out.print("Enter product quantity: ");           
-            while(!scanner.hasNextInt() || !scanner.hasNext("[0-9]*")){                
-                scanner.next();
-                System.out.print("Invalid input. Please input again. \n");
-                System.out.print("Enter product amount: ");
-            }
-            amount = scanner.nextInt();
             
             int fneeded=0;
             int qneeded=0;
@@ -217,12 +210,17 @@ public class CatalogueAdd {
                 qneeded = scanner.nextInt();
                 fneededList.add(tfneededList.get(fneeded-1));
                 fneededList.get(fneededList.size()-1).setAmount(qneeded);
-                int counttttt = fneededList.size();
-                double a = 1;
-                float b=1;
             }
             
             }while(fneeded!=loopcount+1);
+            
+            System.out.print("Enter product quantity: ");           
+            while(!scanner.hasNextInt() || !scanner.hasNext("[0-9]*")){                
+                scanner.next();
+                System.out.print("Invalid input. Please input again. \n");
+                System.out.print("Enter product amount: ");
+            }
+            amount = scanner.nextInt();
             
             if(choice == 1){
                  flower.add(new Flower2(fullFlowerID, name, description, flowerType, price, amount));

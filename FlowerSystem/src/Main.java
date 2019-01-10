@@ -66,9 +66,9 @@ public class Main {
 //		flowerList.add(custflower);
         //promotion
         mLinkedInterface<Promotion> promotion = new mLinked<>();
-        promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
-        promotion.add(new Promotion("P1112", "Lover Day", "asdasdasdasd",13.20, 5));
-        promotion.add(new Promotion("P1113", "Sun Shine", "asdasdasdasd",14.20, 5));       
+        //promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
+        //promotion.add(new Promotion("P1112", "Lover Day", "asdasdasdasd",13.20, 5));
+        //promotion.add(new Promotion("P1113", "Sun Shine", "asdasdasdasd",14.20, 5));       
         int choice;
 
         

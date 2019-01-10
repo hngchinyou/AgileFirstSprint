@@ -163,7 +163,14 @@ public class CatalogueView {
         System.out.println("=======================");
         for (int i=0;i<promotion.size();i++)
         {    
-            System.out.println(promotion.get(i));         
+            System.out.println(promotion.get(i));        
+            System.out.println("\nNeeded Flower & Accessories: ");
+            for(int j=0;j<promotion.get(i).getfList().size();j++)
+            {
+                System.out.println((promotion.get(i).getfList()).get(j).getFlowername() + " * " + 
+                        (promotion.get(i).getfList()).get(j).getAmount());
+            }
+            System.out.println("==========================");
             variable = 1;
         }   
         return variable;

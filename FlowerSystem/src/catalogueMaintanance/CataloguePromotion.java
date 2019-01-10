@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package catalogueMaintanance;
+import custMaintenanceNPayment.mLinked;
 import custMaintenanceNPayment.mLinkedInterface;
+import entity.Flower2;
 import entity.Promotion;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +15,7 @@ import java.util.Scanner;
  * @author user
  */
 public class CataloguePromotion {
-    public static void CPmain(mLinkedInterface<Promotion> promotion){
+    public static void CPmain(mLinkedInterface<Promotion> promotion, mLinkedInterface<Flower2> flower){
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         String name, description;
         double price;
@@ -59,15 +61,59 @@ public class CataloguePromotion {
             }
             price = scanner.nextDouble();
             
-        System.out.print("Enter promotion quantity: ");           
+            int fneeded=0;
+            int qneeded=0;
+            int loopcount=0;
+            
+            mLinkedInterface<Flower2> fneededList = new mLinked<>();
+            mLinkedInterface<Flower2> tfneededList = new mLinked<>();
+            
+            do{
+                loopcount=0;
+                System.out.println("===== Flower =====");
+                for(int i=0; i<flower.size();i++)
+                {
+                    if(flower.get(i).getType().equals("Flower"))
+                    {
+                        System.out.println(loopcount+1 +". "+ flower.get(i).getFlowername());
+                        loopcount++;
+                        tfneededList.add(flower.get(i));
+                    }
+                }
+                System.out.println("===== Accessories =====");
+                for(int i=0; i<flower.size();i++)
+                {
+                    if(flower.get(i).getType().equals("Accessories"))
+                    {
+                        System.out.println(loopcount+1 +". "+ flower.get(i).getFlowername());
+                        loopcount++;
+                        tfneededList.add(flower.get(i));
+                    }
+                }
+                System.out.println(loopcount+1 + ". Finish selection");
+                System.out.print("Select the flower/accessories that needed for this promotion: ");
+                fneeded = scanner.nextInt();
+                if(fneeded!=5)
+                {
+                    System.out.print("Quantity: ");
+                    qneeded = scanner.nextInt();
+                    fneededList.add(tfneededList.get(fneeded-1));
+                    fneededList.get(fneededList.size()-1).setAmount(qneeded);
+                }
+
+            }while(fneeded!=loopcount+1);
+            
+        
+            System.out.print("Enter promotion quantity: ");           
             while(!scanner.hasNextInt() || !scanner.hasNext("[0-9]*")){                
                 scanner.next();
                 System.out.print("Invalid input. Please input again. \n");
                 System.out.print("Enter product amount: ");
             }
             amount = scanner.nextInt();
+        
             
-            addPromotion(promotion, fullPromotionID, name, description, price, amount);
+            addPromotion(promotion, fullPromotionID, name, description, price, amount, fneededList);
         
         System.out.println("Do you want to add another new promotion(y/n)?");
             while (!scanner.hasNext("(Y|N)|(y|n){1}$")) {
@@ -80,7 +126,7 @@ public class CataloguePromotion {
          System.out.println("Add successful." + "\n");
 }
 
-    public static void addPromotion(mLinkedInterface<Promotion> promotion, String fullPromotionID, String name, String description, double price, int amount) {
-        promotion.add(new Promotion(fullPromotionID, name, description, price, amount));
+    public static void addPromotion(mLinkedInterface<Promotion> promotion, String fullPromotionID, String name, String description, double price, int amount, mLinkedInterface neededflower) {
+        promotion.add(new Promotion(fullPromotionID, name, description, price, amount, neededflower));
     }
 }
