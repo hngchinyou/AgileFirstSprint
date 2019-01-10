@@ -48,7 +48,7 @@ public class Main {
             mLinkedInterface<OrderList> orderList = new mLinked<>();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             arrOrder.add(new Order("1", 3, new Date(), 12.34));
-            String date = "29/12/2018";
+            String date = "11/01/2019";
             orderList.add(new OrderList(arrOrder, "Or0001", formatter.parse(date), "Delivery", "setapak", "Pv13", "Cr0002", "Processing"));//hardcoding order list 1
             
             // customer maintenance initial array
@@ -90,7 +90,7 @@ do {
     System.out.println("[5] Customized Flower Arrangement");
     System.out.println("[6] Exit");
     System.out.println("==============================================");
-    System.out.print("Enter Your Choice: ");
+    System.out.print("choice: ");
     choice = scanner.nextInt();
     switch (choice) {
         case 1:
@@ -104,7 +104,7 @@ do {
             CatOrder.COmain(custList, flower,allOrderPrice,arrOrder,orderList);
             break;
         case 4:
-            //ViewOrderListV3.Deliverymain(orderList, flowerList,flower);
+            ViewOrderListV3.Deliverymain(orderList, flowerList,flower);
             break;
         case 5:
             //CustFloArrange.custFloArrange(custList,flower,flowerList);
