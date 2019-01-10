@@ -1,5 +1,6 @@
 package catalogueMaintanance;
 
+import custMaintenanceNPayment.mLinked;
 import custMaintenanceNPayment.mLinkedInterface;
 import entity.Promotion;
 import entity.Flower2;
@@ -67,22 +68,25 @@ public class CatalogueAdd {
         boolean error = false;
         int Flowerid = 1111;
         int Bouquetid = 1111;
+        int Accessoriesid = 1111;
         int choice = 0;
         String fullFlowerID = "";
         String fullBouquetID = "";
         String flowerType = "Flower";
         String bouquetType = "Bouquet";
+        String accessoriesType = "Accessories";
         do
         {
             System.out.println("Please choose for the product to add.");
             System.out.println("**************************************");
             System.out.println("1.Fresh Flower");
-            System.out.println("2.Bouquets");
+            System.out.println("2.Accessories");
+            System.out.println("3.Bouquets");
             System.out.println("**************************************");
             System.out.print("Enter your Choice: ");
             //choice = scanner.nextInt();
-            while(!scanner.hasNextInt() || !scanner.hasNext("[1-2]")){
-                System.out.println("Please enter 1 or 2 only !!");
+            while(!scanner.hasNextInt() || !scanner.hasNext("[1-3]")){
+                System.out.println("Please enter 1 or 3 only !!");
                 System.out.print("Enter your Choice: ");
                 scanner.next();             
             }           
@@ -99,6 +103,17 @@ public class CatalogueAdd {
                 fullFlowerID = "F" + Flowerid;
                 Flowerid ++;
                 System.out.print("\n");               
+            }else if(choice == 2){
+                for(int i=0;i<flower.size();i++){
+                    if(("A" + Accessoriesid).equals(flower.get(i).getId())){
+                        Accessoriesid++;
+                    }
+                }
+                System.out.print("Product ID: ");            
+                System.out.print("A" + Accessoriesid);
+                fullBouquetID = "A" + Accessoriesid;
+                Accessoriesid ++;
+                System.out.print("\n");
             }else{
                 for(int i=0;i<flower.size();i++){
                     if(("B" + Bouquetid).equals(flower.get(i).getId())){
@@ -133,10 +148,14 @@ public class CatalogueAdd {
             if(choice == 1){
                 System.out.print("Product Type: " + flowerType);            
                 System.out.print("\n");               
+            }else if(choice == 2){
+                System.out.print("Product Type: " + accessoriesType);            
+                System.out.print("\n");
             }else{
                 System.out.print("Product Type: " + bouquetType);            
                 System.out.print("\n");
-            }          
+            } 
+                     
 //            type = scanner.next();
 //            while(!type.matches("[a-zA-Z, ]+")){
 //                System.out.println("Please do not leave blank!");
@@ -160,13 +179,60 @@ public class CatalogueAdd {
             }
             amount = scanner.nextInt();
             
-            if(choice == 1){
-                flower.add(new Flower2(fullFlowerID, name, description, flowerType, price, amount));
+            int fneeded=0;
+            int qneeded=0;
+            int loopcount=0;
+            
+            mLinkedInterface<Flower2> fneededList = new mLinked<>();
+            mLinkedInterface<Flower2> tfneededList = new mLinked<>();
+            
+            do{
+                loopcount=0;
+            System.out.println("===== Flower =====");
+            for(int i=0; i<flower.size();i++)
+            {
+                if(flower.get(i).getType().equals("Flower"))
+                {
+                    System.out.println(loopcount+1 +". "+ flower.get(i).getFlowername());
+                    loopcount++;
+                    tfneededList.add(flower.get(i));
+                }
             }
-            else{
-                  flower.add(new Flower2(fullBouquetID, name, description, bouquetType, price, amount));
+            System.out.println("===== Accessories =====");
+            for(int i=0; i<flower.size();i++)
+            {
+                if(flower.get(i).getType().equals("Accessories"))
+                {
+                    System.out.println(loopcount+1 +". "+ flower.get(i).getFlowername());
+                    loopcount++;
+                    tfneededList.add(flower.get(i));
+                }
+            }
+            System.out.println(loopcount+1 + ". Finish selection");
+            System.out.print("Select the flower/accessories that needed for this bouquet: ");
+            fneeded = scanner.nextInt();
+            if(fneeded!=5)
+            {
+                System.out.print("Quantity: ");
+                qneeded = scanner.nextInt();
+                fneededList.add(tfneededList.get(fneeded-1));
+                fneededList.get(fneededList.size()-1).setAmount(qneeded);
+                int counttttt = fneededList.size();
+                double a = 1;
+                float b=1;
+            }
+            
+            }while(fneeded!=loopcount+1);
+            
+            if(choice == 1){
+                 flower.add(new Flower2(fullFlowerID, name, description, flowerType, price, amount));
+            }else if(choice == 2){
+                 flower.add(new Flower2(fullFlowerID, name, description, accessoriesType, price, amount));
+            }else{
+                  flower.add(new Flower2(fullBouquetID, name, description, bouquetType, price, amount, fneededList));
 //                flower.add(new Flower2(String.format("%d", Bouquetid), name, description, type, price, amount));
             }
+            
              
             System.out.println("Do you want to add another new product(y/n)?");
             while (!scanner.hasNext("(Y|N)|(y|n){1}$")) {

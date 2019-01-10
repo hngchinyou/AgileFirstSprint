@@ -50,11 +50,13 @@ public class Main {
         custList.add(new CorporateCust("Cr0002", "kuma", "Wangsa Maju 2", "Corporate", 5000, "Kumasou", "60-5936555"));
         // flower maintenance
         mLinkedInterface<Flower2> flower = new mLinked<>();
-        flower.add(new Flower2("B1111", "Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
-        flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 13.0, 2));
+        //flower.add(new Flower2("B1111", "Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
+        //flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 13.0, 2));
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
+        flower.add(new Flower2("A1111", "Black Clover", "asdiuqwheasd", "Accessories", 5.20, 10));
+        
 		mLinkedInterface<CustomizedFlower> flowerList = new mLinked<>();
 //		ListInterface<String> floType = new ArrayList<>(Arrays.asList("Clover"));
 //		ListInterface<String> accessory = new ArrayList<>(Arrays.asList("Bear"));
@@ -106,3 +108,13 @@ public class Main {
     }
 
 }
+
+
+
+/*
+   if(front == null)
+    {
+        front = (Object)1;
+    }
+
+*/
