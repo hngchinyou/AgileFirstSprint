@@ -72,6 +72,7 @@ public class CatalogueAdd {
         int choice = 0;
         String fullFlowerID = "";
         String fullBouquetID = "";
+        String fullAccessoriesID = "";
         String flowerType = "Flower";
         String bouquetType = "Bouquet";
         String accessoriesType = "Accessories";
@@ -171,7 +172,8 @@ public class CatalogueAdd {
             }
             price = scanner.nextDouble();
             
-            
+            if(choice == 3){
+                
             int fneeded=0;
             int qneeded=0;
             int loopcount=0;
@@ -204,7 +206,7 @@ public class CatalogueAdd {
             System.out.println(loopcount+1 + ". Finish selection");
             System.out.print("Select the flower/accessories that needed for this bouquet: ");
             fneeded = scanner.nextInt();
-            if(fneeded!=5)
+            if(fneeded!=loopcount+1)
             {
                 System.out.print("Quantity: ");
                 qneeded = scanner.nextInt();
@@ -213,6 +215,7 @@ public class CatalogueAdd {
             }
             
             }while(fneeded!=loopcount+1);
+            
             
             System.out.print("Enter product quantity: ");           
             while(!scanner.hasNextInt() || !scanner.hasNext("[0-9]*")){                
@@ -225,11 +228,26 @@ public class CatalogueAdd {
             if(choice == 1){
                  flower.add(new Flower2(fullFlowerID, name, description, flowerType, price, amount));
             }else if(choice == 2){
-                 flower.add(new Flower2(fullFlowerID, name, description, accessoriesType, price, amount));
+                 flower.add(new Flower2(fullAccessoriesID, name, description, accessoriesType, price, amount));
             }else{
                   flower.add(new Flower2(fullBouquetID, name, description, bouquetType, price, amount, fneededList));
 //                flower.add(new Flower2(String.format("%d", Bouquetid), name, description, type, price, amount));
+            }}
+            else{
+            System.out.print("Enter product quantity: ");           
+            while(!scanner.hasNextInt() || !scanner.hasNext("[0-9]*")){                
+                scanner.next();
+                System.out.print("Invalid input. Please input again. \n");
+                System.out.print("Enter product amount: ");
             }
+            amount = scanner.nextInt();
+            
+            if(choice == 1){
+                 flower.add(new Flower2(fullFlowerID, name, description, flowerType, price, amount));
+            }else if(choice == 2){
+                 flower.add(new Flower2(fullAccessoriesID, name, description, accessoriesType, price, amount));
+        }}
+            
             
              
             System.out.println("Do you want to add another new product(y/n)?");
