@@ -61,6 +61,7 @@ doubleLinkedInterface<OrderList> orderList = new doubleLinked<>();
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
+        flower.add(new Flower2("A1113", "Black Clover", "asdiuqwheasd", "Accessories", 5.20, 10));
         
         SimpleDateFormat sdf=new SimpleDateFormat("dd-mm-yyyy");
         Date dsf=null,dsf2=null,dsf3=null,dsf4=null,dsf5=null,dsf6=null,dsf7=null,dsf8=null,dsf9=null;

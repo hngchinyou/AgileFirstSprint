@@ -19,14 +19,34 @@ import java.util.List;
 
 public class CustFloArrange {
 	private static Scanner scanner = new Scanner(System.in);
-	private static String[] floArangeType = { "Elliptical", "Vertical", "Horizontal", "Triangular", "crescent",
-			"S' shaped", "oval shaped", "cascade" }, size = { "Big", "Medium", "Small" },
-			accessory = { "Bear", "Card", "Chocolate" }, priorLevel = { "Express", "Normal", "Flexi" };
+	private static mLinkedInterface<String> floArangeType=new mLinked<>(),size=new mLinked<>(),priorLevel=new mLinked<>();
+	
+	
+//	private static String[] floArangeType = { "Elliptical", "Vertical", "Horizontal", "Triangular", "crescent",
+//			"S' shaped", "oval shaped", "cascade" }, size = { "Big", "Medium", "Small" },
+//			accessory = { "Bear", "Card", "Chocolate" }, priorLevel = { "Express", "Normal", "Flexi" };
 
 	// customized flower menu
 	public static void custFloArrange(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> floType,
 			mLinkedInterface<CustomizedFlower> flowerList) {
 		int choice;
+		if(floArangeType.isEmpty()) {
+			floArangeType.add("Elliptical");
+			floArangeType.add("Vertical");
+			floArangeType.add("Horizontal");
+			floArangeType.add("Triangular");
+			floArangeType.add("crescent");
+			floArangeType.add("S' shaped");
+			floArangeType.add("oval shaped");
+			floArangeType.add("cascade");
+			size.add("Big");
+			size.add("Medium");
+			size.add("Small");
+			priorLevel.add("Express");
+			priorLevel.add("Normal");
+			priorLevel.add("Flexi");
+		}
+		
 
 		do {
 			System.out.println("\nCustomized Flower Arrangement Menu");
@@ -37,9 +57,9 @@ public class CustFloArrange {
 			System.out.println("4.Back to Main menu");
 			System.out.println("==============================================");
 			System.out.print("Enter Your Choice: ");
-			while (!scanner.hasNextInt() || !scanner.hasNext("[1-3]")) {
+			while (!scanner.hasNextInt() || !scanner.hasNext("[1-4]")) {
 				scanner.next();
-				System.err.println("Invalid input. Please input again (only accept[1-3])");
+				System.err.println("Invalid input. Please input again (only accept[1-4])");
 			}
 			choice = scanner.nextInt();
 			System.out.println("");
@@ -135,10 +155,10 @@ public class CustFloArrange {
 			selectFloArrange(flower);
 
 			selectSize(flower);
-			if (flower.getSize().equals(size[0])) {
+			if (flower.getSize().equals(size.get(0))) {
 				maxFloType = 10;
 				maxAccessory = 5;
-			} else if (flower.getSize().equals(size[1])) {
+			} else if (flower.getSize().equals(size.get(1))) {
 				maxFloType = 8;
 				maxAccessory = 3;
 			} else {
@@ -148,7 +168,7 @@ public class CustFloArrange {
 
 			selectFlower(flower, maxFloType, floType);
 
-			selectAccessory(flower, maxAccessory);
+			selectAccessory(flower, maxAccessory,floType);
 
 			selectPrior(flower);
 
@@ -357,38 +377,40 @@ public class CustFloArrange {
 	// first step of customized flower
 	public static void selectFloArrange(CustomizedFlower flower) {
 		// first step
-		System.out.println("First, select the flower arrangement style. [only accept 1-" + floArangeType.length + "]");
-		for (int i = 1; i <= floArangeType.length; i++) {
-			System.out.println(i + ". " + floArangeType[i - 1]);
+		int input=-1;
+		System.out.println("First, select the flower arrangement style. [only accept 1-" + floArangeType.size() + "]");
+		for (int i = 1; i <= floArangeType.size(); i++) {
+			System.out.println(i + ". " + floArangeType.get(i-1));
 		}
-		while (!scanner.hasNextInt() || !scanner.hasNext("[1-" + floArangeType.length + "]")) {
+		while (!scanner.hasNextInt() || !scanner.hasNext("[1-" + floArangeType.size() + "]")) {
 			scanner.next();
-			System.err.println("Invalid input. Please input again (only accept[1-" + floArangeType.length + "])");
+			System.err.println("Invalid input. Please input again (only accept[1-" + floArangeType.size() + "])");
 		}
-		switch (scanner.nextInt()) {
+		input=scanner.nextInt();
+		switch (input) {
 		case 1:
-			flower.setFloArrangeType(floArangeType[0]);
+			flower.setFloArrangeType(floArangeType.get(0));
 			break;
 		case 2:
-			flower.setFloArrangeType(floArangeType[1]);
+			flower.setFloArrangeType(floArangeType.get(1));
 			break;
 		case 3:
-			flower.setFloArrangeType(floArangeType[2]);
+			flower.setFloArrangeType(floArangeType.get(2));
 			break;
 		case 4:
-			flower.setFloArrangeType(floArangeType[3]);
+			flower.setFloArrangeType(floArangeType.get(3));
 			break;
 		case 5:
-			flower.setFloArrangeType(floArangeType[4]);
+			flower.setFloArrangeType(floArangeType.get(4));
 			break;
 		case 6:
-			flower.setFloArrangeType(floArangeType[5]);
+			flower.setFloArrangeType(floArangeType.get(5));
 			break;
 		case 7:
-			flower.setFloArrangeType(floArangeType[6]);
+			flower.setFloArrangeType(floArangeType.get(6));
 			break;
 		case 8:
-			flower.setFloArrangeType(floArangeType[7]);
+			flower.setFloArrangeType(floArangeType.get(7));
 			break;
 		default:
 			break;
@@ -397,23 +419,25 @@ public class CustFloArrange {
 
 	// second step of customized flower
 	public static void selectSize(CustomizedFlower flower) {
-		System.out.println("Second, select the flower size. [only accept 1-" + size.length + "]");
-		for (int i = 1; i <= size.length; i++) {
-			System.out.println(i + ". " + size[i - 1]);
+		int input=-1;
+		System.out.println("Second, select the flower size. [only accept 1-" + size.size() + "]");
+		for (int i = 1; i <= size.size(); i++) {
+			System.out.println(i + ". " + size.get(i-1));
 		}
-		while (!scanner.hasNextInt() || !scanner.hasNext("[1-" + size.length + "]")) {
+		while (!scanner.hasNextInt() || !scanner.hasNext("[1-" + size.size() + "]")) {
 			scanner.next();
-			System.err.println("Invalid input. Please input again (only accept[1-" + size.length + "])");
+			System.err.println("Invalid input. Please input again (only accept[1-" + size.size() + "])");
 		}
-		switch (scanner.nextInt()) {
+		input=scanner.nextInt();
+		switch (input) {
 		case 1:
-			flower.setSize(size[0]);
+			flower.setSize(size.get(0));
 			break;
 		case 2:
-			flower.setSize(size[1]);
+			flower.setSize(size.get(1));
 			break;
 		case 3:
-			flower.setSize(size[2]);
+			flower.setSize(size.get(2));
 			break;
 		default:
 			break;
@@ -423,26 +447,35 @@ public class CustFloArrange {
 	// third step of customized flower
 	public static void selectFlower(CustomizedFlower flower, int maxFloType, mLinkedInterface<Flower2> floType) {
 		int selected = 0;
+		int input=-1;
 		String respond = "";
 		mLinkedInterface<String> buffer = new mLinked<>();
+		mLinkedInterface<String> onlyflower=new mLinked<>();
+		for(int i=0;i<floType.size();i++) {
+			if(floType.get(i).getType().equals("Flower")) {
+				onlyflower.add(floType.get(i).getFlowername());
+			}
+		}
 		do {
 			selected++;
 			if (selected <= maxFloType) {
-				System.out.println("Third, select the flower type. You can select more " + (maxFloType - selected + 1)
-						+ " flower type. " + " [only accept number]");
-				for (int i = 1; i <= floType.size(); i++) {
-					System.out.println(i + ". " + floType.get(i - 1).getFlowername());
-				}
-				while (!scanner.hasNextInt() || !scanner.hasNext("[1-9]")) {
-					scanner.next();
-					System.err.println("Invalid input. Please input again (only accept number)");
-				}
-				int choose = scanner.nextInt();
-				for (int i = 0; i < floType.size(); i++) {
-					if ((choose - 1) == i) {
-						buffer.add(floType.get(i).getFlowername());
+				do {
+					System.out.println("Third, select the flower type. You can select more " + (maxFloType - selected + 1)
+							+ " flower type. " + " [only accept number]");
+					for (int i = 1; i <= onlyflower.size(); i++) {
+						System.out.println(i + ". " + onlyflower.get(i - 1));
 					}
-				}
+					while (!scanner.hasNextInt() || !scanner.hasNext("\\d*[1-9]\\d*$")) {
+						scanner.next();
+						System.err.println("Invalid input. Please input again (only accept number)");
+					}
+					input = scanner.nextInt();
+					if(input>onlyflower.size()) {
+						System.err.println("Invalid input. Please input again (only accept number)");
+					}
+				}while(input>onlyflower.size());
+				
+				buffer.add(onlyflower.get(input-1));
 
 				if (selected != maxFloType) {
 					System.out.println("Do you want to continue to add more flower type?[Y/N]");
@@ -463,29 +496,38 @@ public class CustFloArrange {
 	}
 
 	// forth step of customized flower
-	public static void selectAccessory(CustomizedFlower flower, int maxAccessory) {
+	public static void selectAccessory(CustomizedFlower flower, int maxAccessory,mLinkedInterface<Flower2> floType) {
 		int selected = 0;
+		int input=-1;
 		String respond = "";
 		mLinkedInterface<String> buffer = new mLinked<>();
+		mLinkedInterface<String> accessory=new mLinked<>();
+		for(int i=0;i<floType.size();i++) {
+			if(floType.get(i).getType().equals("Accessories")) {
+				accessory.add(floType.get(i).getFlowername());
+			}
+		}
 
 		do {
 			selected++;
 			if (selected <= maxAccessory) {
-				System.out.println("Forth, select the accessory. You can select more " + (maxAccessory - selected + 1)
-						+ " [only accept 1-" + accessory.length + "]");
-				for (int i = 1; i <= accessory.length; i++) {
-					System.out.println(i + ". " + accessory[i - 1]);
-				}
-				while (!scanner.hasNextInt() || !scanner.hasNext("[1-" + accessory.length + "]")) {
-					scanner.next();
-					System.err.println("Invalid input. Please input again (only accept[1-" + accessory.length + "])");
-				}
-				int choose = scanner.nextInt();
-				for (int i = 0; i < accessory.length; i++) {
-					if ((choose - 1) == i) {
-						buffer.add(accessory[i]);
+				do {
+					System.out.println("Forth, select the accessory. You can select more " + (maxAccessory - selected + 1)
+							+ " [only accept 1-" + accessory.size() + "]");
+					for (int i = 1; i <= accessory.size(); i++) {
+						System.out.println(i + ". " + accessory.get(i-1));
 					}
-				}
+					while (!scanner.hasNextInt() || !scanner.hasNext("\\d*[1-9]\\d*$")) {
+						scanner.next();
+						System.err.println("Invalid input. Please input again (only accept[1-" + accessory.size() + "])");
+					}
+					input=scanner.nextInt();
+					if(input>accessory.size()) {
+						System.err.println("Invalid input. Please input again (only accept[1-" + accessory.size() + "])");
+					}
+				}while(input>accessory.size());
+				String test=accessory.get(input-1);
+				buffer.add(accessory.get(input-1));
 
 				if (selected != maxAccessory) {
 					System.out.println("Do you want to continue to add more accessory?[Y/N]");
@@ -507,12 +549,12 @@ public class CustFloArrange {
 	// select prior level
 	public static void selectPrior(CustomizedFlower flower) {
 		System.out.println("Fifth, select the priority level. [only accept 1-3]");
-		for (int i = 1; i <= priorLevel.length; i++) {
-			System.out.println(i + ". " + priorLevel[i - 1]);
+		for (int i = 1; i <= priorLevel.size(); i++) {
+			System.out.println(i + ". " + priorLevel.get(i-1));
 		}
-		while (!scanner.hasNextInt() || !scanner.hasNext("[1-" + priorLevel.length + "]")) {
+		while (!scanner.hasNextInt() || !scanner.hasNext("[1-" + priorLevel.size() + "]")) {
 			scanner.next();
-			System.err.println("Invalid input. Please input again (only accept[1-" + priorLevel.length + "])");
+			System.err.println("Invalid input. Please input again (only accept[1-" + priorLevel.size() + "])");
 		}
 		flower.setPriorLevel(scanner.nextInt());
 	}

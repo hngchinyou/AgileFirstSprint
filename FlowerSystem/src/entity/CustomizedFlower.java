@@ -75,31 +75,28 @@ public class CustomizedFlower {
         }
 		result+="\n3.Flower Type: \n" + resultflo;
 		
-		int a1=0,a2=0,a3=0;
+		
+		int sizeAccessory[] = new int[floType.size()];
+		i=0;
 		String resultacc="";
-                for(int j=0;j<accessory.size();j++)
-		{
-                    String a=accessory.get(j);
-			if(a.equals("Bear"))
-				a1++;
-			else if(a.equals("Card"))
-				a2++;
-			else
-				a3++;
-		}
-		if(a1!=0) {
-			resultacc+="  Bear(RM 8.50) x" + a1 + "| RM "+String.format("%.2f", (8.50*a1))+"\n";
-			totalAccessory+=8.50*a1;
-		}
-		if(a2!=0) {
-			resultacc+="  Card(RM 3.00) x" + a2 + "| RM "+String.format("%.2f", (3.00*a2))+"\n";
-			totalAccessory+=3.00*a2;
-		}
-		if(a3!=0) {
-			resultacc+="  Chocolate(RM 7.00) x" + a3 + "| RM "+String.format("%.2f", (7.00*a3))+"\n";
-			totalAccessory+=7.00*a3;
-		}
-			
+        for(int j=0;j<floType.size();j++){
+            for(int k=0;k<this.accessory.size();k++){
+                String ftName = this.accessory.get(k);
+                if(ftName.equalsIgnoreCase(floType.get(j).getFlowername())){
+                	sizeAccessory[i]++;
+                }
+            }
+            i++;
+        }
+        i=0;
+        for(int sft:sizeAccessory){
+            if(sft!=0){
+            	resultacc+= "  "+floType.get(i).getFlowername()+"("+String.format("%.2f", floType.get(i).getPrice()) + ") x" + sft + "| RM "
+            +String.format("%.2f", (floType.get(i).getPrice()*sft))+"\n";
+                totalAccessory+=floType.get(i).getPrice()*sft;
+            }
+            i++;
+        }	
 		result+="4.Accessory: \n" + resultacc;
 		
 		result+="Priority Level: ";
@@ -121,7 +118,7 @@ public class CustomizedFlower {
 		return result;
 	}
         
-        public double getTotalPrice(mLinkedInterface<Flower2> floType){
+    public double getTotalPrice(mLinkedInterface<Flower2> floType){
             double total = 0;
             double totalFloType = 0;
             double totalAccessory = 0;
@@ -144,26 +141,25 @@ public class CustomizedFlower {
                 }
                 i++;
             }
-
-            int a1 = 0, a2 = 0, a3 = 0;
-            for(int j=0;j<accessory.size();j++){
-                String a=accessory.get(j);
-                if (a.equals("Bear")) {
-                    a1++;
-                } else if (a.equals("Card")) {
-                    a2++;
-                } else {
-                    a3++;
+            
+            
+            int sizeAccessory[] = new int[floType.size()];
+            i = 0;
+            for (int j=0;j<floType.size();j++) {
+                for(int k=0;k<this.accessory.size();k++){
+                    String ftName=this.accessory.get(k);
+                    if (ftName.equalsIgnoreCase(floType.get(j).getFlowername())) {
+                    	sizeAccessory[i]++;
+                    }
                 }
+                i++;
             }
-            if (a1 != 0) {
-                totalAccessory += 8.50 * a1;
-            }
-            if (a2 != 0) {
-                totalAccessory += 3.00 * a2;
-            }
-            if (a3 != 0) {
-                totalAccessory += 7.00 * a3;
+            i = 0;
+            for (int sft : sizeAccessory) {
+                if (sft != 0) {
+                    totalAccessory += floType.get(i).getPrice() * sft;
+                }
+                i++;
             }
 
             total += 10 + calculateSize() + totalFloType + totalAccessory + calculatePriority();
@@ -181,7 +177,6 @@ public class CustomizedFlower {
         int sizeFloType[] = new int[floType.size()];
 		int i=0;
 		String resultflo="";
-		int a1=0,a2=0,a3=0;
 		String resultacc="";
         for(int j=0;i<floType.size();j++){
             for(int k=0;k<this.floType.size();k++){
@@ -201,22 +196,24 @@ public class CustomizedFlower {
         }
 		result+="\nFlower Type: " + resultflo;
 		
-                for(int j=0;j<accessory.size();j++)
-		{
-                    String a=accessory.get(j);
-			if(a.equals("Bear"))
-				a1++;
-			else if(a.equals("Card"))
-				a2++;
-			else
-				a3++;
-		}
-		if(a1!=0)
-			resultacc+="Bear x" + a1 + ", ";
-		if(a2!=0)
-			resultacc+="Card x" + a2 + ", ";
-		if(a3!=0)
-			resultacc+="Chocolate x" + a3 + ", ";
+		int sizeAccessory[] = new int[floType.size()];
+		i=0;
+		for(int j=0;i<floType.size();j++){
+            for(int k=0;k<this.accessory.size();k++){
+                String ftName=this.accessory.get(k);
+                if(ftName.equalsIgnoreCase(floType.get(j).getFlowername())){
+                	sizeAccessory[i]++;
+                }
+            }
+            i++;
+        }
+        i=0;
+        for(int sft:sizeAccessory){
+            if(sft!=0){
+            	resultacc+= floType.get(i).getFlowername() + " x" + sft + ",";
+            }
+            i++;
+        }
 		result+="\nAccessory: " + resultacc;
 		
 		result+="\nPriority Level: ";
