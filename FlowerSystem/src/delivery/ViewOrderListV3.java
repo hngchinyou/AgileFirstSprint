@@ -5,6 +5,10 @@
  */
 package delivery;
 
+import Interface.ArrayQueue;
+import Interface.LinkQueue;
+import Interface.QueueInterface;
+import Interface.routeQueueInterface;
 import com.sun.jmx.remote.util.OrderClassLoaders;
 import custMaintenanceNPayment.mLinked;
 import custMaintenanceNPayment.mLinkedInterface;
@@ -343,7 +347,7 @@ public class ViewOrderListV3 {
             int gs = 0, gc = 0;
             String input;
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Queue routeQueue = new ArrayBlockingQueue<>(100);
+            routeQueueInterface<String> routeQueue = new LinkQueue<>();
             Date date = new Date();
             date = sdf.parse(sdf.format(new Date()));
             for (int i=0;i<orderList.size();i++) {
@@ -380,26 +384,39 @@ public class ViewOrderListV3 {
                 System.out.print("There are no order today\n");
             }
             if (setapak != 0) {
-                getSetapakOrder(orderList, setapak);
+                routeQueue.enqueue("setapak");
             }
             if (cheras != 0) {
-                getCherasOrder(orderList, cheras);
+                routeQueue.enqueue("cheras");
                 if (gombak != 0) {
-                    getGombakOrder(orderList, gombak);
+                routeQueue.enqueue("gombak");
                     if (subang != 0) {
-                        getSubangOrder(orderList, subang);
+                routeQueue.enqueue("subang");
                     }
                 } else if(subang != 0 ){
-                    getSubangOrder(orderList, subang);
+                routeQueue.enqueue("subang");
                 }
             } else if (gombak != 0) {
-                getGombakOrder(orderList, gombak);
+                routeQueue.enqueue("gombak");
                 if (subang != 0) {
-                    getSubangOrder(orderList, subang);
+                routeQueue.enqueue("subang");
                 }
             } else if (subang != 0) {
-                getSubangOrder(orderList, subang);
+                routeQueue.enqueue("subang");
             }
+
+
+        for(int i=0; i<routeQueue.size(); i++)
+        {
+        if(routeQueue.dequeue().equals("setapak"))
+            getSetapakOrder(orderList, setapak);
+        else if(routeQueue.dequeue().equals("gombak"))
+            getGombakOrder(orderList, gombak);
+        else if(routeQueue.dequeue().equals("cheras"))
+            getCherasOrder(orderList, cheras);
+        else if(routeQueue.dequeue().equals("subang"))
+            getSubangOrder(orderList, subang);
+        }
         } catch (ParseException ex) {
             Logger.getLogger(ViewOrderListV3.class.getName()).log(Level.SEVERE, null, ex);
         }
