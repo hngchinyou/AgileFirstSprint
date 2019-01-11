@@ -7,6 +7,8 @@ package entity;
 
 //import Interface.ArrayList;
 //import Interface.List;
+import Catalog_Order.doubleLinked;
+import Catalog_Order.doubleLinkedInterface;
 import custMaintenanceNPayment.mLinked;
 import custMaintenanceNPayment.mLinkedInterface;
 import java.text.SimpleDateFormat;
@@ -19,7 +21,7 @@ import java.util.List;
  * @author User
  */
 public class OrderList {
-    private mLinkedInterface<Order> orderList = new mLinked<>();
+    private doubleLinkedInterface<Order> orderList = new doubleLinked<>();
     private String id;
     private Date pickUpDate;
     private String collectMethod;
@@ -34,7 +36,7 @@ public class OrderList {
      
    
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    public OrderList(mLinkedInterface<Order> orderList,String id, Date pickUpDate, String collectMethod,String area ,String DAddress,String custId,String status) {
+    public OrderList(doubleLinkedInterface<Order> orderList,String id, Date pickUpDate, String collectMethod,String area ,String DAddress,String custId,String status) {
         this.orderList = orderList;
         this.id = id;
         this.pickUpDate = pickUpDate;
@@ -72,7 +74,7 @@ public class OrderList {
         return custId;
     }
 
-    public mLinkedInterface<Order> getOrderList() {
+    public doubleLinkedInterface<Order> getOrderList() {
         return orderList;
     }
 
@@ -92,7 +94,7 @@ public class OrderList {
         this.status = status;
     }
 
-    public void setOrderList(mLinkedInterface<Order> orderList) {
+    public void setOrderList(doubleLinkedInterface<Order> orderList) {
         this.orderList = orderList;
     }
 
@@ -123,7 +125,7 @@ public class OrderList {
         return s;
     }
    
-    public double calcTotalPrice(mLinkedInterface<Order> orderArr){
+    public double calcTotalPrice(doubleLinkedInterface<Order> orderArr){
         totalPrice=0;
      for(int i = 0 ; i < orderArr.size();i++) {
             totalPrice += orderArr.get(i).calculatePrice();
@@ -132,7 +134,7 @@ public class OrderList {
         return totalPrice;
     }
     
-    public double calcAllOrder(mLinkedInterface<OrderList> orderList, mLinkedInterface<Order> orderArr)
+    public double calcAllOrder(doubleLinkedInterface<OrderList> orderList, doubleLinkedInterface<Order> orderArr)
     {
         
       //  Iterator<OrderList> iterator = orderList.getIterator();
@@ -143,7 +145,7 @@ public class OrderList {
         return allTotal;
     }
     
-    public double calcAllOrder(mLinkedInterface<OrderList> orderList, String customerId)
+    public double calcAllOrder(doubleLinkedInterface<OrderList> orderList, String customerId)
     {
      //    Iterator<OrderList> iterator = orderList.getIterator();
         allTotal=0;
@@ -180,5 +182,6 @@ public class OrderList {
                 "\nCollect Method: " + collectMethod + "\nAddress: " + DAddress +", " + area  +"\nStatus= " + status +
                 "\n*************************\n";
     }
+    
     
 }

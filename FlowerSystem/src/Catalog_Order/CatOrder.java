@@ -23,13 +23,13 @@ import java.util.concurrent.ArrayBlockingQueue;
  *
  * @author Han Xin
  */
-public class CatOrder {
+public class CatOrder<T> {
     //12
 
     /**
      * @param args the command line arguments
      */
-    public static void COmain(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList) {
+    public static void COmain(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, double allOrderPrice, doubleLinkedInterface<Order> arrOrder, doubleLinkedInterface<OrderList> orderList) {
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         int choice;
         int count = 0;
@@ -52,7 +52,7 @@ public class CatOrder {
 
     }
 
-    public static void catalogueOrder(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, String id, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList, int count5) {
+    public static void catalogueOrder(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, String id, double allOrderPrice, doubleLinkedInterface<Order> arrOrder, doubleLinkedInterface<OrderList> orderList, int count5) {
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         // respond
@@ -79,21 +79,22 @@ public class CatOrder {
         Date date1 = new Date();
         boolean valid = true;
 
+        mLinkedInterface<OrderList> currentOrderList = new mLinked<>();
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        
+
         do {
             String oid = generateOID(orderList);
             if (!orderList.isEmpty()) {
-                for (int i = 0 ; i < orderList.size();i++) {
+                for (int i = 0; i < orderList.size(); i++) {
                     if (!orderList.get(i).getStatus().equals("Paid")) {
                         allOrderPrice = orderList.get(i).calcAllOrder(orderList, id);
                     }
                 }
             }
-            for (int i = 0 ; i < custList.size();i++) {
+            for (int i = 0; i < custList.size(); i++) {
 
                 if (id.equals(custList.get(i).getId())) {
                     System.out.println(custList.get(i).getName() + ",monthly limit is : " + (((CorporateCust) custList.get(i)).getCredit() - allOrderPrice));
@@ -104,23 +105,42 @@ public class CatOrder {
                         break;
                     } else {
 
-                        arrOrder = new mLinked<>();
+                        arrOrder = new doubleLinked<>();
                         //arrOrder.clear();
                         do {
 
                             do {
-                                if (remakeRes.equalsIgnoreCase("y") && totalPrice > ((CorporateCust)  custList.get(i)).getCredit()) {
+                                if (remakeRes.equalsIgnoreCase("y") && totalPrice > ((CorporateCust) custList.get(i)).getCredit()) {
                                     totalPrice -= totalSub;
                                 }
                                 totalSub = 0;
-                                System.out.print("Enter the Catalogue Number: ");
 
-//                while(!scanner.hasNext("[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]\\w$")){
-//                     System.err.print("Sorry, please enter a proper tity again: ");
-//                    scanner.next();
-//                }
-                                orderNo = scanner.next();
+                                int countBouquet = 0;
+                                int countFlower = 0;
 
+                                for (int flt = 0; flt < flower.size(); flt++) {
+                                    if (flower.get(flt).getType().equals("Bouquet")) {
+                                        countBouquet++;
+                                    } else if (flower.get(flt).getType().equals("Flower")) {
+                                        countFlower++;
+                                    }
+                                }
+
+                                do {
+                                    System.out.print("Enter the Catalogue Number: ");
+
+                                    while (!scanner.hasNext("\\d*[1-9]\\d*$")) {
+                                        System.err.print("Sorry, please enter a proper catalog number again: ");
+                                        scanner.next();
+                                    }
+                                    orderNo = scanner.next();
+                                    if ((Integer.parseInt(orderNo) > countBouquet && count5 == 1)
+                                            || (Integer.parseInt(orderNo) > countFlower && count5 == 2)) {
+                                        System.err.println("Please choose the number in the catalog ");
+                                    }
+
+                                } while ((Integer.parseInt(orderNo) > countBouquet && count5 == 1)
+                                        || (Integer.parseInt(orderNo) > countFlower && count5 == 2));
                                 System.out.print("Enter the quantity: ");
                                 //Check only integer allowed to enter 
                                 while (!scanner.hasNext("\\d*[1-9]\\d*$")) {
@@ -138,31 +158,25 @@ public class CatOrder {
                                 //{
                                 //    allOrderPrice += orderList.get(j).calcAllOrder(orderList, "Cr0001");
                                 //}
-                                if (allOrderPrice > ((CorporateCust)  custList.get(i)).getCredit()) {
-                                    //System.err.println("You Have Over your monthly limit !");
-                                    //System.err.print("Do you want to Remake Order ?[Y/N]");
-                                    //remakeRes = scanner.next();
-                                    //arrOrder.remove(arrOrder.size() - 1);
+                                if (allOrderPrice > ((CorporateCust) custList.get(i)).getCredit()) {
+
                                 } else {
                                     double getdeprice = 0;
                                     mLinkedInterface<Flower2> fl = new mLinked<>();
-                                    for (int j = 0 ; j < flower.size();j++) {
+                                    for (int j = 0; j < flower.size(); j++) {
                                         if (flower.get(j).getType().equals("Bouquet") && count5 == 1) {
                                             fl.add(flower.get(j));
-                                            //getdeprice = flower.get(i).getPrice();
 
                                         } else if (flower.get(j).getType().equals("Flower") && count5 == 2) {
                                             fl.add(flower.get(j));
-                                            //getdeprice = flower.get(i).getPrice();
-
                                         }
 
                                     }
-                                  //  getdeprice = fl.get(Integer.parseInt(orderNo) - 1).getPrice();
+                                    //  getdeprice = fl.get(Integer.parseInt(orderNo) - 1).getPrice();
                                     getdeprice = fl.get(0).getPrice();
                                     arrOrder.add(new Order(orderNo, quantity, date, getdeprice));
 
-                                    for (int j = 0;j<arrOrder.size();j++) {
+                                    for (int j = 0; j < arrOrder.size(); j++) {
                                         totalSub += arrOrder.get(j).calculatePrice();
                                     }
                                     //check credit limit
@@ -214,30 +228,38 @@ public class CatOrder {
 
                         } while (res.equalsIgnoreCase("Y") && valid);
 
+                        Date cmpPickDate = new Date();
+
                         if (res.equalsIgnoreCase("N") && valid) {
-                            System.out.print("Enter the pick-up date (dd/MM/yyyy): ");
+                            do {
 
-                            while (!scanner.hasNext("(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$")) {
+                                System.out.print("Enter the pick-up date (dd/MM/yyyy): ");
 
-                                System.err.print("Sorry, please enter a proper date with the format(dd/MM/yyyy) : ");
-                                scanner.next();
-                            }
+                                while (!scanner.hasNext("(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$")) {
 
-                            pickUpD = scanner.next();
-                            try {
-                                pDate = formatter.parse(pickUpD);
+                                    System.err.print("Sorry, please enter a proper date with the format(dd/MM/yyyy) : ");
+                                    scanner.next();
+                                }
 
-                            } catch (Exception ex) {
+                                pickUpD = scanner.next();
+                                try {
+                                    pDate = formatter.parse(pickUpD);
 
-                            }
+                                } catch (Exception ex) {
 
+                                }
+                                if (pDate.before(cmpPickDate)) {
+                                    System.err.println("Please enter date after today! ");
+                                }
+                            } while (pDate.before(cmpPickDate));
                             int choice = 0;
                             int count3 = 0;
+
                             choice = collectMethodMenu();
+
                             switch (choice) {
                                 case 1:
                                     collectMethod = "Delivery";
-
                                     count3 = 1;
                                     break;
                                 case 2:
@@ -274,14 +296,21 @@ public class CatOrder {
                                 }
                             }
                         }
-//            for(OrderList o : orderList){
-//                if(o.calcTotalPrice() > creditLimit){
-//                    System.err.println("You already over your limit. you cannot continue order!");
-//                    System.err.println("Please Try Again~!");
-//                }
-//            }        
+
                         if (valid) {
-                            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
+
+                            int ll = orderList.size();
+                            boolean dateValid = false;
+                            for (int k = 0; k < ll; k++) {
+                                if (pDate.before(orderList.get(k).getPickUpDate())) {
+                                    dateValid = true;
+                                    orderList.addByPosition(k, new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
+                                }
+                            }
+                            if (!dateValid) {
+                                orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
+                            }
+                            // orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
 
                             // arrOrder.clear();
                             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -295,17 +324,18 @@ public class CatOrder {
                         }
 
                     }
+
                 }
             }
 
         } while (res1.equalsIgnoreCase("Y"));
-        
+
         System.out.print(arrOrder.size());
         if (valid) {
             double alltotal = 0;
             int a = 0;
-            for (int j = 0; j < orderList.size();j++) {
-                for (int i=0 ; i < custList.size();i++) {
+            for (int j = 0; j < orderList.size(); j++) {
+                for (int i = 0; i < custList.size(); i++) {
                     if (id.equals(custList.get(i).getId())) {
                         //alltotal+=aa.getAllTotal();
                         ++a;
@@ -317,9 +347,78 @@ public class CatOrder {
             System.out.print("\nTotal Price: RM ");
             System.out.println(String.format("%.2f", totalPrice));
         }
+
+        for (int i = 0; i < currentOrderList.size(); i++) {
+            orderList.add(currentOrderList.get(i));
+        }
+        for (int i = 0; i < currentOrderList.size(); i++) {
+            if (orderList.isEmpty()) {
+                orderList.add(currentOrderList.get(i));
+            } else {
+                Date comp = orderList.get(orderList.size() / 2).getPickUpDate();
+                int pos = 0;
+                int sizeFl = orderList.size();
+                Date current = currentOrderList.get(i).getPickUpDate();
+                if (comp.after(currentOrderList.get(i).getPickUpDate())) {
+                    for (int j = 0; j < sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1); j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                } else if (comp.before(currentOrderList.get(i).getPickUpDate())) {
+                    for (int j = sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1) - 1; j < sizeFl; j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                } else {
+                    for (int j = sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1) - 1; j < sizeFl; j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                }
+                //orderList.add(pos, currentOrderList.get(i));
+            }
+            //flowerList.add(currentFlowerList.get(i));
+        }
+        currentOrderList.clear();
     }
 
-    public static void consOrder(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, String id, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList, int count5) {
+    private static int binarySearch(int first, int last, Date pDate, mLinkedInterface<OrderList> orderList) {
+        int found;
+        int mid = (first + last) / 2;
+        if (first > last) {
+            found = 0;
+        } else if (pDate.equals(orderList.get(mid).getPickUpDate())) {
+            found = 1;
+        } else if (pDate.compareTo(orderList.get(mid).getPickUpDate()) < 0) {
+            found = binarySearch(first, mid - 1, pDate, orderList);
+        } else {
+            found = binarySearch(mid + 1, last, pDate, orderList);
+        }
+        return found;
+    }
+
+    private static boolean binarySearch(int first, int last, Date pDate, doubleLinkedInterface<OrderList> orderList) {
+        boolean found;
+        int mid = (first + last) / 2;
+        if (first > last) {
+            found = false;
+        } else if (pDate.equals(orderList.get(mid).getPickUpDate())) {
+            found = true;
+        } else if (pDate.compareTo(orderList.get(mid).getPickUpDate()) < 0) {
+            found = binarySearch(first, mid - 1, pDate, orderList);
+        } else {
+            found = binarySearch(mid + 1, last, pDate, orderList);
+        }
+        return found;
+    }
+
+    public static void consOrder(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, String id, double allOrderPrice, doubleLinkedInterface<Order> arrOrder, doubleLinkedInterface<OrderList> orderList, int count5) {
 
         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         // respond
@@ -334,7 +433,7 @@ public class CatOrder {
         Date date = new Date();
         int count = 0;
         String pickUpD;
-        String orderNo;
+        String orderNo = "";
         Date pDate = new Date();
         String collectMethod = "";
         String address = "";
@@ -353,26 +452,44 @@ public class CatOrder {
         do {
             String oid = generateOID(orderList);
             if (!orderList.isEmpty()) {
-                for (int i = 0 ; i < orderList.size();i++) {
+                for (int i = 0; i < orderList.size(); i++) {
 
                     allOrderPrice = orderList.get(i).calcAllOrder(orderList, id);
                 }
             }
 
-            arrOrder = new mLinked<>();
+            arrOrder = new doubleLinked<>();
             //arrOrder.clear();
+
             do {
 
                 do {
+                    int countBouquet = 0;
+                    int countFlower = 0;
 
-                    System.out.print("Enter the Catalogue Number: ");
+                    for (int flt = 0; flt < flower.size(); flt++) {
+                        if (flower.get(flt).getType().equals("Bouquet")) {
+                            countBouquet++;
+                        } else if (flower.get(flt).getType().equals("Flower")) {
+                            countFlower++;
+                        }
+                    }
 
-//                while(!scanner.hasNext("[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]\\w$")){
-//                     System.err.print("Sorry, please enter a proper tity again: ");
-//                    scanner.next();
-//                }
-                    orderNo = scanner.next();
+                    do {
+                        System.out.print("Enter the Catalogue Number: ");
 
+                        while (!scanner.hasNext("\\d*[1-9]\\d*$")) {
+                            System.err.print("Sorry, please enter a proper catalog number again: ");
+                            scanner.next();
+                        }
+                        orderNo = scanner.next();
+                        if ((Integer.parseInt(orderNo) > countBouquet && count5 == 1)
+                                || (Integer.parseInt(orderNo) > countFlower && count5 == 2)) {
+                            System.err.println("Please choose the number in the catalog ");
+                        }
+
+                    } while ((Integer.parseInt(orderNo) > countBouquet && count5 == 1)
+                            || (Integer.parseInt(orderNo) > countFlower && count5 == 2));
                     System.out.print("Enter the quantity: ");
                     //Check only integer allowed to enter 
                     while (!scanner.hasNext("\\d*[1-9]\\d*$")) {
@@ -396,7 +513,7 @@ public class CatOrder {
                     //arrOrder.remove(arrOrder.size() - 1);
                     double getdeprice = 0;
                     List<Flower2> fl = new ArrayList<>();
-                    for (int i = 0 ; i < flower.size();i++) {
+                    for (int i = 0; i < flower.size(); i++) {
                         if (flower.get(i).getType().equals("Bouquet") && count5 == 1) {
                             fl.add(flower.get(i));
                             //getdeprice = flower.get(i).getPrice();
@@ -436,23 +553,32 @@ public class CatOrder {
                 count++;
 
             } while (res.equalsIgnoreCase("Y"));
-
+            Date cmpPickDate = new Date();
+            //     int day = cmpPickDate.getDate() + 1;
+            //    cmpPickDate.setDate(day);
+            //  System.out.print(cmpPickDate);
             if (res.equalsIgnoreCase("N")) {
-                System.out.print("Enter the pick-up date (dd/MM/yyyy): ");
+                do {
+                    System.out.print("Enter the pick-up date (dd/MM/yyyy): ");
 
-                while (!scanner.hasNext("(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$")) {
+                    while (!scanner.hasNext("(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$")) {
 
-                    System.err.print("Sorry, please enter a proper date with the format(dd/MM/yyyy) : ");
-                    scanner.next();
-                }
+                        System.err.print("Sorry, please enter a proper date with the format(dd/MM/yyyy) : ");
+                        scanner.next();
+                    }
 
-                pickUpD = scanner.next();
-                try {
-                    pDate = formatter.parse(pickUpD);
+                    pickUpD = scanner.next();
 
-                } catch (Exception ex) {
+                    try {
+                        pDate = formatter.parse(pickUpD);
 
-                }
+                    } catch (Exception ex) {
+
+                    }
+                    if (pDate.before(cmpPickDate)) {
+                        System.err.println("Please enter date after today! ");
+                    }
+                } while (pDate.before(cmpPickDate));
                 int count3 = 0;
                 int choice = 0;
                 choice = collectMethodMenu();
@@ -500,9 +626,20 @@ public class CatOrder {
 //                    System.err.println("Please Try Again~!");
 //                }
 //            }
-            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
 
-            // arrOrder.clear();
+            int ll = orderList.size();
+            boolean dateValid = false;
+            for (int k = 0; k < ll; k++) {
+                if (pDate.before(orderList.get(k).getPickUpDate())) {
+                    dateValid = true;
+                    orderList.addByPosition(k, new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
+                }
+            }
+            if (!dateValid) {
+                orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
+            }
+
+            // arrOrder.clea
             System.out.print("Do you want to add more Order ? [Y/N] ");
             //Check only Y or N allowed to enter 
             while (!scanner.hasNext("(Y|N)|(y|n){1}$")) {
@@ -516,14 +653,12 @@ public class CatOrder {
 
         double alltotal = 0;
         int a = 0;
-        for( int i = 0 ; i<orderList.size();i++) {
-            for (int j = 0 ; j < custList.size(); j++) {
+        for (int i = 0; i < orderList.size(); i++) {
+            for (int j = 0; j < custList.size(); j++) {
                 if (id.equals(custList.get(j).getId())) {
-
                     //alltotal+=aa.getAllTotal();
                     ++a;
                     System.out.print(orderList.get(i).toString(a));
-
                 }
             }
             //alltotal += aa.calcAllOrder(orderList, "Cr0001", arrOrder);
@@ -533,53 +668,53 @@ public class CatOrder {
 
     }
 
-    public static int generateSales(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList) {
+    public static int generateSales(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> flower, double allOrderPrice, doubleLinkedInterface<Order> arrOrder, doubleLinkedInterface<OrderList> orderList) {
         Scanner sc = new Scanner(System.in).useDelimiter("\n");
 
         String custId = "";
         String orderId = "";
-        mLinkedInterface<Order> orderItem = new mLinked<>();
+        doubleLinkedInterface<Order> orderItem = new doubleLinked<>();
         int count = 0;
         System.out.print("Enter Customer ID : ");
         custId = sc.next();
         int count1 = 0;
         int count2 = 0;
-        
+
         int a = 0;
-        for (int i = 0 ;i<custList.size();i++) {
+        for (int i = 0; i < custList.size(); i++) {
             if (custList.get(i).getId().equals(custId)) {
                 System.out.println("Customer [" + custId + "'s] Order ID");
                 System.out.println("===================================");
 
-                for (int j = 0; j<orderList.size();j++) {
+                for (int j = 0; j < orderList.size(); j++) {
                     if (orderList.get(j).getCustId().equals(custId)) {
                         ++a;
 
                         System.out.print("[" + a + "] ");
                         System.out.println(orderList.get(j).getId());
                         count2 = 1;
-                    }else{
+                    } else {
                         count2 = 0;
                     }
 
                 }
-                if(count2 == 1){
-                System.out.println("===================================");
-                System.out.print("Enter Order ID : ");
-                orderId = sc.next();
-                count1 = addQuantity(orderList, orderId, orderItem);
-                int b = 0;
-                System.out.println("Sales order for Customer ID [" + custId + "] Order ID [" + orderId + "]");
-                System.out.println("======================================================================");
-                for (int k = 0 ; k < orderItem.size();k++) {
-                    ++b;
-                    System.out.print("Item " + b);
+                if (count2 == 1) {
+                    System.out.println("===================================");
+                    System.out.print("Enter Order ID : ");
+                    orderId = sc.next();
+                    count1 = addQuantity(orderList, orderId, orderItem);
+                    int b = 0;
+                    System.out.println("Sales order for Customer ID [" + custId + "] Order ID [" + orderId + "]");
+                    System.out.println("======================================================================");
+                    for (int k = 0; k < orderItem.size(); k++) {
+                        ++b;
+                        System.out.print("Item " + b);
 
-                    System.out.print(orderItem.get(k));
+                        System.out.print(orderItem.get(k));
 
-                }
-                System.out.println("======================================================================");
-                count = 1;
+                    }
+                    System.out.println("======================================================================");
+                    count = 1;
                 }
             } else {
                 count = 0;
@@ -590,17 +725,17 @@ public class CatOrder {
         if (count == 0) {
             System.err.println("This person does not exist!");
         }
-        
+
         return count1;
 
     }
 
-    public static int addQuantity(mLinkedInterface<OrderList> orderList, String orderId, mLinkedInterface<Order> orderItem) {
+    public static int addQuantity(doubleLinkedInterface<OrderList> orderList, String orderId, doubleLinkedInterface<Order> orderItem) {
         int count = 0;
         int count2 = 0;
         int count1 = 0;
         double price = 0;
-        for (int i = 0 ; i < orderList.size();i++) {
+        for (int i = 0; i < orderList.size(); i++) {
 
             if (orderList.get(i).getId().equals(orderId)) {
 
@@ -611,7 +746,7 @@ public class CatOrder {
                                 orderList.get(i).getOrderList().get(k).getQuantity(), orderList.get(i).getOrderList().get(k).getPrice()));
                         count1 = 1;
                     } else {
-                        for (int j = 0 ; j <orderItem.size();j++) {
+                        for (int j = 0; j < orderItem.size(); j++) {
                             if (orderItem.get(j).getOrderNum().equals(orderList.get(i).getOrderList().get(k).getOrderNum())) {
                                 count2 = orderItem.get(j).getQuantity() + orderList.get(i).getOrderList().get(k).getQuantity();
                                 price = orderItem.get(j).calculatePrice() + orderList.get(i).getOrderList().get(k).calculatePrice();
@@ -638,8 +773,8 @@ public class CatOrder {
         return count1;
     }
 
-    private static int getCustomer(mLinkedInterface<Customer> custList, String id, int count, mLinkedInterface<Flower2> flower, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList) {
-        for (int i = 0 ; i < custList.size();i++) {
+    private static int getCustomer(mLinkedInterface<Customer> custList, String id, int count, mLinkedInterface<Flower2> flower, double allOrderPrice, doubleLinkedInterface<Order> arrOrder, doubleLinkedInterface<OrderList> orderList) {
+        for (int i = 0; i < custList.size(); i++) {
             if (id.equals(custList.get(i).getId())) {
                 if (custList.get(i).getcType().equals("Corporate")) {
                     Date date = new Date();
@@ -647,7 +782,7 @@ public class CatOrder {
                     if ((new Date(2018, 11, 8)).before(date)) {
                         valid = true;
                     } else {
-                        for (int j =0;j< orderList.size();j++) {
+                        for (int j = 0; j < orderList.size(); j++) {
                             if (orderList.get(j).getCustId().equals(id) && orderList.get(j).getPickUpDate().getMonth() == date.getMonth() - 1) {
                                 if (!(orderList.get(j).getStatus().equals("Paid"))) {
                                     valid = false;
@@ -680,9 +815,15 @@ public class CatOrder {
         System.out.println("Catalogue Menu\n==============");
         System.out.println("1. Bouquet Menu");
         System.out.println("2. Flower Menu");
+        System.out.print("Choice:");
+        while (!scanner.hasNext("(1)|(2)")) {
+            System.err.println("You only can choose 1 or 2 !!!!");
+            System.out.print("Enter your choice:");
+            scanner.next();
+        }
         choice = scanner.nextInt();
 
-        for (int i = 0 ; i<flower.size();i++) {
+        for (int i = 0; i < flower.size(); i++) {
             if (flower.get(i).getType().equals("Bouquet") && choice == 1) {
                 System.out.println("================");
                 System.out.print("Flower " + (++j) + "\n" + flower.get(i).getFlowername() + "\nRM ");
@@ -699,9 +840,9 @@ public class CatOrder {
         return choice;
     }
 
-    public static String generateOID(mLinkedInterface<OrderList> orderLists) {
+    public static String generateOID(doubleLinkedInterface<OrderList> orderLists) {
         int count = 0;
-        for (int i = 0; i < orderLists.size();i++) {
+        for (int i = 0; i < orderLists.size(); i++) {
             count++;
         }
         return String.format("Or%04d", ++count);
@@ -731,6 +872,12 @@ public class CatOrder {
         System.out.println("[2] Self Pick Up");
         System.out.println("==================================");
         System.out.print("Enter your choice:");
+
+        while (!scanner.hasNext("(1)|(2)")) {
+            System.err.println("You only can choose 1 or 2 !!!!");
+            System.out.print("Enter your choice:");
+            scanner.next();
+        }
         choice = scanner.nextInt();
         return choice;
 
@@ -747,6 +894,12 @@ public class CatOrder {
         System.out.println("[4] Subang");
         System.out.println("==================================");
         System.out.print("Enter your choice:");
+        while (!scanner.hasNext("(1)|(2)|(3)|(4)")) {
+            System.err.println("You only can choose 1 to 4 !!!!");
+            System.out.print("Enter your choice:");
+            scanner.next();
+        }
+
         choice = scanner.nextInt();
         return choice;
 

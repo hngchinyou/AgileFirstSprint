@@ -20,7 +20,7 @@ import entity.Promotion;
  */
 public class CatalogueView {
     public static void CVmain(mLinkedInterface<Flower2> flower, mLinkedInterface<Promotion> promotion) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         char answer;
         int choice;
         
@@ -65,44 +65,62 @@ public class CatalogueView {
 //        answer = word.charAt(0);
         
         if(word.equalsIgnoreCase("a")){  
-            System.out.println("Do you want to view bouquet or flower?");
-            System.out.print("(a for Flower / b for Bouquet):");
+            System.out.println("Do you want to view bouquet or flower or accessories?");
+            System.out.print("(a for Accessories / b for Bouquet / c for Flower):");
             System.out.print("\n");
             String ans = scanner.next();
-            while(!ans.matches("[a-bA-B, ]+"))
+            while(!ans.matches("[a-cA-C, ]+"))
             {
-                System.out.println("Please only enter a or b:");
+                System.out.println("Please only enter either a or b or c:");
                 ans = scanner.next();
             }
             if(ans.equalsIgnoreCase("a")){
                 for (int i=0;i<flower.size();i++){
-                    if(flower.get(i).getType().equalsIgnoreCase("Flower"))
+                    if(flower.get(i).getType().equalsIgnoreCase("Accessories"))
                     System.out.println(flower.get(i));
                 }
             }else if(ans.equalsIgnoreCase("b")){
                 for (int i=0; i<flower.size();i++){
                     if(flower.get(i).getType().equalsIgnoreCase("Bouquet"))
-                    System.out.println(flower.get(i));
+                    {
+                        System.out.print(flower.get(i));
+                        if(!flower.get(i).getNeededFlower().isEmpty())
+                        {
+                            System.out.println("\nNeeded Flower & Accessories: ");
+                            for(int j=0;j<(flower.get(i).getNeededFlower().size());j++)
+                            {
+                                System.out.println((flower.get(i).getNeededFlower()).get(j).getFlowername() + " * " + 
+                                        (flower.get(i).getNeededFlower()).get(j).getAmount());
+                            }
+                            System.out.println("==========================");
+                        }
+                    }
+                        
                 }
-            }           
+            }else if(ans.equalsIgnoreCase("c")){
+                for (int i=0; i<flower.size();i++){
+                    if(flower.get(i).getType().equalsIgnoreCase("Flower"))
+                    System.out.println(flower.get(i));
+                }           
             }
-          
-        else if(word.equalsIgnoreCase("b")){ 
-            System.out.println("Do you want to view bouquet or flower?");
-            System.out.print("(a for Flower / b for Bouquet):");
+        }
+            else if(word.equalsIgnoreCase("b")){ 
+            System.out.println("Do you want to view bouquet or flower or accessories?");
+            System.out.print("(a for Accessories / b for Bouquet / c for Flower):");
             System.out.print("\n");
             String answers = scanner.next();
-            while(!answers.matches("[a-bA-B, ]+"))
+            while(!answers.matches("[a-cA-C, ]+"))
             {
-                System.out.println("Please only enter a or b:");
+                System.out.println("Please only enter a or b or c:");
                 answers = scanner.next();
             }
+            
             if(answers.equalsIgnoreCase("a")){
                 System.out.println("================="); 
-                System.out.println("Flower For Sales");
+                System.out.println("Accessories For Sales");
                 System.out.println("=================");
                 for (int i=0;i<flower.size();i++){
-                    if(flower.get(i).getType().equalsIgnoreCase("Flower")){
+                    if(flower.get(i).getType().equalsIgnoreCase("Accessories")){
                     System.out.println("**************************");
                     System.out.println("Product ID:" + flower.get(i).getId() + "\n" + "Product Name:" + flower.get(i).getFlowername() + 
                     "\n" + "Price:" + flower.get(i).getPrice());
@@ -111,21 +129,33 @@ public class CatalogueView {
                 }
             }else if(answers.equalsIgnoreCase("b")){
                 System.out.println("================="); 
-                System.out.println("Flower For Sales");
+                System.out.println("Bouquet For Sales");
                 System.out.println("=================");
                 for (int i=0;i<flower.size();i++){
                     if(flower.get(i).getType().equalsIgnoreCase("Bouquet")){
+                        System.out.println("**************************");
+                        System.out.println("Product ID:" + flower.get(i).getId() + "\n" + "Product Name:" + flower.get(i).getFlowername() + 
+                        "\n" + "Price:" + flower.get(i).getPrice());
+                        
+                        System.out.println("**************************" + "\n");
+                    }                  
+                }
+            }else if(answers.equalsIgnoreCase("c")){
+                System.out.println("================="); 
+                System.out.println("Flower For Sales");
+                System.out.println("=================");
+                for (int i=0;i<flower.size();i++){
+                    if(flower.get(i).getType().equalsIgnoreCase("Flower")){
                         System.out.println("**************************");
                     System.out.println("Product ID:" + flower.get(i).getId() + "\n" + "Product Name:" + flower.get(i).getFlowername() + 
                     "\n" + "Price:" + flower.get(i).getPrice());
                     System.out.println("**************************" + "\n");
                     }                  
-                }
-            }    
-    }
-    }
+                }    
+            }
+    }   
         
-        
+        }
     public static int ViewPromotion(mLinkedInterface<Promotion> promotion){
         int variable = 0;
         System.out.println("======================="); 
@@ -133,7 +163,14 @@ public class CatalogueView {
         System.out.println("=======================");
         for (int i=0;i<promotion.size();i++)
         {    
-            System.out.println(promotion.get(i));         
+            System.out.println(promotion.get(i));        
+            System.out.println("\nNeeded Flower & Accessories: ");
+            for(int j=0;j<promotion.get(i).getfList().size();j++)
+            {
+                System.out.println((promotion.get(i).getfList()).get(j).getFlowername() + " * " + 
+                        (promotion.get(i).getfList()).get(j).getAmount());
+            }
+            System.out.println("==========================");
             variable = 1;
         }   
         return variable;

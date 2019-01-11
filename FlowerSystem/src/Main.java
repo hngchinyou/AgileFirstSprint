@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import customized.CustFloArrange;
 import Catalog_Order.CatOrder;
+import Catalog_Order.doubleLinked;
+import Catalog_Order.doubleLinkedInterface;
 //import Interface.ArrayList;
 //import Interface.ListInterface;
 import custMaintenanceNPayment.CustomerMaintenanceAndPayment;
@@ -18,6 +20,8 @@ import entity.Flower2;
 import entity.Promotion;
 import entity.Order;
 import entity.OrderList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,8 +44,8 @@ public class Main {
         // TODO Auto-generated method stub
         // catalog order initial array 
         double allOrderPrice = 0;
-        mLinkedInterface<Order> arrOrder = new mLinked<>();
-        mLinkedInterface<OrderList> orderList = new mLinked<>();
+doubleLinkedInterface<Order> arrOrder = new doubleLinked<>();
+doubleLinkedInterface<OrderList> orderList = new doubleLinked<>();
 //        arrOrder.add(new Order("1", 3, new Date(), 12.34));
 //        orderList.add(new OrderList(arrOrder, "Or0001", new Date(), "Delivery", "setapak", "Pv13", "Cn0001", "Processing"));//hardcoding order list 1
 
@@ -52,8 +56,8 @@ public class Main {
         custList.add(new CorporateCust("Cr0002", "kuma", "Wangsa Maju 2", "Corporate", 5000, "Kumasou", "60-5936555"));
         // flower maintenance
         mLinkedInterface<Flower2> flower = new mLinked<>();
-        flower.add(new Flower2("B1111", "Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
-        flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 13.0, 2));
+      //flower.add(new Flower2("B1111", "Sun Shine", "asdasdasdasd", "Bouquet", 12.20, 5));
+        //flower.add(new Flower2("B1112", "Lover Bouquets", "asdasdasdasd", "Bouquet", 13.0, 2));
         flower.add(new Flower2("F1111", "Buttercup", "asdasdasdasd", "Flower", 14.20, 2));
         flower.add(new Flower2("F1112", "Cherry Blosom", "sdaqwefgwre", "Flower", 15.20, 2));
         flower.add(new Flower2("F1113", "Clover", "asdiuqwheasd", "Flower", 16.20, 5));
@@ -106,11 +110,10 @@ public class Main {
 		flowerList.add(custflower9);
         //promotion
         mLinkedInterface<Promotion> promotion = new mLinked<>();
-        promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
-        promotion.add(new Promotion("P1112", "Lover Day", "asdasdasdasd",13.20, 5));
-        promotion.add(new Promotion("P1113", "Sun Shine", "asdasdasdasd",14.20, 5));       
+        //promotion.add(new Promotion("P1111", "Green Plant", "asdasdasdasd",12.20, 5));
+        //promotion.add(new Promotion("P1112", "Lover Day", "asdasdasdasd",13.20, 5));
+        //promotion.add(new Promotion("P1113", "Sun Shine", "asdasdasdasd",14.20, 5));       
         int choice;
-
         
         Scanner scanner = new Scanner(System.in);
         do {
@@ -133,7 +136,6 @@ public class Main {
                     CustomerMaintenanceAndPayment.CPmain(custList, allOrderPrice, orderList);
                     break;
                 case 3:
-                    System.out.print(custList.get(0));
                     CatOrder.COmain(custList, flower,allOrderPrice,arrOrder,orderList);
                     break;
                 case 4:
@@ -148,3 +150,13 @@ public class Main {
     }
 
 }
+
+
+
+/*
+   if(front == null)
+    {
+        front = (Object)1;
+    }
+
+*/

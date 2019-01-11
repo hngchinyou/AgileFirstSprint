@@ -1,5 +1,7 @@
 package entity;
 
+import custMaintenanceNPayment.mLinkedInterface;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,6 +16,7 @@ public class Flower2 {
     private String flowername,description, type, id;
     private double price;
     private int amount;
+    private mLinkedInterface<Flower2> neededFlower;
 
     public Flower2(String id, String flowername, String description, String type, double price, int amount) {
         this.id = id;
@@ -23,6 +26,19 @@ public class Flower2 {
         this.price = price;
         this.amount = amount;
     }
+    
+    public Flower2(String id, String flowername, String description, String type, double price, int amount, mLinkedInterface<Flower2> neededFlower) {
+        this.id = id;
+        this.flowername = flowername;
+        this.description = description;
+        this.type = type;
+        this.price = price;
+        this.amount = amount;
+        this.neededFlower = neededFlower;
+    }
+    
+    
+    
 
     public Flower2() {
     }
@@ -37,9 +53,16 @@ public class Flower2 {
                 "Type:" + type + "\n" +
                 "Price: RM " + price + "\n" + 
                 "Quantity:" + amount + "\n" + 
-                "==========================" +
-                "\n" + "\n" ;
+                "==========================";
                 
+    }
+
+    public mLinkedInterface<Flower2> getNeededFlower() {
+        return neededFlower;
+    }
+
+    public void setNeededFlower(mLinkedInterface<Flower2> neededFlower) {
+        this.neededFlower = neededFlower;
     }
 
     public String getFlowername() {

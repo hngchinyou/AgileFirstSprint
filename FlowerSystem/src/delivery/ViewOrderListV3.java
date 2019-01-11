@@ -5,6 +5,12 @@
  */
 package delivery;
 
+import Catalog_Order.doubleLinked;
+import Catalog_Order.doubleLinkedInterface;
+import Interface.ArrayQueue;
+import Interface.LinkQueue;
+import Interface.QueueInterface;
+import Interface.routeQueueInterface;
 import custMaintenanceNPayment.mLinked;
 import custMaintenanceNPayment.mLinkedInterface;
 import entity.CustomizedFlower;
@@ -37,14 +43,14 @@ public class ViewOrderListV3 {
     /**
      * @param args the command line arguments
      */
-    public static void Deliverymain(mLinkedInterface<OrderList> orderList, mLinkedInterface<CustomizedFlower> flowerList, mLinkedInterface<Flower2> flower) {
+    public static void Deliverymain(doubleLinkedInterface<OrderList> orderList, mLinkedInterface<CustomizedFlower> flowerList, mLinkedInterface<Flower2> flower) {
         // TODO code application logic here
         char result;
         Scanner sc = new Scanner(System.in);
 
         mLinkedInterface<Order> orderItem = new mLinked<>();
         mLinkedInterface<Order> orderItem2 = new mLinked<>();
-        mLinkedInterface<OrderList> orderList1 = viewOrderList(true, orderList);
+        doubleLinkedInterface<OrderList> orderList1 = viewOrderList(true, orderList);
 
         do {
             System.out.println("Please select your option"
@@ -63,7 +69,7 @@ public class ViewOrderListV3 {
         } while (result != '4');
     }
 
-    public static mLinkedInterface<OrderList> viewOrderList(boolean valid, mLinkedInterface<OrderList> orderList) {
+    public static doubleLinkedInterface<OrderList> viewOrderList(boolean valid, doubleLinkedInterface<OrderList> orderList) {
 
         // List<OrderList> orderList = new ArrayList<>();
         try {
@@ -102,7 +108,7 @@ public class ViewOrderListV3 {
         return orderList;
     }//end of retrieving
 
-    private static void addOrder(mLinkedInterface<Order> orderItem, Date todayDate, mLinkedInterface<Order> orderItem2, mLinkedInterface<OrderList> orderList, Date pickUpDate) {
+    private static void addOrder(mLinkedInterface<Order> orderItem, Date todayDate, mLinkedInterface<Order> orderItem2, doubleLinkedInterface<OrderList> orderList, Date pickUpDate) {
 
 //        orderItem.add(new Order("2", 1, todayDate, 54.32));
 //        orderItem.add(new Order("3", 6, todayDate, 22.34));
@@ -118,10 +124,10 @@ public class ViewOrderListV3 {
 //        orderList.add(new OrderList(orderItem, "Or0003", todayDate, "Delivery", "gombak", "Pv13", "Cr0001", "Processing"));//hardcoding order list 1
     }
 
-    public static void indicateOrder(mLinkedInterface<OrderList> orderList, mLinkedInterface<CustomizedFlower> flowerList, mLinkedInterface<Flower2> flower) {
+    public static void indicateOrder(doubleLinkedInterface<OrderList> orderList, mLinkedInterface<CustomizedFlower> flowerList, mLinkedInterface<Flower2> flower) {
         Date date = new Date();
         long time = date.getTime();
-        mLinkedInterface<OrderList> orderProcessingList = new mLinked<>();
+        doubleLinkedInterface<OrderList> orderProcessingList = new doubleLinked<>();
         mLinkedInterface<CustomizedFlower> flowerProcessingList = new mLinked<>();
         Scanner sc = new Scanner(System.in);
         int reply;
@@ -298,7 +304,7 @@ public class ViewOrderListV3 {
         }
     }//end of indicating
 
-    public static mLinkedInterface customerOrder(mLinkedInterface<OrderList> orderList, mLinkedInterface<OrderList> orderProcessingList, mLinkedInterface<CustomizedFlower> flowerProcessingList, mLinkedInterface<CustomizedFlower> flowerList, String cusId, int count, int a) {
+    public static doubleLinkedInterface customerOrder(doubleLinkedInterface<OrderList> orderList, doubleLinkedInterface<OrderList> orderProcessingList, mLinkedInterface<CustomizedFlower> flowerProcessingList, mLinkedInterface<CustomizedFlower> flowerList, String cusId, int count, int a) {
 
         for (int i=0;i<orderList.size();i++) {
             if (orderList.get(i).getCustId().toLowerCase().equals(cusId.toLowerCase()) && orderList.get(i).getStatus().equals("Processing")) {
@@ -332,7 +338,7 @@ public class ViewOrderListV3 {
         return orderProcessingList;
     }
 
-    public static int sortRoute(mLinkedInterface<OrderList> orderList) {
+    public static int sortRoute(doubleLinkedInterface<OrderList> orderList) {
             int setapak = 0, cheras = 0, gombak = 0, subang = 0;
         try {
             int vertices = 4;
@@ -342,7 +348,7 @@ public class ViewOrderListV3 {
             int gs = 0, gc = 0;
             String input;
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Queue routeQueue = new ArrayBlockingQueue<>(100);
+            routeQueueInterface<String> routeQueue = new LinkQueue<>();
             Date date = new Date();
             date = sdf.parse(sdf.format(new Date()));
             for (int i=0;i<orderList.size();i++) {
@@ -379,26 +385,39 @@ public class ViewOrderListV3 {
                 System.out.print("There are no order today\n");
             }
             if (setapak != 0) {
-                getSetapakOrder(orderList, setapak);
+                routeQueue.enqueue("setapak");
             }
             if (cheras != 0) {
-                getCherasOrder(orderList, cheras);
+                routeQueue.enqueue("cheras");
                 if (gombak != 0) {
-                    getGombakOrder(orderList, gombak);
+                routeQueue.enqueue("gombak");
                     if (subang != 0) {
-                        getSubangOrder(orderList, subang);
+                routeQueue.enqueue("subang");
                     }
                 } else if(subang != 0 ){
-                    getSubangOrder(orderList, subang);
+                routeQueue.enqueue("subang");
                 }
             } else if (gombak != 0) {
-                getGombakOrder(orderList, gombak);
+                routeQueue.enqueue("gombak");
                 if (subang != 0) {
-                    getSubangOrder(orderList, subang);
+                routeQueue.enqueue("subang");
                 }
             } else if (subang != 0) {
-                getSubangOrder(orderList, subang);
+                routeQueue.enqueue("subang");
             }
+
+
+        for(int i=0; i<routeQueue.size(); i++)
+        {
+        if(routeQueue.dequeue().equals("setapak"))
+            getSetapakOrder(orderList, setapak);
+        else if(routeQueue.dequeue().equals("gombak"))
+            getGombakOrder(orderList, gombak);
+        else if(routeQueue.dequeue().equals("cheras"))
+            getCherasOrder(orderList, cheras);
+        else if(routeQueue.dequeue().equals("subang"))
+            getSubangOrder(orderList, subang);
+        }
         } catch (ParseException ex) {
             Logger.getLogger(ViewOrderListV3.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -406,7 +425,7 @@ public class ViewOrderListV3 {
 
     }
 
-    private static void getSetapakOrder(mLinkedInterface<OrderList> orderList, int setapak) {
+    private static void getSetapakOrder(doubleLinkedInterface<OrderList> orderList, int setapak) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
@@ -431,7 +450,7 @@ public class ViewOrderListV3 {
         }
     }
 
-    private static void getGombakOrder(mLinkedInterface<OrderList> orderList, int gombak) {
+    private static void getGombakOrder(doubleLinkedInterface<OrderList> orderList, int gombak) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
@@ -456,7 +475,7 @@ public class ViewOrderListV3 {
         }
     }
 
-    private static void getSubangOrder(mLinkedInterface<OrderList> orderList, int subang) {
+    private static void getSubangOrder(doubleLinkedInterface<OrderList> orderList, int subang) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
@@ -482,7 +501,7 @@ public class ViewOrderListV3 {
         }
     }
 
-    private static void getCherasOrder(mLinkedInterface<OrderList> orderList, int cheras) {
+    private static void getCherasOrder(doubleLinkedInterface<OrderList> orderList, int cheras) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();

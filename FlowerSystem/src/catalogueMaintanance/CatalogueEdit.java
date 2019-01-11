@@ -21,7 +21,7 @@ public class CatalogueEdit {
         double price;
         int amount = 0;
         
-         Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+        Scanner scanner = new Scanner(System.in).useDelimiter("\n");
         System.out.println("Enter product ID to search product:");
             productID = scanner.next();
             while(!productID.matches("[a-zA-Z0-9, ]+")){

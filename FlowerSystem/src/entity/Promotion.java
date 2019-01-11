@@ -5,6 +5,7 @@
  */
 package entity;
 
+import custMaintenanceNPayment.mLinkedInterface;
 import java.util.logging.Logger;
 
 /**
@@ -15,6 +16,7 @@ public class Promotion {
     private String productname,description,id;
     private double price;
     private int amount;
+    private mLinkedInterface<Flower2> fList;
 
     public Promotion(String id, String productname, String description,double price, int amount) {
         this.productname = productname;
@@ -22,6 +24,23 @@ public class Promotion {
         this.id = id;
         this.price = price;
         this.amount = amount;
+    }
+
+    public Promotion(String productname, String description, String id, double price, int amount, mLinkedInterface<Flower2> fList) {
+        this.productname = productname;
+        this.description = description;
+        this.id = id;
+        this.price = price;
+        this.amount = amount;
+        this.fList = fList;
+    }
+
+    public mLinkedInterface<Flower2> getfList() {
+        return fList;
+    }
+
+    public void setfList(mLinkedInterface<Flower2> fList) {
+        this.fList = fList;
     }
 
     public String getProductname() {
@@ -73,8 +92,7 @@ public class Promotion {
                 "Description:" + description + "\n" + 
                 "Price: RM " + price + "\n" + 
                 "Quantity:" + amount + "\n" + 
-                "==========================" +
-                "\n" + "\n";
+                "==========================";
     }
     
     
