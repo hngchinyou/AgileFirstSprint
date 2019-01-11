@@ -50,7 +50,7 @@ public class Main {
             doubleLinkedInterface<OrderList> orderList = new doubleLinked<>();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             arrOrder.add(new Order("1", 3, new Date(), 12.34));
-            Date a = formatter.parse(formatter.format(new Date()));
+            Date a = formatter.parse("12/12/2018");
             orderList.add(new OrderList(arrOrder, "Or0001", a, "Delivery", "setapak", "Pv13", "Cr0002", "Processing"));//hardcoding order list 1
             orderList.add(new OrderList(arrOrder, "Or0002", a, "Delivery", "subang", "Pv13", "Cr0002", "Processing"));//hardcoding order list 1
             

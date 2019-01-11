@@ -5,15 +5,20 @@
  */
 package custMaintenanceNPayment;
 
+import Catalog_Order.doubleLinked;
 import Catalog_Order.doubleLinkedInterface;
 import entity.CorporateCust;
 import entity.Customer;
 import entity.Order;
 import entity.OrderList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -45,9 +50,7 @@ public class CustomerMaintenanceAndPayment{
                editCust(custList);
             else if(choice==4)
                 IPMenu(custList, allOrderPrice, orderList);
-            else if(choice==5)
-                Testing(custList);
-        }while(choice!=6);
+        }while(choice!=5);
     }
     
     public static void Testing(mLinkedInterface<Customer> custList)
@@ -152,11 +155,10 @@ public class CustomerMaintenanceAndPayment{
         System.out.println("2. View Customer");
         System.out.println("3. Edit Customer");
         System.out.println("4. Invoice Payment");
-        System.out.println("5. Test");
-        System.out.println("6. Exit");
+        System.out.println("5. Exit");
         System.out.print("Enter your selection: ");
          
-        while(!scanner.hasNext("[1-6]{1}"))
+        while(!scanner.hasNext("[1-5]{1}"))
         {
             System.err.print("Please enter digit");
             System.out.print("Enter your selection: ");
@@ -490,6 +492,7 @@ public class CustomerMaintenanceAndPayment{
         }
         choice = scanner.nextInt();
         int count1 = 0;
+        boolean chkCorporate = false;
         if(choice == 1)
         {
             String id;
@@ -500,55 +503,80 @@ public class CustomerMaintenanceAndPayment{
             {
                 if(custList.get(i).getId().equals(id) && custList.get(i).getcType().equals("Corporate"))
                 {
-                    count1=1;
-                    mLinkedInterface<Order> order = new mLinked<>();
-                    int count=0;
-                    Date date = new Date();
-                    test = sortInvoice(orderList, id, date, order, count, test);
-                    double total=0;
-                    for(int j=0;j<order.size();j++)
-                    {
-                        System.out.println("Order Number: " + order.get(j).getOrderNum());
-                        System.out.println("Quantity: " + order.get(j).getQuantity());
-                        System.out.println(String.format("Price: RM %.2f",order.get(j).getQuantity()*order.get(j).getPrice()));
-                        total += order.get(j).getQuantity()*order.get(j).getPrice();
+                    try {
+                        chkCorporate = true;
+                        count1=1;
+                        doubleLinkedInterface<Order> order = new doubleLinked<>();
+                        int count=0;
+                        
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        Date date = sdf.parse(sdf.format(new Date()));
+                        test = sortInvoice(orderList, id, date, order, count, test);
+                        double total=0;
+                        for(int j=0;j<order.size();j++)
+                        {
+                            System.out.println("Order Number: " + order.get(j).getOrderNum());
+                            System.out.println("Quantity: " + order.get(j).getQuantity());
+                            System.out.println(String.format("Price: RM %.2f",order.get(j).getQuantity()*order.get(j).getPrice()));
+                            total += order.get(j).getQuantity()*order.get(j).getPrice();
+                        }
+                        if(order.size() !=0)
+                        {
+                            System.out.println(String.format("\nTotal Payment: RM %.2f", total));
+                            System.out.println("The payment paid?");
+                            System.out.println("1. Yes");
+                            System.out.println("2. No");
+                            System.out.print("Enter your selection: ");
+                            int choice2;
+                            
+                            while(!scanner.hasNext("[1-2]{1}"))
+                            {
+                                System.err.print("Please enter digit");
+                                System.out.print("Enter your selection: ");
+                                scanner.next();
+                            }
+                            choice2 = scanner.nextInt();
+                            changeStatus(choice2, orderList, id, date);
+                        }
+                        else
+                        {
+                            System.out.println("No Payment to paid");
+                        }
+                    } catch (ParseException ex) {
+                        Logger.getLogger(CustomerMaintenanceAndPayment.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    System.out.println(String.format("\nTotal Payment: RM %.2f", total));
-                    System.out.println("The payment paid?");
-                    System.out.println("1. Yes");
-                    System.out.println("2. No");
-                    System.out.print("Enter your selection: ");
-                    int choice2;
-        
-                    while(!scanner.hasNext("[1-2]{1}"))
-                    {
-                        System.err.print("Please enter digit");
-                        System.out.print("Enter your selection: ");
-                        scanner.next();
-                    }
-                    choice2 = scanner.nextInt();
-                    changeStatus(choice2, orderList, id, date);
+                    
                 }else{
                     count1 = 0;
                 }
             }//after customer for each loop
-            if(count1 == 0){
-            System.err.println("This customer does not exists");
-        }
+            if(count1 == 0)
+            {
+                System.err.println("This customer does not exists");
+            }
+            if(!chkCorporate)
+                System.err.println("This customer is not a corporate customer");
         }//after choice == 1
         return test;
     }
 
-    public static int sortInvoice(doubleLinkedInterface<OrderList> orderList, String id, Date date, mLinkedInterface<Order> order, int count, int test) {
+    public static int sortInvoice(doubleLinkedInterface<OrderList> orderList, String id, Date date, doubleLinkedInterface<Order> order, int count, int test) {
         for(int k=0;k<orderList.size();k++)
         {
-            if(orderList.get(k).getCustId().equals(id) && orderList.get(k).getPickUpDate().getMonth()==date.getMonth()-1)
+            //System.out.println(orderList.get(k).getPickUpDate());
+            //System.out.println(orderList.get(k).getPickUpDate().before(date));
+            //System.out.println(order.size());
+            
+            if(orderList.get(k).getCustId().equals(id) && (orderList.get(k).getPickUpDate().before(date))
+                    && (!orderList.get(k).getStatus().equals("Paid")))
             {
-                for(int i=0;i<order.size();i++)
+                for(int i=0;i<=order.size();i++)
                 {
                     if(order.isEmpty())
                     {
-                        order.add(new Order(order.get(i).getOrderNum(), order.get(i).getQuantity(), order.get(i).getPrice()));
+                        order.add(new Order(orderList.get(k).getOrderList().get(i).getOrderNum(), 
+                                orderList.get(k).getOrderList().get(i).getQuantity(), 
+                                orderList.get(k).getOrderList().get(i).getPrice()));
                     }
                     else
                     {
