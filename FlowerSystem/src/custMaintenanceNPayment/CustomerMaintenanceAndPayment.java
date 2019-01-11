@@ -5,6 +5,7 @@
  */
 package custMaintenanceNPayment;
 
+import Catalog_Order.doubleLinkedInterface;
 import entity.CorporateCust;
 import entity.Customer;
 import entity.Order;
@@ -23,7 +24,7 @@ public class CustomerMaintenanceAndPayment{
     /**
      * @param args the command line arguments
      */
-    public static void CPmain(mLinkedInterface<Customer> custList, double allOrderPrice, mLinkedInterface<OrderList> orderList) {
+    public static void CPmain(mLinkedInterface<Customer> custList, double allOrderPrice, doubleLinkedInterface<OrderList> orderList) {
         int choice = 0, choice2 = 0;
         
         do{
@@ -324,7 +325,7 @@ public class CustomerMaintenanceAndPayment{
         
         String id;
         int choice;
-        
+        int count = 0;
         System.out.print("Enter customer ID: ");
         id = scanner.next();
         
@@ -332,6 +333,7 @@ public class CustomerMaintenanceAndPayment{
         {
             if(custList.get(i).getId().equals(id))
             {
+                 count = 1;
                 if(custList.get(i).getcType().equals("Corporate"))
                 {
                 // name, address, credit limit, companyname, contact num12
@@ -412,7 +414,13 @@ public class CustomerMaintenanceAndPayment{
                             break;
                     }
                 }
+               
+            }else{
+                count = 0;
             }
+        }
+        if(count == 0){
+            System.err.println("This customer does not exists");
         }
     }
     
@@ -463,7 +471,7 @@ public class CustomerMaintenanceAndPayment{
         return choice;
     }
     
-    public static int IPMenu(mLinkedInterface<Customer> custList,double allOrderPrice, mLinkedInterface<OrderList> orderList)
+    public static int IPMenu(mLinkedInterface<Customer> custList,double allOrderPrice, doubleLinkedInterface<OrderList> orderList)
     {
         int choice;
         int test=0;
@@ -481,7 +489,7 @@ public class CustomerMaintenanceAndPayment{
             scanner.next();
         }
         choice = scanner.nextInt();
-        
+        int count1 = 0;
         if(choice == 1)
         {
             String id;
@@ -492,6 +500,7 @@ public class CustomerMaintenanceAndPayment{
             {
                 if(custList.get(i).getId().equals(id) && custList.get(i).getcType().equals("Corporate"))
                 {
+                    count1=1;
                     mLinkedInterface<Order> order = new mLinked<>();
                     int count=0;
                     Date date = new Date();
@@ -519,13 +528,18 @@ public class CustomerMaintenanceAndPayment{
                     }
                     choice2 = scanner.nextInt();
                     changeStatus(choice2, orderList, id, date);
+                }else{
+                    count1 = 0;
                 }
             }//after customer for each loop
+            if(count1 == 0){
+            System.err.println("This customer does not exists");
+        }
         }//after choice == 1
         return test;
     }
 
-    public static int sortInvoice(mLinkedInterface<OrderList> orderList, String id, Date date, mLinkedInterface<Order> order, int count, int test) {
+    public static int sortInvoice(doubleLinkedInterface<OrderList> orderList, String id, Date date, mLinkedInterface<Order> order, int count, int test) {
         for(int k=0;k<orderList.size();k++)
         {
             if(orderList.get(k).getCustId().equals(id) && orderList.get(k).getPickUpDate().getMonth()==date.getMonth()-1)
@@ -558,7 +572,7 @@ public class CustomerMaintenanceAndPayment{
         return test;
     }
 
-    public static int changeStatus(int choice2, mLinkedInterface<OrderList> orderList, String id, Date date) {
+    public static int changeStatus(int choice2, doubleLinkedInterface<OrderList> orderList, String id, Date date) {
         double allOrderPrice;
         int count =0;
         if(choice2 == 1)

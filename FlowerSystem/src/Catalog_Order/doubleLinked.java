@@ -3,22 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package custMaintenanceNPayment;
+package Catalog_Order;
+
+import custMaintenanceNPayment.mLinkedInterface;
 
 /**
  *
  * @author Kuma
  */
-public class mLinked<T> implements mLinkedInterface<T> {
+public class doubleLinked<T> implements doubleLinkedInterface<T> {
     private class Node
     {
         private T data;
         private Node next;
+        private Node previous;
+        
+        private Node()
+        {
+            this.data = null;
+            this.next = null;
+            this.previous = null;
+        }
         
         private Node(T data)
         {
             this.data = data;
             this.next = null;
+            this.previous = null;
         }
         
         private Node(T data, Node next)
@@ -26,13 +37,20 @@ public class mLinked<T> implements mLinkedInterface<T> {
             this.data = data;
             this.next = next;
         }
+        
+        private Node(T data, Node next, Node previous)
+        {
+            this.data = data;
+            this.next = next;
+            this.previous = previous;
+        }
     }
     
     private Node topNode;
     private Node lastNode;
     private int count=0;
     
-    public mLinked()
+    public doubleLinked()
     {
         topNode = null;
     }
@@ -45,7 +63,6 @@ public class mLinked<T> implements mLinkedInterface<T> {
             topNode = newNode;
             topNode.next = newNode;
             lastNode = newNode;
-            
         }
         else
         {
@@ -53,10 +70,12 @@ public class mLinked<T> implements mLinkedInterface<T> {
             {
                 topNode.next = newNode;
                 lastNode = newNode;
+                lastNode.previous = topNode;
             }
             else
             {
                 lastNode.next = newNode;
+                newNode.previous = lastNode;
                 lastNode = newNode;
             }
         }
@@ -139,8 +158,65 @@ public class mLinked<T> implements mLinkedInterface<T> {
             return false;
     }
     
+    public void addByPosition(int position, T data)
+    {
+        Node newNode = new Node(data);
+        
+        int j=0;
+        if(position==0 && count==0)
+        {
+            add(data);
+        }            
+        else
+        {
+            if(position == 0 && count !=0)
+            {
+                topNode.previous = newNode;
+                newNode.next = topNode;
+                topNode = newNode;
+            }
+            else
+            {
+                for(Node temp = topNode; j<count;temp = temp.next)
+                {
+                    if(j==position)
+                    {
+                        temp.previous.next = newNode;
+                        newNode.previous = temp.previous;
+                        temp.previous = newNode;
+                        newNode.next = temp;
+                    }
+                    j++;
+                }
+            }
+            count++;
+        }
+    }
+    
     public int size()
     {
         return count;
     }
+    
+    @Override
+    public String toString()
+    {
+        String s = "";
+        int i=0;
+        
+        if(!isEmpty())
+        {
+            for(Node temp = topNode; i<count; temp = temp.next)
+            {
+                if(temp.data!=null)
+                {
+                    s += temp.data;
+                    i++;
+                }
+            }
+        }
+        
+        return s;
+    }
+    
 }
