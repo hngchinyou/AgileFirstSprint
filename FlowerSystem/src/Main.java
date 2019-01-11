@@ -50,8 +50,9 @@ public class Main {
             doubleLinkedInterface<OrderList> orderList = new doubleLinked<>();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             arrOrder.add(new Order("1", 3, new Date(), 12.34));
-            String date = "11/01/2019";
-            orderList.add(new OrderList(arrOrder, "Or0001", formatter.parse(date), "Delivery", "setapak", "Pv13", "Cr0002", "Processing"));//hardcoding order list 1
+            Date a = formatter.parse(formatter.format(new Date()));
+            orderList.add(new OrderList(arrOrder, "Or0001", a, "Delivery", "setapak", "Pv13", "Cr0002", "Processing"));//hardcoding order list 1
+            orderList.add(new OrderList(arrOrder, "Or0002", a, "Delivery", "subang", "Pv13", "Cr0002", "Processing"));//hardcoding order list 1
             
             // customer maintenance initial array
             //ListInterface<Customer> custList = new ArrayList<>();
