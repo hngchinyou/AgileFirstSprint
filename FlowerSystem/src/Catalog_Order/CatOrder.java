@@ -38,7 +38,7 @@ public class CatOrder<T> {
             System.out.print("Enter Customer Id: ");
             String id = scanner.next();
 
-            count = getCustomer(custList, id, count, flower, allOrderPrice, arrOrder, orderList);
+            count = getCustomer(custList, id, count, flower, allOrderPrice, arrOrder, orderList, choice);
 
         } else if (choice == 2) {
             generateSales(custList, flower, allOrderPrice, arrOrder, orderList);
@@ -79,6 +79,7 @@ public class CatOrder<T> {
         Date date1 = new Date();
         boolean valid = true;
 
+        mLinkedInterface<OrderList> currentOrderList = new mLinked<>();
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
@@ -113,13 +114,28 @@ public class CatOrder<T> {
                                     totalPrice -= totalSub;
                                 }
                                 totalSub = 0;
-                                System.out.print("Enter the Catalogue Number: ");
+                                do {
+                                    System.out.print("Enter the Catalogue Number: ");
 
 //                while(!scanner.hasNext("[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]\\w$")){
 //                     System.err.print("Sorry, please enter a proper tity again: ");
 //                    scanner.next();
 //                }
-                                orderNo = scanner.next();
+                                    while (!scanner.hasNextInt()) {
+                                        scanner.next();
+                                        System.out.println("Please enter number only: ");
+                                    }
+                                    orderNo = scanner.next();
+                                    if (count == 1) {
+                                        if (!(orderNo.equals("1")) && !(orderNo.equals("2"))) {
+                                            System.out.println("Please enter '1' or '2' only!");
+                                        }
+                                    } else if (count == 2) {
+                                        if (!(orderNo.equals("1")) && !(orderNo.equals("2")) && !(orderNo.equals("3"))) {
+                                            System.out.println("Please enter '1' or '2' or '3' only!");
+                                        }
+                                    }
+                                } while (!(orderNo.equals("1")) && !(orderNo.equals("2")));
 
                                 System.out.print("Enter the quantity: ");
                                 //Check only integer allowed to enter 
@@ -281,10 +297,11 @@ public class CatOrder<T> {
 //                }
 //            }        
                         if (valid) {
-                            int first = 0, last = 0;
-                            System.out.println(orderList.get(0).getPickUpDate());
-                            binarySearch(first, last, pDate, orderList);
-                            orderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
+//                            int first = 0, last = 0;
+//                            System.out.println(orderList.get(0).getPickUpDate());
+//                            binarySearch(first, last, pDate, orderList);
+
+                            currentOrderList.add(new OrderList(arrOrder, oid, pDate, collectMethod, area, address, id, "Processing"));
 
                             // arrOrder.clear();
                             System.out.print("Do you want to add more Order ? [Y/N] ");
@@ -320,15 +337,54 @@ public class CatOrder<T> {
             System.out.print("\nTotal Price: RM ");
             System.out.println(String.format("%.2f", totalPrice));
         }
+
+        for (int i = 0; i < currentOrderList.size(); i++) {
+            orderList.add(currentOrderList.get(i));
+        }
+        for (int i = 0; i < currentOrderList.size(); i++) {
+            if (orderList.isEmpty()) {
+                orderList.add(currentOrderList.get(i));
+            } else {
+                Date comp = orderList.get(orderList.size() / 2).getPickUpDate();
+                int pos = 0;
+                int sizeFl = orderList.size();
+                Date current = currentOrderList.get(i).getPickUpDate();
+                if (comp.after(currentOrderList.get(i).getPickUpDate())) {
+                    for (int j = 0; j < sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1); j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                } else if (comp.before(currentOrderList.get(i).getPickUpDate())) {
+                    for (int j = sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1) - 1; j < sizeFl; j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                } else {
+                    for (int j = sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1) - 1; j < sizeFl; j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                }
+                //orderList.add(pos, currentOrderList.get(i));
+            }
+            //flowerList.add(currentFlowerList.get(i));
+        }
+        currentOrderList.clear();
     }
 
-    private static boolean binarySearch(int first, int last, Date pDate, mLinkedInterface<OrderList> orderList) {
-        boolean found;
+    private static int binarySearch(int first, int last, Date pDate, mLinkedInterface<OrderList> orderList) {
+        int found;
         int mid = (first + last) / 2;
         if (first > last) {
-            found = false;
+            found = 0;
         } else if (pDate.equals(orderList.get(mid).getPickUpDate())) {
-            found = true;
+            found = 1;
         } else if (pDate.compareTo(orderList.get(mid).getPickUpDate()) < 0) {
             found = binarySearch(first, mid - 1, pDate, orderList);
         } else {
@@ -352,7 +408,7 @@ public class CatOrder<T> {
         Date date = new Date();
         int count = 0;
         String pickUpD;
-        String orderNo;
+        String orderNo = "";
         Date pDate = new Date();
         String collectMethod = "";
         String address = "";
@@ -382,14 +438,36 @@ public class CatOrder<T> {
             do {
 
                 do {
-
-                    System.out.print("Enter the Catalogue Number: ");
+                    if (count5 == 1) {
+                        do {
+                            System.out.print("Enter the Catalogue Number: ");
 
 //                while(!scanner.hasNext("[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]\\w$")){
 //                     System.err.print("Sorry, please enter a proper tity again: ");
 //                    scanner.next();
 //                }
-                    orderNo = scanner.next();
+                            while (!scanner.hasNextInt()) {
+                                scanner.next();
+                                System.out.println("Please enter number only: ");
+                            }
+                            orderNo = scanner.next();
+                            if (!(orderNo.equals("1")) && !(orderNo.equals("2"))) {
+                                System.out.println("Please enter '1' or '2' only!");
+                            }
+                        } while (!(orderNo.equals("1")) && !(orderNo.equals("2")));
+                    } else if (count5 == 2) {
+                        do {
+                            System.out.print("Enter the Catalogue Number: ");
+                            while (!scanner.hasNextInt()) {
+                                scanner.next();
+                                System.out.println("Please enter number only: ");
+                            }
+                            orderNo = scanner.next();
+                            if (!(orderNo.equals("1")) && !(orderNo.equals("2")) && !(orderNo.equals("3"))) {
+                                System.out.println("Please enter '1' or '2' or '3' only!");
+                            }
+                        } while (!(orderNo.equals("1")) && !(orderNo.equals("2")) && !(orderNo.equals("3")));
+                    }
 
                     System.out.print("Enter the quantity: ");
                     //Check only integer allowed to enter 
@@ -656,9 +734,9 @@ public class CatOrder<T> {
         return count1;
     }
 
-    private static int getCustomer(mLinkedInterface<Customer> custList, String id, int count, mLinkedInterface<Flower2> flower, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList) {
+    private static int getCustomer(mLinkedInterface<Customer> custList, String id, int count, mLinkedInterface<Flower2> flower, double allOrderPrice, mLinkedInterface<Order> arrOrder, mLinkedInterface<OrderList> orderList, int choice) {
         for (int i = 0; i < custList.size(); i++) {
-            if (id.equals(custList.get(i).getId())) {
+            if (id.toLowerCase().equals(custList.get(i).getId().toLowerCase())) {
                 if (custList.get(i).getcType().equals("Corporate")) {
                     Date date = new Date();
                     boolean valid = true;
@@ -695,10 +773,19 @@ public class CatOrder<T> {
         int j = 0;
         int choice;
 
-        System.out.println("Catalogue Menu\n==============");
-        System.out.println("1. Bouquet Menu");
-        System.out.println("2. Flower Menu");
-        choice = scanner.nextInt();
+        do {
+            System.out.println("Catalogue Menu\n==============");
+            System.out.println("1. Bouquet Menu");
+            System.out.println("2. Flower Menu");
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                System.out.println("Please enter number only: ");
+            }
+            choice = scanner.nextInt();
+            if (choice != 1 && choice != 2) {
+                System.out.println("Please enter '1' or '2' only!");
+            }
+        } while (choice != 1 && choice != 2);
 
         for (int i = 0; i < flower.size(); i++) {
             if (flower.get(i).getType().equals("Bouquet") && choice == 1) {
