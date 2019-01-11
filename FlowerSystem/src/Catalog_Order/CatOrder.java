@@ -79,6 +79,7 @@ public class CatOrder<T> {
         Date date1 = new Date();
         boolean valid = true;
 
+        mLinkedInterface<OrderList> currentOrderList = new mLinked<>();
         // arrOrder.add(new Order("1", 3, date1, 100.00));
         //orderList.add(new OrderList(arrOrder, date1, "Delivery", " ", "Cr0002","Processing"));
         //Date Formatter
@@ -346,6 +347,60 @@ public class CatOrder<T> {
             System.out.print("\nTotal Price: RM ");
             System.out.println(String.format("%.2f", totalPrice));
         }
+
+        for (int i = 0; i < currentOrderList.size(); i++) {
+            orderList.add(currentOrderList.get(i));
+        }
+        for (int i = 0; i < currentOrderList.size(); i++) {
+            if (orderList.isEmpty()) {
+                orderList.add(currentOrderList.get(i));
+            } else {
+                Date comp = orderList.get(orderList.size() / 2).getPickUpDate();
+                int pos = 0;
+                int sizeFl = orderList.size();
+                Date current = currentOrderList.get(i).getPickUpDate();
+                if (comp.after(currentOrderList.get(i).getPickUpDate())) {
+                    for (int j = 0; j < sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1); j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                } else if (comp.before(currentOrderList.get(i).getPickUpDate())) {
+                    for (int j = sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1) - 1; j < sizeFl; j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                } else {
+                    for (int j = sizeFl / 2 + ((sizeFl % 2 == 0) ? 0 : 1) - 1; j < sizeFl; j++) {
+                        if (orderList.get(j).getPickUpDate().after(currentOrderList.get(i).getPickUpDate())) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                }
+                //orderList.add(pos, currentOrderList.get(i));
+            }
+            //flowerList.add(currentFlowerList.get(i));
+        }
+        currentOrderList.clear();
+    }
+
+    private static int binarySearch(int first, int last, Date pDate, mLinkedInterface<OrderList> orderList) {
+        int found;
+        int mid = (first + last) / 2;
+        if (first > last) {
+            found = 0;
+        } else if (pDate.equals(orderList.get(mid).getPickUpDate())) {
+            found = 1;
+        } else if (pDate.compareTo(orderList.get(mid).getPickUpDate()) < 0) {
+            found = binarySearch(first, mid - 1, pDate, orderList);
+        } else {
+            found = binarySearch(mid + 1, last, pDate, orderList);
+        }
+        return found;
     }
 
     private static boolean binarySearch(int first, int last, Date pDate, doubleLinkedInterface<OrderList> orderList) {
@@ -378,7 +433,7 @@ public class CatOrder<T> {
         Date date = new Date();
         int count = 0;
         String pickUpD;
-        String orderNo;
+        String orderNo = "";
         Date pDate = new Date();
         String collectMethod = "";
         String address = "";
