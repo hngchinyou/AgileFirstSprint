@@ -38,7 +38,7 @@ public class CatOrder<T> {
             System.out.print("Enter Customer Id: ");
             String id = scanner.next();
 
-            count = getCustomer(custList, id, count, flower, allOrderPrice, arrOrder, orderList);
+            count = getCustomer(custList, id, count, flower, allOrderPrice, arrOrder, orderList, choice);
 
         } else if (choice == 2) {
             generateSales(custList, flower, allOrderPrice, arrOrder, orderList);
