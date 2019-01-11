@@ -68,7 +68,7 @@ public class CustFloArrange {
 				customizedFlo(custList, floType, flowerList);
 				break;
 			case 2:
-				//sortCustomizedFlo(floType, flowerList);
+				sortCustomizedFlo(floType, flowerList);
 				break;
 			case 3:
 				itemizedBill(custList, floType, flowerList);
@@ -80,25 +80,22 @@ public class CustFloArrange {
 	}
 
 	// display job queue (sorted)
-//	public static void sortCustomizedFlo(mLinkedInterface<Flower2> floType, mLinkedInterface<CustomizedFlower> flowerList) {
-//		if (!flowerList.isEmpty()) {
-//			Collections.sort(flowerList, new Comparator<CustomizedFlower>() {
-//
-//				@Override
-//				public int compare(CustomizedFlower o1, CustomizedFlower o2) {
-//					// TODO Auto-generated method stub
-//					return o1.getPriorLevel() - o2.getPriorLevel();
-//				}
-//			});
-//			for (int i = 0; i < flowerList.size(); i++) {
-//				if (flowerList.get(i).getStatus().equals("Processing"))
-//					System.out.println(
-//							"Customized Flower " + (i + 1) + "\n" + flowerList.get(i).toString(floType) + "\n");
-//			}
-//		} else {
-//			System.err.println("There not have any record in the customized flower order.\n");
-//		}
-//	}
+	public static void sortCustomizedFlo(mLinkedInterface<Flower2> floType, mLinkedInterface<CustomizedFlower> flowerList) {
+		squeueInterface<CustomizedFlower> processingFlowerlst=new LinkedSqueue<>();
+		for(int i=0;i<flowerList.size();i++) {
+			if(flowerList.get(i).getStatus().equals("Processing")) {
+				processingFlowerlst.enqueue(flowerList.get(i));
+			}
+		}
+		if (!processingFlowerlst.isEmpty()) {
+			while(!processingFlowerlst.isEmpty()) {
+				System.out.println("-----------------------------------------------\n"+processingFlowerlst.dequeue().toString(floType)
+						+"\n-----------------------------------------------\n");
+			}
+		} else {
+			System.err.println("There not have any record for processing in the customized flower order.\n");
+		}
+	}
 
 	// itemized bill and calculate charge
 	public static void itemizedBill(mLinkedInterface<Customer> custList, mLinkedInterface<Flower2> floType,
@@ -191,12 +188,12 @@ public class CustFloArrange {
 				pickupDate = cal.getTime();
 			}
 			
-			 SimpleDateFormat sdf=new SimpleDateFormat("dd-mm-yyyy");
-		        Date dsf=null;
-		        try {
-		        dsf = sdf.parse("27-12-2018");}catch(Exception ex) {}
+//			 SimpleDateFormat sdf=new SimpleDateFormat("dd-mm-yyyy");
+//		        Date dsf=null;
+//		        try {
+//		        dsf = sdf.parse("27-12-2018");}catch(Exception ex) {}
 	        
-			flower.setPickupDate(dsf);
+			flower.setPickupDate(pickupDate);
 
 			// auto generate id
 			flower.setCustomizedId(String.format("CF%04d", (flowerList.size() + currentFlowerList.size() + 1)));
@@ -241,11 +238,13 @@ public class CustFloArrange {
 		
         for(int i=0;i<currentFlowerList.size();i++)
         {
+        	int testsize=currentFlowerList.size();
         	if(flowerList.isEmpty()) {
         		flowerList.add(currentFlowerList.get(i));
         	}
         	else {
         		Date currentDate = currentFlowerList.get(i).getPickupDate();
+        		int testsize2=flowerList.size()-1;
 				if(flowerList.get(flowerList.size()-1).getPickupDate().compareTo(currentDate)>=0) {
         			Date comp = flowerList.get(flowerList.size()/2).getPickupDate();
     	        	int pos=0;
@@ -364,7 +363,12 @@ public class CustFloArrange {
         	        		}
     	        		}
     	        	}
-    	        	flowerList.add(pos, currentFlowerList.get(i));
+    	        	if(pos>flowerList.size()-1) {
+    	        		flowerList.add(currentFlowerList.get(i));
+    	        	}
+    	        	else{
+    	        		flowerList.add(pos, currentFlowerList.get(i));
+    	        	}
         		}
         		else {
         			flowerList.add(currentFlowerList.get(i));
@@ -471,7 +475,7 @@ public class CustFloArrange {
 					}
 					input = scanner.nextInt();
 					if(input>onlyflower.size()) {
-						System.err.println("Invalid input. Please input again (only accept number)");
+						System.err.println("Invalid input. Please input again (only accept number)\n");
 					}
 				}while(input>onlyflower.size());
 				
@@ -523,7 +527,7 @@ public class CustFloArrange {
 					}
 					input=scanner.nextInt();
 					if(input>accessory.size()) {
-						System.err.println("Invalid input. Please input again (only accept[1-" + accessory.size() + "])");
+						System.err.println("Invalid input. Please input again (only accept[1-" + accessory.size() + "])\n");
 					}
 				}while(input>accessory.size());
 				String test=accessory.get(input-1);

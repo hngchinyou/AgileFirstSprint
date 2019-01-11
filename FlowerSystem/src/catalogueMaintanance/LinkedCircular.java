@@ -11,7 +11,7 @@ import custMaintenanceNPayment.mLinkedInterface;
  *
  * @author Kuma
  */
-public class LinkedCircular<T> implements mLinkedInterface<T> {
+public class LinkedCircular<T> implements circularLinkedInterface<T> {
     private class Node
     {
         private T data;
