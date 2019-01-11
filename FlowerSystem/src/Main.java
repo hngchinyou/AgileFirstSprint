@@ -44,10 +44,11 @@ public class Main {
         // TODO Auto-generated method stub
         // catalog order initial array 
         double allOrderPrice = 0;
-doubleLinkedInterface<Order> arrOrder = new doubleLinked<>();
-doubleLinkedInterface<OrderList> orderList = new doubleLinked<>();
+		doubleLinkedInterface<Order> arrOrder = new doubleLinked<>();
+		doubleLinkedInterface<OrderList> orderList = new doubleLinked<>();
 //        arrOrder.add(new Order("1", 3, new Date(), 12.34));
 //        orderList.add(new OrderList(arrOrder, "Or0001", new Date(), "Delivery", "setapak", "Pv13", "Cn0001", "Processing"));//hardcoding order list 1
+
 
         // customer maintenance initial array
         //ListInterface<Customer> custList = new ArrayList<>();

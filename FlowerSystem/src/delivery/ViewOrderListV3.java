@@ -7,9 +7,7 @@ package delivery;
 
 import Catalog_Order.doubleLinked;
 import Catalog_Order.doubleLinkedInterface;
-import Interface.LinkQueue;
 import Interface.QueueInterface;
-import Interface.routeQueueInterface;
 import custMaintenanceNPayment.mLinked;
 import custMaintenanceNPayment.mLinkedInterface;
 import entity.CustomizedFlower;
@@ -404,17 +402,20 @@ public class ViewOrderListV3 {
             } else if (subang != 0) {
                 routeQueue.enqueue("subang");
             }
+           // System.out.print(routeQueue.dequeue());
+            //System.out.print(routeQueue.size());
 
-
-        for(int i=0; i<routeQueue.size(); i++)
+            int r = routeQueue.size();
+        for(int i=0; i<r; i++)
         {
-        if(routeQueue.dequeue().equals("setapak"))
+            String sdequeue = routeQueue.dequeue().toString();
+        if(sdequeue.equals("setapak"))
             getSetapakOrder(orderList, setapak);
-        else if(routeQueue.dequeue().equals("gombak"))
+        else if(sdequeue.equals("gombak"))
             getGombakOrder(orderList, gombak);
-        else if(routeQueue.dequeue().equals("cheras"))
+        else if(sdequeue.equals("cheras"))
             getCherasOrder(orderList, cheras);
-        else if(routeQueue.dequeue().equals("subang"))
+        else if(sdequeue.equals("subang"))
             getSubangOrder(orderList, subang);
         }
         } catch (ParseException ex) {

@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Interface;
+package customized;
 
-import custMaintenanceNPayment.mLinked;
+import delivery.routeQueueInterface;
 
 /**
  *
- * @author Tarc
+ * @author Kuma
  */
-public class LinkQueue<T> implements routeQueueInterface<T> {
+public class LinkedSqueue<T> implements squeueInterface<T> {
 private class Node
     {
         private T data;
@@ -31,9 +31,10 @@ private class Node
     }
     
     private Node lastNode;
+    private Node topNode;
     private int count=0;
 
-    public LinkQueue() 
+    public LinkedSqueue() 
     {
         lastNode = null;
     }
@@ -44,18 +45,17 @@ private class Node
         if(count==0)
         {
             lastNode = newNode;
+            topNode = newNode;
         }
         else
         {
             if(count==1)
             {
                 lastNode.next = newNode;
-                newNode.next = lastNode;
                 lastNode = newNode;
             }
             else
             {
-                newNode.next = lastNode.next;
                 lastNode.next = newNode;
                 lastNode = newNode;
             }
@@ -75,29 +75,30 @@ private class Node
         {
             if(count == 1)
             {
-                data = lastNode.data;
+                data = topNode.data;
                 lastNode = null;
+                topNode = null;
                 count=0;
             }
             else
             {
-                data = lastNode.next.data;
-                lastNode.next = lastNode.next.next;
+                data = topNode.data;
+                topNode = topNode.next;
                 count--;
             }
         }
-           
         return data;
     }
     
     public boolean isEmpty()
     {
-        return lastNode==null;
+        return topNode==null;
     }
     
     public void clear()
     {
         lastNode = null;
+        topNode = null;
         count=0;
     }
     
@@ -114,7 +115,7 @@ private class Node
         
         if(!isEmpty())
         {
-            for(Node temp = lastNode.next; i<count; temp = temp.next)
+            for(Node temp = topNode; i<count; temp = temp.next)
             {
                 s += temp.data;
                 i++;
